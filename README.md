@@ -367,14 +367,14 @@
 	<span><span><span>&nbsp; &nbsp;&nbsp; &nbsp;</span></span></span><span><span><span style="font-weight:700;">十、</span><span style="font-weight:700;">X5</span><span style="font-weight:700;">开源项目如何运作的？如何参与？</span></span></span>
 </div>
 <div align="left" style="color:#444444;font-family:Tahoma, 'Microsoft Yahei', Simsun;font-size:14px;background-color:#FFFFFF;">
-	<span><span><span>&nbsp; &nbsp;&nbsp; &nbsp;</span></span></span><span><span>X5应用开发框架开源项目，由北京起步科技有限公司发起并提供技术、资金支持，北京起步科技将持续定期发布更新；本项目的运作模式将秉承开源精神，坚持最为友好的开放合作模式，欢迎所有开发者、开发公司和最终用户积极参与维护、完善X5开源框架，共享相关资源。</span></span>
+	<span><span><span>&nbsp; &nbsp;&nbsp; &nbsp;</span></span></span><span><span>WeX5应用开发框架开源项目，由北京起步科技有限公司发起并提供技术、资金支持，北京起步科技将持续定期发布更新；本项目的运作模式将秉承开源精神，坚持最为友好的开放合作模式，欢迎所有开发者、开发公司和最终用户积极参与维护、完善X5开源框架，共享相关资源。</span></span>
 </div>
 <div align="left" style="color:#444444;font-family:Tahoma, 'Microsoft Yahei', Simsun;font-size:14px;background-color:#FFFFFF;">
-	<span><span><span>&nbsp; &nbsp;&nbsp; &nbsp;</span></span></span><span><span>X5开源项目的网上参与渠道：X5官方社区（bbs.justep.com）；</span></span>
+	<span><span><span>&nbsp; &nbsp;&nbsp; &nbsp;</span></span></span><span><span>WeX5开源项目的网上参与渠道：WeX5官方社区（bbs.justep.com）；</span></span>
 </div>
 <div align="left" style="color:#444444;font-family:Tahoma, 'Microsoft Yahei', Simsun;font-size:14px;background-color:#FFFFFF;">
-	<span><span><span>&nbsp; &nbsp;&nbsp; &nbsp;</span></span></span><span><span>X5技术交流群：开源中国社区群、Justep官方群等；</span></span>
+	<span><span><span>&nbsp; &nbsp;&nbsp; &nbsp;</span></span></span><span><span>WeX5技术交流群：开源中国社区群、Justep官方群等；</span></span>
 </div>
 <div align="left" style="color:#444444;font-family:Tahoma, 'Microsoft Yahei', Simsun;font-size:14px;background-color:#FFFFFF;">
-	<span><span><span>&nbsp; &nbsp;&nbsp; &nbsp;</span></span></span><span><span>X5开源项目的线下参与方式可联系北京起步科技公司（+86-010-59798677）。</span></span>
+	<span><span><span>&nbsp; &nbsp;&nbsp; &nbsp;</span></span></span><span><span>WeX5开源项目的线下参与方式可联系北京起步科技公司（+86-010-59798677）。</span></span>
 </div>
