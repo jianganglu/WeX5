@@ -8,7 +8,7 @@
 	<span><span><span>&nbsp; &nbsp;&nbsp; &nbsp;</span></span></span><span><span><span style="font-weight:700;">一、</span><span style="font-weight:700;">X5</span><span style="font-weight:700;">是什么</span></span></span>
 </div>
 <div align="left" style="color:#444444;font-family:Tahoma, 'Microsoft Yahei', Simsun;font-size:14px;background-color:#FFFFFF;">
-	<span><span><span>&nbsp; &nbsp;&nbsp; &nbsp;</span></span></span><span><span>X5是跨端移动快速开发框架；只需一次开发，即可发布、运行于各种前端平台上；支持iOS ipa、android apk、微信服务号/企业号应用、web app和其他轻应用的快速开发。</span></span>
+	<span><span><span>&nbsp; &nbsp;&nbsp; &nbsp;</span></span></span><span><span>WeX5是跨端移动快速开发框架；只需一次开发，即可发布、运行于各种前端平台上；支持iOS ipa、android apk、微信服务号/企业号应用、web app和其他轻应用的快速开发。</span></span>
 </div>
 <div align="left" style="color:#444444;font-family:Tahoma, 'Microsoft Yahei', Simsun;font-size:14px;background-color:#FFFFFF;">
 	<span><span><span>&nbsp; &nbsp;&nbsp; &nbsp;</span></span></span>
