@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-
-<root> 
-  <item display="solid" label="演示案例">
-    <item label="对话框"  device="pc"  process="/demo/components/process/ui2/ui2Process" display="solid"
-      activity="mainActivity" url="/demo/dialog/mainActivity.a"/>
-  </item> 
-</root>
