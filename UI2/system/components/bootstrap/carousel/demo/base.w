@@ -74,11 +74,11 @@
       	<img src="./images/p4.jpg" class="image-wall"/>
       </div>
     </div>  
-    <a class="left carousel-control" href="javascript:void(0)" role="button" xid="a1"> 
+    <a class="left carousel-control" role="button" xid="a1"> 
       <span class="glyphicon glyphicon-chevron-left" aria-hidden="true" xid="span1"/>  
       <span class="sr-only" xid="span2">Previous</span>
     </a>  
-    <a class="right carousel-control" href="javascript:void(0)" role="button" xid="a2"> 
+    <a class="right carousel-control" role="button" xid="a2"> 
       <span class="glyphicon glyphicon-chevron-right" aria-hidden="true" xid="span3"/>  
       <span class="sr-only" xid="span4">Next</span>
     </a> 

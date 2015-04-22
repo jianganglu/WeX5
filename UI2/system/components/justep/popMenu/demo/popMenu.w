@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <div xmlns="http://www.w3.org/1999/xhtml" xid="window" class="window" component="$UI/system/components/justep/window/window">  
+  <div component="$UI/system/components/justep/model/model" xid="model" style="position:absolute;;left:15.0px;top:54.0px"
+    onLoad="modelLoad"/>
   <div component="$UI/system/components/justep/panel/panel" class="x-panel x-full"
     xid="panel1"> 
     <div class="x-panel-top" xid="top1"> 
@@ -26,25 +28,25 @@
     <div class="x-panel-content" xid="content1"> 
       <div component="$UI/system/components/justep/controlGroup/controlGroup"
         class="x-control-group" title="title" xid="controlGroup1"> 
-          <h3  style="height:48px;vertical-align: middle;padding: 8px;display: inline-block;">popMenu</h3>
-              
-            <a component="$UI/system/components/justep/button/button" class="btn btn-link"
-              label="js" onClick="showJsSource"> 
-              <i/>  
-              <span>js</span> 
-            </a>  
-           
-            <a component="$UI/system/components/justep/button/button" class="btn btn-link" label="源码" onClick="showPopMenuSource" bind-visible="isVisible"> 
-              <i />  
-              <span>源码</span> 
-            </a><p> 1、菜单组件，用来存放菜单选项，页面不可视，结合可视组件使用</p>
-            <p> 2、点击右上角按钮，取消点击其他地方即可</p>
+        <h3 style="height:48px;vertical-align: middle;padding: 8px;display: inline-block;">popMenu</h3>
+          <a component="$UI/system/components/justep/button/button" class="btn btn-link"
+            label="js" onClick="showJsSource"> 
+            <i/>  
+            <span>js</span> 
+          </a>  
+          <a component="$UI/system/components/justep/button/button" class="btn btn-link"
+            label="源码" onClick="showPopMenuSource" bind-visible="isVisible"> 
+            <i/>  
+            <span>源码</span> 
+          </a> 
+        <p>1、菜单组件，用来存放菜单选项，页面不可视，结合可视组件使用</p>  
+        <p>2、点击右上角按钮，取消点击其他地方即可</p> 
       </div>  
       <div class="x-panel-bottom" xid="bottom1"/> 
-    </div> 
-     <div id="aler"/>
+    </div>  
+    <div id="aler"/>  
     <span component="$UI/system/components/justep/windowDialog/windowDialog"
-      xid="windowDialog" src="$UI/system/components/justep/common/demo/dialog.w"/>  
+      xid="windowDialog" src="$UI/system/components/justep/common/demo/dialog.w" status="normal"/>  
     <div component="$UI/system/components/justep/popMenu/popMenu" class="x-popMenu"
       xid="popMenu" anchor="button6" dismissible="true" opacity="0.1"> 
       <div class="x-popMenu-overlay" xid="div4"/>  

@@ -13,6 +13,7 @@
 			<property name="height" text="高，支持%相对于当前窗口" editor-ref="width-height" default-value="80%"/>
 			<property name="top" text="上偏移，支持%相对于当前窗口，缺省居中" />
 			<property name="left" text="左偏移，支持%相对于当前窗口，缺省居中" />
+			<property name="routable" text="是否可路由" default-value="false" editor-ref="booleanList" data-type="boolean"/>
 		</properties>
 		
 		<property-editors>

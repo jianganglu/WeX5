@@ -101,7 +101,7 @@ public class Data implements ComponentTemplate {
 		cfg.put("defCols", getColDef());
 
 		cfg.put("idColumn", getIdColumn());
-		cfg.put("limit", -1);//普通data没有提供limiit设置
+		cfg.put("limit", dataDef.getLimit());
 		//cfg.put("offset", bizDataDef.getOffset());
 
 		cfg.put("directDelete", dataDef.isDirectDelete());

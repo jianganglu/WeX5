@@ -61,11 +61,10 @@
 
 .x-tree-link{
 	cursor: pointer;
-	text-align: center;
 }
 
 .x-inner-scroll{
-	.x-flex();
+	.x-flex-display();
 	.x-flex-column();
 	.x-flex(1);
 	height: 100%;

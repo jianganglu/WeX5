@@ -14,7 +14,8 @@
 			 -->
 			<property name="anchor" text="停靠位置" required="false"/>
 			<property name="direction" text="停靠方向" required="false" editor-ref="directionList" default-value="right-bottom"/>
-			<property name="dismissible" text="点击后是否关闭关闭" required="false" default-value="true" editor-ref="booleanList" data-type="boolean"/>
+			<property name="dismissible" text="点击空白区是否关闭关闭" required="false" default-value="true" editor-ref="booleanList" data-type="boolean"/>
+			<property name="autoHidable" text="点击后是否关闭关闭" required="false" default-value="true" editor-ref="booleanList" data-type="boolean"/>
 			<property name="class"  text="class" editor-ref="classSelector">
 				<editor-parameter><![CDATA[
 				{

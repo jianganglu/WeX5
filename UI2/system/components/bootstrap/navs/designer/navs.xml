@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <elements>
-	<element name="$UI/system/components/bootstrap/navs/navs" tag-type="rich" tag-name="ul" icon="navs.png" text="导航条"  
+	<element name="$UI/system/components/bootstrap/navs/navs(bootstrap)" tag-type="rich" tag-name="ul" icon="navs.png" text="导航条"  
 	    binding-component="$UI/system/components/bootstrap/navs/navs" display-property="xid" 
 		validator="ViewValidator" design-view="web-designer" >
 		<properties>
@@ -37,7 +37,7 @@
 		<templates>
 		   <template name="default"><![CDATA[ 
 				<ul component="$UI/system/components/bootstrap/navs/navs" class="nav nav-tabs">
-				  <li role="presentation" class="active"><a href="javascript:void(0)">Item</a></li>
+				  <li role="presentation" class="active"><a >Item</a></li>
 				</ul>		   
 			]]></template>
 		</templates>
@@ -67,7 +67,7 @@
 		</events>
 		<templates>
 		   <template name="default"><![CDATA[ 
-			  <li><a href="javascript:void(0)">Item</a></li>
+			  <li><a >Item</a></li>
 			]]></template>
 		</templates>
  

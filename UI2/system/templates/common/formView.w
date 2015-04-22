@@ -14,10 +14,9 @@
 			<column label="关联列名" name="selectLabelName" type="String" xid="default8" />
 		</div>
 	</div>
-
 	<div class="row form-navbar1" style="margin-top:12px">
-		<label for="text1" class="control-label col-xs-2" style="padding-top:10px;margin-left:15px">详细页标题：</label>
-		<div class="col-xs-4">
+		<label for="text1" class="control-label col-xs-2" style="padding-top:10px;margin-left:15px" xid="control">详细页标题：</label>
+		<div class="col-xs-4" xid="col1">
 			<input component="$UI/system/components/justep/input/input" class="form-control" xid="titleInput" placeholder="请输入标题" onChange="input1Change"/>
 		</div>
 	</div>
@@ -41,14 +40,14 @@
 	</div>
 	
 	<div component="$UI/system/components/designerCommon/grid/grid" xid="grid" data="formData"
-		style="visibility:hidden;width:95%;" editable="true">
+		style="visibility:hidden;width:95%;" class="grid-height"  editable="true">
 		<column ref="name"/>
 		<column ref="data-type"/>
 		<column ref="labelName"/>
 		<column ref="colEditor" type="dropdownlist" onCreateEditor="gridColEditor"/>
-		<column ref="refID" type="dropdownlist" onCreateEditor="gridColIsRefID"/>
-		<column ref="selectDataID" type="dropdownlist" onCreateEditor="gridColIsSelectDataID"/>
-		<column ref="selectLabelName" type="dropdownlist" onCreateEditor="gridColIsSelectLabelName"/>
+<!-- 		<column ref="refID" type="dropdownlist" onCreateEditor="gridColIsRefID"/> -->
+<!-- 		<column ref="selectDataID" type="dropdownlist" onCreateEditor="gridColIsSelectDataID"/> -->
+<!-- 		<column ref="selectLabelName" type="dropdownlist" onCreateEditor="gridColIsSelectLabelName"/> -->
 		
 	</div>
 </div>

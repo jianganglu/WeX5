@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<reg-info>
+	<!-- 组件目录注册 -->
+	<component-dirs>
+		fragment/list,fragment/form,fragment/listDetailForm,,fragment/layoutWizard
+	</component-dirs>
+
+	<!-- 组件工具箱配置 -->
+	<toolbox>
+		<catalog name="组合" initial-state="open" design-view="excel" order="7">
+			<item component-name="$UI/system/components/fragment/layoutWizard" device="pc"/>
+			<item component-name="$UI/system/components/fragment/form/formRow5Btn2" device="mobile"/>
+			<item component-name="$UI/system/components/fragment/form/formRow3Flex" device="mobile"/>
+			<item component-name="$UI/system/components/fragment/form/controlGroupForm" device="pc"/>
+			<item component-name="$UI/system/components/fragment/form/accordionForm" device="pc"/>
+			<item component-name="$UI/system/components/fragment/listDetailForm/listDetailForm" device="mobile"/>
+			<item component-name="$UI/system/components/fragment/list/listRow1Sum" device="mobile"/>
+			<item component-name="$UI/system/components/fragment/list/listRow3Img" device="mobile"/>
+			<item component-name="$UI/system/components/fragment/list/listRow4" device="mobile"/>
+<!-- 			<item component-name="$UI/system/components/fragment/form/processForm" /> -->
+		</catalog>
+	</toolbox>
+</reg-info>

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <elements>
-	<element name="$UI/system/components/bootstrap/inputGroup/inputGroup" tag-name="div" icon="element.gif" text="输入框组"  
+	<element name="$UI/system/components/bootstrap/inputGroup/inputGroup(bootstrap)" tag-name="div" icon="element.gif" text="输入框组"  
 	    binding-component="$UI/system/components/bootstrap/inputGroup/inputGroup" 
 		component-type="layout-container"  design-view="web-designer" >
 		<properties>
@@ -16,6 +16,7 @@
 				}
 				]]></editor-parameter>
 			</property>
+				 <property name="style" text="样式" editor-ref="styleDialog" use-default="true"/> 
 <!-- 			<property name="style" text="样式" editor-ref="styleDialog" use-default="true"/> -->
 			<include path="$UI/system/components/designerCommon/commonConfig.xml#//common-properties/group[@name='bind']"/>
 		</properties>

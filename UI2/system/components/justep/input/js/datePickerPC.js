@@ -1,8 +1,8 @@
 /*! 
- * X5 v3 (htttp://www.justep.com) 
- * Copyright 2014 Justep, Inc.
- * Licensed under Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0) 
- */
+* WeX5 v3 (htttp://www.justep.com) 
+* Copyright 2015 Justep, Inc.
+* Licensed under Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0) 
+*/ 
 define(function(require) {
 	var $ = require("jquery"), justep = require("$UI/system/lib/justep");
 
@@ -275,10 +275,13 @@ define(function(require) {
 					date.setMinutes(min);
 					date.setHours(hour);
 					date.setSeconds(sec);
+					
+					var ret = !cal.isTime?justep.Date.toString(date, justep.Date.STANDART_FORMAT):justep.Date.toString(date, justep.Date.STANDART_TIME_FORMAT);
+					
 					if ('function'===typeof(cal.input.val))
-						cal.input.val(justep.Date.toString(date, justep.Date.STANDART_FORMAT));
+						cal.input.val(ret);
 					else
-						$(cal.input).val(justep.Date.toString(date, justep.Date.STANDART_FORMAT));
+						$(cal.input).val(ret);
 				} else {
 					if ('function'===typeof(cal.input.val))
 						cal.input.val(justep.Date.toString(date, justep.Date.STANDART_FORMAT_SHOT));
@@ -350,10 +353,11 @@ define(function(require) {
 							date.setSeconds(cal.inputSec.value);
 							date.setMinutes(cal.inputMin.value);
 							date.setHours(cal.inputHour.value);
+							var ret = !cal.isTime?justep.Date.toString(date, justep.Date.STANDART_FORMAT):justep.Date.toString(date, justep.Date.STANDART_TIME_FORMAT);
 							if ('function'===typeof(cal.input.val))
-								cal.input.val(justep.Date.toString(date, justep.Date.STANDART_FORMAT));
+								cal.input.val(ret);
 							else
-								$(cal.input).val(justep.Date.toString(date, justep.Date.STANDART_FORMAT));
+								$(cal.input).val(ret);
 						} else {
 							if ('function'===typeof(cal.input.val))
 								cal.input.val(justep.Date.toString(date, justep.Date.STANDART_FORMAT_SHOT));
@@ -592,6 +596,7 @@ define(function(require) {
 	DatePicker.HOURS = 1;
 	DatePicker.MINUTES = 2;
 	DatePicker.SECONDS = 3;
+	DatePicker.TIME = 4;
 
 	DatePicker.show = function(input, type, readonly) {
 		var cal = DatePicker.get();
@@ -613,6 +618,7 @@ define(function(require) {
 
 		cal.input = input;
 		cal.type = type;
+		cal.isTime = type == DatePicker.TIME;
 		cal.isTimestamp = type != DatePicker.ONLY_DATE;
 
 		if (!cal.isTimestamp)

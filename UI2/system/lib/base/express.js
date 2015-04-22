@@ -1,6 +1,6 @@
 /*! 
-* X5 v3 (htttp://www.justep.com) 
-* Copyright 2014 Justep, Inc.
+* WeX5 v3 (htttp://www.justep.com) 
+* Copyright 2015 Justep, Inc.
 * Licensed under Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0) 
 */ 
 /**
@@ -101,15 +101,14 @@ define(function(require) {
 	};
 
 	Express.createExprFn = function(expr) {
-		var body = null;
+		if ((expr === null) || (expr === undefined)){
+			expr = "";
+		}
 		if ((expr !== null) && (expr !== undefined) && (expr.indexOf("js:") === 0)) {
 			expr = expr.substring(3);
-			body = "with($params||{}){with($__context__||{}){return " + expr + "}}";
-		} else {
-			var msg = new Message(Message.JUSTEP230070, expr);
-			throw _Error.create(msg);
 		}
-
+		
+		var body = "with($params||{}){with($__context__||{}){return " + expr + "}}";
 		return new Function("$__context__", "$params", body);
 	};
 

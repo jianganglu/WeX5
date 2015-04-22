@@ -1,0 +1,5 @@
+.template-detail-output-control {
+	text-overflow: ellipsis;
+	width: 360px;
+	overflow: hidden;
+}

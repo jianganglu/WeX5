@@ -26,9 +26,9 @@
     </div>
     <label xid="label1" class="x-label" style="width:100%;"><![CDATA[选择需要打包的资源：]]></label>
   </div>  
-  <div xid="appNamesDiv" style="height:146px;overflow-y:auto">
-    <span component="$UI/system/components/justep/select/checkboxGroup" class="x-checkbox-group x-checkbox-group-vertical"
-      xid="appNamesGroup" bind-itemset="appData" bind-itemsetLabel="ref('AppName')"
-      style="margin-top:8px" bind-itemsetValue="ref('AppName')"/>
-  </div> 
-</div>
+  <textarea class="form-control x-edit" component="$UI/system/components/justep/textarea/textarea" xid="uiResDirs" readonly="true"></textarea><div xid="uiResDirsTree" style="overflow-y:auto;visibility:hidden;">
+  </div>
+  <!--   
+  <div xid="div1" style="margin-left: 60px; float: left;"><div style='margin-top: 10px;'><div xid='jqxCheckBox'>Three Check States</div></div></div>
+  -->
+  </div>

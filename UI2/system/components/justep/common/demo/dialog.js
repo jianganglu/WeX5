@@ -1,6 +1,6 @@
 /*! 
-* X5 v3 (htttp://www.justep.com) 
-* Copyright 2014 Justep, Inc.
+* WeX5 v3 (htttp://www.justep.com) 
+* Copyright 2015 Justep, Inc.
 * Licensed under Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0) 
 */ 
 define(function(require) {
@@ -9,12 +9,13 @@ define(function(require) {
 	require("$UI/system/components/justep/common/demo/jquery.zclip.min");
 	var Model = function() {
 		this.callParent();
+		var self = this;
 		this.copyCode = function() {
 			 var path = require.toUrl("./ZeroClipboard.swf");
-		 $("#" + this.getIDByXID("button2")).zclip({
+		 $("#" + this.getIDByXID("copyBtn")).zclip({
 		 path : path,
 		 copy : function() {
-		 return $('#showCode').text();
+		 return $(this.getElementByXid("showCode")).text();
 		 },
 		 afterCopy : function() {
 		 $("#msg").show("normal", function() {
@@ -25,6 +26,7 @@ define(function(require) {
 		 }
 		 });
 		}
+		this.flag = justep.Browser.isPC;
 	};
 	Model.prototype.windowReceiver1Receive = function(event) {
 		this.copyCode()
@@ -34,11 +36,11 @@ define(function(require) {
 			dataType:'text'
 		});
 		if (event.data.indexOf("getWindowContent.j") < 0) {
-			$("#showCode").html("<pre class='prettyprint linenums ' style='background:white;font-weight:bold'>" + htmlArea.responseText + "</pre>");
+			$(this.getElementByXid("showCode")).html("<pre class='prettyprint linenums ' style='background:white;font-weight:bold'>" + htmlArea.responseText + "</pre>");
 			prettyPrint();
 			return true;
 		}
-		$("#showCode").html("<pre class='prettyprint linenums' style='background:white;font-weight:bold'><xmp>" + htmlArea.responseText + "</xmp></pre>");
+		$(this.getElementByXid("showCode")).html("<pre class='prettyprint linenums' style='background:white;font-weight:bold'><xmp>" + htmlArea.responseText + "</xmp></pre>");
 		prettyPrint();
 	};
 
@@ -46,7 +48,7 @@ define(function(require) {
 		this.comp("windowReceiver").windowCancel();
 	};
 
-	Model.prototype.button2Click = function(event) {
+	Model.prototype.copyBtnClick = function(event) {
 		this.copyCode()
 	};
 

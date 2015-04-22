@@ -1,8 +1,15 @@
 define([ (function() {
 	var deviceTypes = new Array("Android", "iPhone", "iPad", "iPod", "Windows Phone", "Generic");
 	var userAgentInfo = navigator.userAgent;
-	var isSimulator = window.parent && window.parent.getOSName;
 	
+	
+	var isSimulator = false;
+	try{
+		isSimulator = window.parent && window.parent.getOSName;
+	}catch(err){
+		
+	}
+
 	function currentDevice() {
 		for ( var v = 0; v < deviceTypes.length; v++) {
 			var i = userAgentInfo.indexOf(deviceTypes[v]);
@@ -13,7 +20,7 @@ define([ (function() {
 		return deviceTypes.length - 1;
 	}
 
-	var isX5App = userAgentInfo.indexOf("x5app") >= 0;
+	var isX5App = (userAgentInfo.indexOf("x5app") >= 0) || (userAgentInfo.indexOf("Crosswalk") >= 0);
 	
 	var deviceTypeID = currentDevice();
 	

@@ -109,7 +109,7 @@ define(function(require) {
 		options.crossRowField = row_data.join(",");
 		options.crossCountField = count_data.join(",");
 		options.title = "交叉报表";
-		options.excelName = "/"+this.templateEngine.targetFileName+"Report.xlsx";
+		options.excelName = "/"+this.templateEngine.targetFileName+"Report.xls";
 		options.excelType = "crossReport";
 		 this.createExcel(options);
 		 this.templateEngine.addContext(this.templateFile, "fileName", this.templateEngine.targetFileName+"Report");
@@ -118,7 +118,7 @@ define(function(require) {
 	Model.prototype.createExcel = function(options) {
 		var targetPath = this.templateEngine.targetPath;
 		var realPath = targetPath.substring(0, targetPath.indexOf('UI2')) + "UI2/system/templates/report/grid/template";
-		var url = require.toUrl("$UI/system/templates/report/server/createGridExcel.j");
+		var url = require.toUrl("$UI/system/templates/report/server/createGridExcel2.j");
 		var data = {
 			dataId : options.dataId,
 			title : options.title,

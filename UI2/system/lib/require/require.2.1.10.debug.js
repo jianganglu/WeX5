@@ -56,7 +56,7 @@ var requirejs, require, define;
 	var MOBILE_EXT = ".m.w";
 	var PAD_EXT = ".pad.w";	
     var URL = {
-    	Meta: window.__justepMeta || null,	
+    	Meta: (window.__justep ? (window.__justep.__justepMeta || null) : null),	
    		deviceType: deviceTypes[currentDevice()],
 		isPC: function(){
 			return URL.deviceType === "PC";
@@ -70,7 +70,11 @@ var requirejs, require, define;
 		},
     	
 		enabledVLS: function(){
-			return window.location.href.indexOf("$v") !== -1;
+			var url = window.location.href;
+			if (window.__justep && window.__justep.__ResourceEngine && window.__justep.__ResourceEngine.url){
+				url = window.__justep.__ResourceEngine.url;
+			}
+			return url.indexOf("$v") !== -1;
 		},
     		
 		addVLS: function(url){
@@ -103,7 +107,7 @@ var requirejs, require, define;
 		},
 		
 		_getAppVersion: function(path){
-			if (window.__isPackage){
+			if (window.__justep && window.__justep.__isPackage){
 				return "";
 			}
 			var items = path.split("/");
@@ -487,7 +491,7 @@ var requirejs, require, define;
                     		}
                     	}
         			}else{
-        				var ctx = window.__ResourceEngine.contextPath;
+        				var ctx = window.__justep.__ResourceEngine.contextPath;
         				if (baseUrl.indexOf(ctx) === 0){
         					var subPath = baseUrl.substring(ctx.length);
         					return subPath.split("/")[1];
@@ -1903,7 +1907,7 @@ var requirejs, require, define;
 
                         var result = context.nameToUrl(normalize(moduleNamePlusExt,
                                                 relMap && relMap.id, relMap && relMap.url, true), ext,  true);
-                       // console.log(moduleNamePlusExt + "==" + result);
+                        // console.log(moduleNamePlusExt + "==" + result);
                         result = URL.addVLS(result);
                         //console.log(moduleNamePlusExt + "-->" + result);
                         

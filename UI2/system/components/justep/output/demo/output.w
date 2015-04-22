@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <div xmlns="http://www.w3.org/1999/xhtml" xid="window" class="window" component="$UI/system/components/justep/window/window">  
-  <div component="$UI/system/components/justep/model/model" xid="model"/>  
+  <div component="$UI/system/components/justep/model/model" xid="model" onLoad="modelLoad"/>  
   <div component="$UI/system/components/justep/panel/panel" class="x-panel x-full"
     xid="panel1"> 
     <div class="x-panel-top" xid="top1"> 
@@ -67,6 +67,6 @@
     </div> 
   </div>  
   <span component="$UI/system/components/justep/windowDialog/windowDialog" xid="windowDialog"
-    src="$UI/system/components/justep/common/demo/dialog.w"/>  
+    src="$UI/system/components/justep/common/demo/dialog.w" status="normal"/>  
   <div id="aler"/> 
 </div>

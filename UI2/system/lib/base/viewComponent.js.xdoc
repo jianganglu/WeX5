@@ -156,6 +156,20 @@
 */
 
 /**
+	@name ViewComponent#domNode
+	@property
+	@description 组件关联的dom节点
+	@return element
+*/
+
+/**
+	@name ViewComponent#$domNode
+	@property
+	@description 组件关联的dom节点的jquery对象
+	@return element
+*/
+
+/**
 	@name ViewComponent.DATA_CHANGED
 	@property "onDataChanged"
 	@description 组件关联的数据项值变化事件

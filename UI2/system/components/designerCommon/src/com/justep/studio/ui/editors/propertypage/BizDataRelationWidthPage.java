@@ -23,7 +23,8 @@ public class BizDataRelationWidthPage extends AbstractDataSetPage {
 	}
 
 	private String getLabelAttrName(){
-		return "label-"+propertyItem.getName();
+		String name = propertyItem.getName();
+		return "label"+name.toUpperCase().substring(0,1)+name.substring(1);
 	}
 	
 	@Override

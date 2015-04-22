@@ -15,8 +15,8 @@
 		</div>
 	</div>
 
-	<div class="row middle list-navbar1" style="margin-top:12px">
-		<label for="text1" class="control-label col-xs-2" style="padding-top:10px;;margin-left:15px">列表页标题：</label><div class="col-xs-4">
+	<div class="row middle list-navbar1" style="margin-top:12px" xid="list-navbar1">
+		<label for="text1" class="control-label col-xs-2" style="padding-top:10px;;margin-left:15px" xid="control">列表页标题：</label><div class="col-xs-4" xid="title">
 		<input component="$UI/system/components/justep/input/input" class="form-control" xid="titleInput" placeholder="请输入标题" /></div>
 	</div>
 	<div class="row list-navbar2">
@@ -39,11 +39,11 @@
 	</div>
 	
 	<div component="$UI/system/components/designerCommon/grid/grid" xid="grid" data="listData"
-		style="width:95%;visibility:hidden;" editable="true">
+		style="width:95%;visibility:hidden;" class="grid-height" editable="true">
 		<column ref="name"/>
 		<column ref="data-type"/>
 		<column ref="labelName"/>
-		<column ref="colEditor" type="dropdownlist" onCreateEditor="gridColEditor"/>
-		<column ref="isVisible" type="dropdownlist" onCreateEditor="gridColIsVisible"/> 
+<!-- 		<column ref="colEditor" type="dropdownlist" onCreateEditor="gridColEditor"/> -->
+<!-- 		<column ref="isVisible" type="dropdownlist" onCreateEditor="gridColIsVisible"/>  -->
 	</div>
 </div>

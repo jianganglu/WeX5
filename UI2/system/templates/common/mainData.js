@@ -66,12 +66,12 @@ define(function(require) {
 			templateFilePath : this.templateFilePath,
 			targetPath : this.templateEngine.getTargetPath(),
 			propName : propertyName,
-			dataId : data.val("dataId")||"",
-			concept : data.val("concept")||"",
-			reader : data.val("reader")||"",
-			writer : data.val("writer")||"",
-			creator : data.val("creator")||"",
-			relations : data.val("columns")||""
+			dataId : data.val("dataId") || "",
+			concept : data.val("concept") || "",
+			reader : data.val("reader") || "",
+			writer : data.val("writer") || "",
+			creator : data.val("creator") || "",
+			relations : data.val("columns") || ""
 		}, function(result) {
 			config.current = config.current || {};
 			config.current.mainData = config.current.mainData || {};
@@ -83,7 +83,6 @@ define(function(require) {
 					if (isMainData) {
 						config.current.mainData[setPropertyNames[i]] = value;
 					} else {
-						// this.currentDataId = data.val("dataId");
 						this.currentDataId = data.val("id");
 						var id = this.currentDataId;
 						config.current.datas[id] = config.current.datas[id] || {};
@@ -145,7 +144,8 @@ define(function(require) {
 			return;
 		}
 		data.deleteData();
-//		templateService.getXuiDoc().deleteComponent([ dataId ], this.templateFilePath);
+		// templateService.getXuiDoc().deleteComponent([ dataId ],
+		// this.templateFilePath);
 		delete this.templateEngine.getConfig().current.datas[id];
 	};
 
@@ -205,6 +205,7 @@ define(function(require) {
 			var creator = data.getValue("creator", row);
 			var relations = data.getValue("columns", row);
 			var isTree = data.getValue("isTree", row);
+			var data_detail = data.getValue("isDetail", row);
 			var parentRelation = data.getValue("parentRelation", row);
 			var nodeKindRelation = data.getValue("nodeKindRelation", row);
 			var nodeLevelRelation = data.getValue("nodeLevelRelation", row);
@@ -225,7 +226,8 @@ define(function(require) {
 				"data_nodeLevelRelation" : nodeLevelRelation,
 				"data_rootFilter" : rootFilter,
 				"masterData" : masterData,
-				"masterColumn" : masterColumn
+				"masterColumn" : masterColumn,
+				"data_detail" : data_detail
 			});
 		});
 		this.templateEngine.addContext(this.templateFile, "datas", datas);
@@ -236,6 +238,7 @@ define(function(require) {
 		data.setValue('isTree', event.checked);
 		if (event.checked) {
 			$(".tree").show();
+			this._addSelectData();
 		} else {
 			$(".tree").hide();
 		}
@@ -245,8 +248,6 @@ define(function(require) {
 		var id = this.comp('mainData').getValue("id");
 		var dataId = this.comp('mainData').getValue("dataId");
 		var mainDataRelations = (dataId == "mainData") ? this.templateEngine.getConfig().current.mainData.columns : this.templateEngine.getConfig().current.datas[id].columns;
-		// var mainDataRelations =
-		// this.templateEngine.getConfig().current.mainData.relations;
 		var data = this.comp("treeConfigData");
 		if (mainDataRelations != null) {
 			var list = mainDataRelations.split(',');
@@ -273,33 +274,24 @@ define(function(require) {
 	};
 
 	Model.prototype.select1Click = function(event) {
-		this._addSelectData();
+		if(this.fieldExist())
+			this._addSelectData();
 	};
 
-	Model.prototype.select4Click = function(event) {
-		this._addSelectData();
-	};
-
-	Model.prototype.select5Click = function(event) {
-		this._addSelectData();
-	};
-
-	Model.prototype.select6Click = function(event) {
-		this._addSelectData();
-	};
+	Model.prototype.fieldExist = function() {
+		var data = this.comp("mainData");
+		return data.getValue("columns") != undefined;
+	}
 
 	Model.prototype.isDetailChange = function(event) {
 		var data = this.comp('mainData');
 		data.setValue('isDetail', event.checked);
 		if (event.checked) {
 			$(".detail").show();
+			this._addSelectData();
 		} else {
 			$(".detail").hide();
 		}
-	};
-
-	Model.prototype.select2Click = function(event) {
-		this._addSelectData()
 	};
 
 	Model.prototype.mainDataValueChange = function(event) {
@@ -312,12 +304,6 @@ define(function(require) {
 			// alert("请先选择数据概念！")
 		}
 	};
-
-	Model.prototype.show = function() {
-		var temp = this.comp("mainData").getValue("master-column");
-		var temp1 = this.comp("mainData").getValue("dataId");
-		alert(temp1 + "--" + temp);
-	}
 
 	return Model;
 });

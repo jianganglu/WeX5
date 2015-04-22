@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<elements>
+
+	<element name="$UI/system/components/fragment/layoutWizard"
+		tag-type="rich" tag-name="div" icon="form.png" text="表单布局向导" 
+		resizable="false" component-type="fragmentWizard" width="1000" height="640"
+		 builder-url="$UI/system/components/fragment/layoutWizard/layoutBuilder/mainActivity.w" 
+		design-view="web-designer">
+	</element>
+</elements>

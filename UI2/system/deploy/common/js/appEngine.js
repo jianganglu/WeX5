@@ -80,13 +80,15 @@ define(function(require) {
 		},
 
 		closeDialog : function() {
+			templateService.closeDialog();
+			return;
 			var pageId = webSocket.getRequestParameter("pageId");
 			if (!pageId) {
 				return;
 			}
 			webSocket.callJava({
 				action : "closeDialog",
-				async : false,
+				async : true,
 				pageId : pageId
 			});
 		}

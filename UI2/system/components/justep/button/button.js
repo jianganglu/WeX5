@@ -1,6 +1,6 @@
 /*! 
-* X5 v3 (htttp://www.justep.com) 
-* Copyright 2014 Justep, Inc.
+* WeX5 v3 (htttp://www.justep.com) 
+* Copyright 2015 Justep, Inc.
 * Licensed under Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0) 
 */ 
 define(function(require) {
@@ -15,7 +15,7 @@ define(function(require) {
 		// 构造函数
 		constructor : function(options) {
 			this.callParent(options);
-			this.disabled = false;
+			this.opDisabled = false;
 			this.icon = '';
 			this.label = '';
 			this.target = '';
@@ -35,6 +35,7 @@ define(function(require) {
 		dispose : function() {
 			this.$domNode.off('touchstart');
 			this.$domNode.off('click', $.proxy(this._doClick, this));
+			this._unBindTargetEvent(this.target);
 
 			this.callParent();
 		},
@@ -98,7 +99,7 @@ define(function(require) {
 				});
 			else if (evt.property == 'enable')
 				this.set({
-					disabled : !evt.value
+					opDisabled : !evt.value
 				});
 		},
 		_doOperationChanged : function(event) {
@@ -125,7 +126,7 @@ define(function(require) {
 							var prop = {};
 							prop['opIcon'] = comp.getOperationIcon(op.name);
 							prop['opLabel'] = comp.getOperationLabel(op.name);
-							prop['disabled'] = !comp.getOperationEnable(op.name);
+							prop['opDisabled'] = !comp.getOperationEnable(op.name);
 							me.set(prop);
 						});
 					}
@@ -140,6 +141,16 @@ define(function(require) {
 		},
 		_getImgNode : function() {
 			return this.$domNode.children('img');
+		},
+		isDisabled: function(){
+			return this.callParent() || this.opDisabled;
+		},
+		disabledRender: function(){
+			var disaabled = this.isDisabled();
+			if (this.isImgIcon && this.$domNode) {
+				this._getImgNode().attr('src', this.imgIcon[disaabled ? 1 : 0]);
+			}
+			disaabled ? this.$domNode.attr('disabled', true) : this.$domNode.removeAttr('disabled');
 		},
 		propertyChangedHandler : function(key, oldVal, value) {
 			switch (key) {
@@ -170,18 +181,15 @@ define(function(require) {
 								var img = this._getImgNode();
 								if (img.size() <= 0)
 									this._getLabelNode().before('<img/>');
-								this._getImgNode().attr('src', this.imgIcon[this.disabled ? 1 : 0]);
+								this._getImgNode().attr('src', this.imgIcon[this.isDisabled() ? 1 : 0]);
 								this._getIconNode().removeAttr('class');
 							}
 						}
 					}
 				}
 				break;
-			case "disabled":// 这里没有break，需要执行callParent
-				if (oldVal != value && this.isImgIcon && this.$domNode) {
-					this._getImgNode().attr('src', this.imgIcon[this.disabled ? 1 : 0]);
-				}
-				value ? this.$domNode.attr('disabled', true) : this.$domNode.removeAttr('disabled');
+			case "opDisabled":// 这里没有break，需要执行callParent
+				if (oldVal != value) this.disabledRender();
 				break;
 			default:
 				this.callParent(key, oldVal, value);

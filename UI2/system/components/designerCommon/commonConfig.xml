@@ -38,7 +38,7 @@
 
 		<property-editor name="dataTypeList" type="list">
 			<static-data
-				value="String,Integer,Float,Date,Time,DateTime" />
+				value="String,Integer,Long,Float,Double,Decimal,Boolean,Date,Time,DateTime" />
 		</property-editor>
 
 		<!-- boolean数据选择列表 -->

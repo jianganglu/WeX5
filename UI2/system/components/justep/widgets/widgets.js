@@ -1,6 +1,6 @@
 /*! 
-* X5 v3 (htttp://www.justep.com) 
-* Copyright 2014 Justep, Inc.
+* WeX5 v3 (htttp://www.justep.com) 
+* Copyright 2015 Justep, Inc.
 * Licensed under Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0) 
 */ 
 define(function(require){
@@ -102,6 +102,12 @@ define(function(require){
 			default:
 				this.callParent(key, oldVal, value);
 			}
+		},
+		activeAll: function(){
+			var me = this;
+			$("[component='$model/UI2/system/components/justep/windowContainer/windowContainer']", this.domNode).each(function(){
+				justep.Component.getComponent(this).getInnerModel().fireEvent('onActive');
+			});
 		},
 		_draggable: function(){
 			if(this.draggable){

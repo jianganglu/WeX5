@@ -1,6 +1,6 @@
 /*! 
-* X5 v3 (htttp://www.justep.com) 
-* Copyright 2014 Justep, Inc.
+* WeX5 v3 (htttp://www.justep.com) 
+* Copyright 2015 Justep, Inc.
 * Licensed under Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0) 
 */ 
 define(function(require) {
@@ -36,12 +36,11 @@ define(function(require) {
 				this.winOpener = opener.justep.windowOpener_openers[openerId];
 				var self = this;
 				$(window).on('message',function(message){
-					var data = message.originalEvent.data;
+					var data = JSON.parse(message.originalEvent.data);
 					if(data.type == "WindowOpener"){
 						self.doReceive({message:data});
 					}
 				});
-				var self = this;
 				$(window).unload(function(event){
 					if(self.winOpener && self.winOpener.dispatchCloseEvent) self.winOpener.dispatchCloseEvent();
 				});

@@ -18,8 +18,8 @@ import org.apache.commons.httpclient.params.HttpMethodParams;
 
 public class AppHelper {
 
-	public static File createBuildXML(String justepHome, String antLibDir, String nativeDir, String tmplDir, AppInfo appInfo, String session) throws IOException, IllegalAccessException {
-		File buildTmplFile = new File(tmplDir + "/build.xml");
+	public static File createBuildXML(String justepHome, String antLibDir, String nativeDir, AppInfo appInfo, String session) throws IOException, IllegalAccessException {
+		File buildTmplFile = new File(antLibDir + "/build.xml");
 		BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(buildTmplFile)));
 		StringBuffer sb = new StringBuffer();
 		String str = null;
@@ -30,7 +30,6 @@ public class AppHelper {
 		content = content.replace("@justepHome@", justepHome);
 		content = content.replace("@antLibDir@", antLibDir);
 		content = content.replace("@nativeDir@", nativeDir);
-		content = content.replace("@templateDir@", tmplDir);
 		content = content.replace("@session@", session);
 		Class<? extends AppInfo> cls = appInfo.getClass();
 		Field[] flds = cls.getFields();

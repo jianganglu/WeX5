@@ -1,6 +1,6 @@
 /*! 
-* X5 v3 (htttp://www.justep.com) 
-* Copyright 2014 Justep, Inc.
+* WeX5 v3 (htttp://www.justep.com) 
+* Copyright 2015 Justep, Inc.
 * Licensed under Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0) 
 */ 
 define(function(require) {
@@ -28,13 +28,13 @@ define(function(require) {
 			Observable.prototype.constructor.call(self);
 			this.$rootElement = $(selector);
 			self.buildTarget();
-			this.$loadingElement = self.buildLoadingElement();
-			this.target.addEventListener('change', function() {
+			self.buildLoadingElement();
+			this.inputElement.addEventListener('change', function() {
 				self.onChanged.apply(self, arguments);
 			});
-			this.$rootElement.on('click', function() {
-				self.onButtonClick.apply(self, arguments);
-			});
+			/*this.$rootElement.on('click.uploader', function() {
+				self.submit.apply(self, arguments);
+			});*/
 			self.enable = true;
 			self.changeState('browse');
 		}
@@ -61,10 +61,10 @@ define(function(require) {
 				position : 'relative'
 			});
 		}
-		var targetTpl = '<form style="position:absolute;top:-3px;right:-3px;bottom:-3px;left:-3px;"><input type="file" name="userfile" tabindex="-1" style="cursor: pointer;opacity:0;position: relative;z-index:999;width:100%;height:100%;overflow:hidden;"></form>';
-		var $target = $(targetTpl).appendTo(this.$rootElement);
+		var formTpl = '<form style="position:absolute;top:-3px;right:-3px;bottom:-3px;left:-3px;"><input type="file" name="userfile" tabindex="-1" style="cursor: pointer;opacity:0;position: relative;z-index:999;width:100%;height:100%;overflow:hidden;"></form>';
+		var $formEle = $(formTpl).appendTo(this.$rootElement);
 		var self = this;
-		$target.on('click',function(e){
+		$formEle.on('click',function(e){
 			var _data ={
 				cancel:false,
 				source:self
@@ -74,21 +74,34 @@ define(function(require) {
 				e.preventDefault();
 			}
 		});
-		this.target = $target.find('input').get(0);
-		this.formElement = $target.get(0);
+		this.inputElement = $formEle.find('input').get(0);
+		this.formElement = $formEle.get(0);
 
 	};
+	
+	Uploader.prototype.dispose = function() {
+		if(this.$loadingElement){
+			this.$loadingElement.remove();
+		}
+		if(this.inputElement){
+			$(this.formElement).remove();
+			$(this.inputElement).remove();
+		}
+		if(this.$rootElement){
+			this.$rootElement.off('.uploader');
+		}
+	},
 
 	Uploader.prototype.buildLoadingElement = function() {
 		var loadingEleTpl = '<span style="display:none"></span>';
-		return $(loadingEleTpl).appendTo(this.$rootElement);
+		this.$loadingElement = $(loadingEleTpl).appendTo(this.$rootElement); 
 	};
-
-	Uploader.prototype.onButtonClick = function() {
-		console.log('button click');
+	
+	
+	Uploader.prototype.submit = function() {
 		var self = this;
 		if (self.currentState == 'ready') {
-			var file = this.target.files[0];
+			var file = this.inputElement.files[0];
 			var data = {
 				source : self,
 				file : file,
@@ -102,7 +115,10 @@ define(function(require) {
 			self.doUpload(file);
 		}
 	};
-
+	
+	
+	
+	
 	Uploader.prototype.onChanged = function(e) {
 		var self = this;
 		if (e.target.files.length > 0) {
@@ -117,7 +133,7 @@ define(function(require) {
 				self.changeState('ready');
 			}
 		} else {
-			alert('File selected but not accessible');
+			//alert('File selected but not accessible');
 			self.changeState('browse');
 		}
 	};
@@ -132,9 +148,10 @@ define(function(require) {
 			break;
 		case 'ready':
 			self.$loadingElement.hide();
-			$(self.target).hide();
 			if (self.autoUpload == true) {
-				self.onButtonClick();
+				$(self.inputElement).hide();
+				$(self.formElement).hide();
+				self.submit();
 			}
 			break;
 		case 'loading':
@@ -216,8 +233,9 @@ define(function(require) {
 
 	Uploader.prototype.reset = function() {
 		var self = this;
+		$(self.formElement).show();
+		$(self.inputElement).show();
 		self.formElement.reset();
-		$(self.target).show();
 	};
 
 	Uploader.prototype.signRequest = function(http, callback) {

@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<elements>
+	<element name="$UI/system/components/fragment/form/accordionForm" icon="accordionForm.png"
+		tag-name="div"  text="code" component-type="layout-container" validator="ViewValidator"
+	    design-view="web-designer">
+		<properties>
+			<property name="xid" text="编号" required="false" editor-discriptor-ref=""/>  
+			<property name="style" text="样式" editor-ref="styleDialog" />
+		</properties>
+		<templates>
+			<template name="default"><![CDATA[
+				<div component="$UI/system/components/bootstrap/accordion/accordion" class="panel-group"
+				    xid="accordion1"> 
+				    <div class="panel panel-default" component="$UI/system/components/bootstrap/panel/panel"
+				      xid="panel1"> 
+				      <div class="panel-heading" xid="heading1"> 
+				        <h4 class="panel-title" xid="h41"> 
+				          <a xid="a1">Title</a>
+				        </h4> 
+				      </div>  
+				      <div class="panel-collapse" xid="div1"> 
+				        <div class="panel-body" xid="div2">
+				          <div class="form-horizontal container-fluid" component="$UI/system/components/bootstrap/form/form(bootstrap)"
+				            xid="form1">
+				            <div class="form-group" xid="formGroup1"> 
+				              <div class="col-sm-2" xid="col7"><label class="control-label">label:</label></div>  
+				              <div class="col-sm-4" xid="col8"/>  
+				              <div class="col-sm-2" xid="col9"><label class="control-label">label:</label></div>  
+				              <div class="col-sm-4" xid="col10"/>
+				            </div>  
+				            <div class="form-group" xid="formGroup2"> 
+				              <div class="col-sm-2" xid="col11"><label class="control-label">label:</label></div>  
+				              <div class="col-sm-4" xid="col12"/>  
+				              <div class="col-sm-2" xid="col13"><label class="control-label">label:</label></div>  
+				              <div class="col-sm-4" xid="col14"/>
+				            </div>
+				          </div>
+				        </div>
+				      </div> 
+				    </div> 
+				  </div>
+		   ]]></template>
+		</templates>
+	</element>
+</elements>

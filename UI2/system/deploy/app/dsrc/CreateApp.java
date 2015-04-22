@@ -51,13 +51,12 @@ public class CreateApp extends com.justep.ui.impl.JProcessorImpl {
 		String justepHome = JustepConfig.getHome();
 		String antLibDir = modelPath + UI + "/system/deploy/common/antlib";
 		String nativeDir = modelPath + "Native";
-		String tmplDir = modelPath + UI + "/system/deploy/app/tmpl";
 		JSONObject config = JSONObject.parseObject(JavaServer.getPostData(request));
 
 		AppInfo appInfo = new AppInfo(config);
 
 		// 创建ant脚本
-		File buildFile = AppHelper.createBuildXML(justepHome, antLibDir, nativeDir, tmplDir, appInfo, "");
+		File buildFile = AppHelper.createBuildXML(justepHome, antLibDir, nativeDir, appInfo, "");
 
 		// 执行ant脚本
 		execTask(buildFile, edit);

@@ -137,3 +137,18 @@
 	}
 	</xmp>	
 */
+
+/**
+ @name Dialog#open
+ @operation
+ @see Dialog#open
+ @description 打开对话框
+ @returns {void}
+*/
+
+/**
+ @name Dialog#close
+ @operation
+ @description 关闭对话框
+ @returns {void}
+*/

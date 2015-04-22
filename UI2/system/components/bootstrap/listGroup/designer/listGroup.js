@@ -1,7 +1,7 @@
 /*! 
- * E5 v3 (htttp://www.justep.com) 
- * Copyright 2014 Justep, Inc.
- */
+* BeX5 v3 (htttp://www.justep.com) 
+* Copyright 2015 Justep, Inc.
+*/ 
 define(function(require) {
 	require("$UI/system/components/justep/common/res");
 	var xuiService = require("$UI/system/components/designerCommon/js/xuiService");
@@ -16,12 +16,12 @@ define(function(require) {
 		},
 		
 		addItem : function(){
-			xuiDoc.createComponent("$UI/system/components/bootstrap/listGroup/listGroup#gruopItem", this, {
+			xuiDoc.createComponent("$UI/system/components/bootstrap/listGroup/listGroup(bootstrap)#gruopItem", this, {
 				paintComponent : true
 			});
 		}
 	});
 	return {
-		'$UI/system/components/bootstrap/listGroup/listGroup' : ListGroup
+		'$UI/system/components/bootstrap/listGroup/listGroup(bootstrap)' : ListGroup
 	};
 });

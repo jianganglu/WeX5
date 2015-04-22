@@ -1,6 +1,6 @@
 /*! 
-* X5 v3 (htttp://www.justep.com) 
-* Copyright 2014 Justep, Inc.
+* WeX5 v3 (htttp://www.justep.com) 
+* Copyright 2015 Justep, Inc.
 * Licensed under Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0) 
 */ 
 define(function(require) {
@@ -20,7 +20,6 @@ define(function(require) {
 		// 构造函数
 		constructor : function(options) {
 			this.callParent(options);
-			this.disabled = false;
 			// this.data = null;
 			// this.relation = null;
 			this.options = null;
@@ -88,6 +87,7 @@ define(function(require) {
 				};
 		},
 		_loadData : function() {
+			if(!this.options) return;
 			var optionData;
 			if (this.optionsAutoLoad) {
 				this.$domNode.children("[_default_option_='true']").remove();// 删除为了显示增加的option
@@ -139,12 +139,20 @@ define(function(require) {
 			else
 				return undefined;
 		},
+		set : function(value){
+			this.callParent(value);
+			if(value && value.hasOwnProperty("value")) this.val(value['value']);
+		},
+		get : function(name){
+			if('value'==name) return this.val();
+			else return this.callParent(name);	
+		},
 		_doChange : function(evt) {
 			this.val2ref();
 			this._val2ref(this.labelRef, this._getLabel());
 			this.fireEvent('onChange', {
 				source : this,
-				value : this.value
+				value : this.val()
 			});
 		},
 		_doOptionChange : function(evt) {

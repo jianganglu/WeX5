@@ -93,7 +93,7 @@
 */
 
 /**
-	@name RadioGroup#onChanged
+	@name RadioGroup#onChange
 	@event
 	@description <b>[回调型事件]</b>值修改事件
 	@param {object} event 

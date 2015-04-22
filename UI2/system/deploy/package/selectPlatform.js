@@ -9,10 +9,14 @@ define(function(require) {
 		this.appEngine = this.getParent().appEngine;
 
 		var config = this.appEngine.getConfig();
+		var compileUINotSupport = config.uiResDirs == "";
+		var builderServerNeeded = ("自动选择" != config.plugins) || config.resEncryption || config.sourceMode;
 		this.comp("androidCheckbox").val(config.platform && (config.platform.indexOf('android') >= 0));
 		this.comp("iosCheckbox").val(config.platform && (config.platform.indexOf('ios') >= 0));
-		this.comp("compileUI").val(config.compileUI);
-		this.comp("useAppBuilderServer").val(config.useAppBuilderServer);
+		this.comp("compileUI").val(compileUINotSupport ? false : config.compileUI);
+		this.comp("compileUI").set({"disabled": compileUINotSupport});
+		this.comp("useAppBuilderServer").val(builderServerNeeded ? true : config.useAppBuilderServer);
+		this.comp("useAppBuilderServer").set({"disabled": builderServerNeeded});
 		this.comp("releaseMode").val(config.releaseMode === "release");
 		this.comp("appBuilderServer").val(config.appBuilderServer ? config.appBuilderServer : config.appBuilderServer_Global);
 		this._refreshAppBuilderServerDiv();

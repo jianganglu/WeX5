@@ -8,8 +8,8 @@
   
   <div xid="div1" style="padding:8px"><span component="$UI/system/components/justep/button/checkbox" class="x-checkbox" xid="androidCheckbox" checked="true"></span><img src="img/android.png" alt="" xid="androidImage" bind-click="androidImageClick" style="cursor:pointer"></img><span component="$UI/system/components/justep/button/checkbox" class="x-checkbox" xid="iosCheckbox"></span><img src="img/apple.png" alt="" xid="iosImage" bind-click="iosImageClick" style="cursor:pointer"></img>
   
-  <div xid="div2" style="padding-top:32px"><span component="$UI/system/components/justep/button/checkbox" class="x-checkbox" xid="compileUI" label="重新编译使用到的UI资源" checked="true"></span></div>
-  <div xid="div3" style="padding-top:8px"><span component="$UI/system/components/justep/button/checkbox" class="x-checkbox" xid="useAppBuilderServer" label="使用应用打包服务器生成本地应用。通过服务方式可以使用自定义的扩展插件和生成可发布的应用包" onChange="useAppBuilderServerChange"></span></div>
+  <div xid="div2" style="padding-top:32px"><span component="$UI/system/components/justep/button/checkbox" class="x-checkbox" xid="compileUI" label="重新编译使用到的UI资源。如果未选择打包资源，此选项无效" checked="true"></span></div>
+  <div xid="div3" style="padding-top:8px"><span component="$UI/system/components/justep/button/checkbox" class="x-checkbox" xid="useAppBuilderServer" label="使用应用打包服务器生成本地应用。通过服务方式可以使用自定义的扩展插件和生成可发布的应用包。如果选择资源加密、源码模式或自定义插件必须用服务器打包模式" onChange="useAppBuilderServerChange"></span></div>
   <div xid="appBuilderServerDiv" style="padding-top:8px;display:none"><span component="$UI/system/components/justep/button/checkbox" class="x-checkbox" xid="releaseMode" label="发布模式。用于打最终对外发布包，执行性能更优，不支持Chrome/Safari调试；如需开发调试请去掉本选项" checked="true"></span>
   <div component="$UI/system/components/justep/labelEdit/labelEdit" class="x-label-edit x-label20" xid="appBuilderServerInput">
    <label class="x-label" xid="label2"><![CDATA[应用打包服务器：]]></label>

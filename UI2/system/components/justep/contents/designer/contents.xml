@@ -24,7 +24,8 @@
 			<property name="wrap" text="是否可循环" default-value="true" editor-ref="booleanList" data-type="boolean"/>
 			<property name="swipe" text="手势" default-value="true" editor-ref="swipeList"/>
 			<property name="active" text="活动页" data-type="integer" default-value="0"/>
-			<property name="slidable" text="是否可滚动" default-value="true" editor-ref="booleanList" data-type="boolean"/>
+			<property name="slidable" text="是否可滚动" default-value="false" editor-ref="booleanList" data-type="boolean"/>
+			<property name="routable" text="是否可路由" default-value="true" editor-ref="booleanList" data-type="boolean"/>
 			<include path="$UI/system/components/designerCommon/commonConfig.xml#//common-properties/group[@name='bind']"/>
 		</properties>
 		<templates>
@@ -46,6 +47,7 @@
 		</operations>
 		<events>
 			<event name="onActiveChange" type="event" text="页面变化事件" parameters="event" is-script="true"/>
+			<event name="onActiveChanged" type="event" text="页面变化完成" parameters="event" is-script="true"/>
 		    <include path="$UI/system/components/designerCommon/commonConfig.xml#//html-evens/*"/>
 		</events>
  

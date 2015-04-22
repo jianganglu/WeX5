@@ -11,7 +11,7 @@ define(function(require){
 			stacked: "boolean",
 			activeTab: "string"
 		},
-		events:["onDeselect", "onSelect"],
+		events:["onBeforeSelect", "onSelect"],
 		binds:{}
 	};
 });

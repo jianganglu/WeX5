@@ -1,6 +1,6 @@
 /*! 
-* X5 v3 (htttp://www.justep.com) 
-* Copyright 2014 Justep, Inc.
+* WeX5 v3 (htttp://www.justep.com) 
+* Copyright 2015 Justep, Inc.
 * Licensed under Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0) 
 */ 
 define(function(require) {
@@ -18,6 +18,14 @@ define(function(require) {
 				result = this.data.params;
 			}
 			return result;
+		},
+		
+		isDebug: function(){
+			if (this.getRequestParameter("debug") === "true"){
+				return true;
+			}
+			
+			return this.data && this.data.isDebug;
 		},
 
 		getRequestParameter : function(name) {

@@ -1,8 +1,9 @@
 .x-contents {
-  overflow: hidden;
+  overflow: auto;
   position: relative;
 }
 .x-contents .x-contents-content {
+  display: none;
   position: absolute;
   top: 0;
   left: 0;
@@ -20,12 +21,16 @@
 .x-full.x-contents > .x-contents-content.active {
   position: absolute;
 }
-.cssanimations .x-contents > .x-contents-content {
+.cssanimations .x-contents.slidable {
+  overflow: hidden;
+}
+.cssanimations .x-contents.slidable > .x-contents-content {
+  display: block;
   -webkit-transform: translate3d(-100%, 0, 0);
   -ms-transform: translate3d(-100%, 0, 0);
   transform: translate3d(-100%, 0, 0);
 }
-.cssanimations .x-contents > .x-contents-content.active {
+.cssanimations .x-contents.slidable > .x-contents-content.active {
   -webkit-transform: none;
   -ms-transform: none;
   transform: none;

@@ -1,6 +1,6 @@
 /*! 
-* X5 v3 (htttp://www.justep.com) 
-* Copyright 2014 Justep, Inc.
+* WeX5 v3 (htttp://www.justep.com) 
+* Copyright 2015 Justep, Inc.
 * Licensed under Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0) 
 */ 
 /** 
@@ -302,7 +302,7 @@ define(function(require) {
 						var sourceId = str.substr(0, end);
 						context.__id = UUID.createUUID();
 						viewContent = viewContent.replace(new RegExp(sourceId, "gm"), context.__id);
-						viewContent = viewContent.replace(new RegExp("@justepContextPath@", "gm"), window.__ResourceEngine.contextPath);
+						viewContent = viewContent.replace(new RegExp("@justepContextPath@", "gm"), window.__justep.__ResourceEngine.contextPath);
 					}
 				}
 				
@@ -322,15 +322,15 @@ define(function(require) {
 
 		prepareContext : function(context) {
 			if (Util.isString(context.model)) {
-				context.model = URL.activity2WURL(context.model);
-				var url = new URL(require.toUrl(context.model));
+				context.model = URL.activity2WURL(require.toUrl(context.model));
+				var url = new URL(context.model);
 				if (viewEngine.isWindowUrl(url.pathname)) {
 					if (!context.data) {
 						url.setParam("$pageType", "context");
 						context.data = url.toString(false);
 					}
 					var path = url.getPathname();
-					if (window.__isPackage){
+					if (window.__justep && window.__justep.__isPackage){
 						context.model = path + ".js";
 						if (!context.view){
 							context.view = path + ".html";	
@@ -371,6 +371,9 @@ define(function(require) {
 		},
 		
 		error: function(context, err){
+			if (console && console.log && err){
+				console.log(err.stack || "");
+			}
 			var cancel = false;
 			if (context.loadError)
 				cancel = context.loadError(err);

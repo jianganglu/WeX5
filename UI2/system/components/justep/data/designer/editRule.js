@@ -1,46 +1,66 @@
 /*! 
-* X5 v3 (htttp://www.justep.com) 
-* Copyright 2014 Justep, Inc.
+* WeX5 v3 (htttp://www.justep.com) 
+* Copyright 2015 Justep, Inc.
 * Licensed under Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0) 
 */ 
 define(function(require) {
 	var $ = require("jquery");
-	var justep = require('$UI/system/lib/justep');
+	//var justep = require('$UI/system/lib/justep');
 	var XML = require("$UI/system/lib/base/xml");
 	var xuiService = require("$UI/system/components/designerCommon/js/xuiService");
 
 	var Model = function() {
+		/*
+ruleXID
+readonly_XID
+readonly_expr_XID
+
+col_fString_XID
+col_fString_required_XID
+col_fString_required_expr_XID
+col_fString_required_message_XID
+
+col_fInteger_constraint_XID
+col_fInteger_constraint_expr_XID
+col_fInteger_constraint_message_XID
+
+col_fInteger_readonly_XID
+col_fInteger_readonly_expr_XID
+
+col_fInteger_calculate_XID
+col_fInteger_calculate_expr_XID
+		 */
+		this.xids = {};
 		this.callParent();
-		this.readonly = justep.Bind.observable('');
 	};
 
 	Model.prototype.def2xml = function() {
-		var data = this.comp('data'), rule = '<rule>';
-
-		if (this.readonly.get()) {// data的只读规则
-			rule += ('<readonly><expr><![CDATA[' + this['readonly'].get() + ']]></expr></readonly>');
+		var self = this, data = this.comp('data'), rule = '<rule '+(this.xids['ruleXID']?('xid="'+this.xids['ruleXID']+'"'):'')+'>';
+		var dataReadonly = this.comp('dataReadonly').val();
+		if (dataReadonly) {// data的只读规则
+			rule += ('<readonly '+(this.xids['readonly_XID']?('xid="'+this.xids['readonly_XID']+'"'):'')+'><expr '+(this.xids['readonly_expr_XID']?('xid="'+this.xids['readonly_expr_XID']+'"'):'')+'><![CDATA[' + dataReadonly + ']]></expr></readonly>');
 		}
 		data
 				.each(function(param) {
-					var colXml = '', hasDef = false;
-					colXml += '<col name="' + data.getValue('name', param.row) + '">';
+					var colXml = '', hasDef = false, colName = data.getValue('name', param.row);
+					colXml += '<col '+(self.xids['col_'+colName+'_XID']?('xid="'+self.xids['col_'+colName+'_XID']+'"'):'')+' name="' + colName + '">';
 					if (data.getValue('readonly', param.row)) {
-						colXml += ('<readonly><expr><![CDATA[' + data.getValue('readonly', param.row) + ']]></expr></readonly>');
+						colXml += ('<readonly '+(self.xids['col_'+colName+'_readonly_XID']?('xid="'+self.xids['col_'+colName+'_readonly_XID']+'"'):'')+'><expr '+(self.xids['col_'+colName+'_readonly_expr_XID']?('xid="'+self.xids['col_'+colName+'_readonly_expr_XID']+'"'):'')+'><![CDATA[' + data.getValue('readonly', param.row) + ']]></expr></readonly>');
 						hasDef = true;
 					}
 					if (data.getValue('calculate', param.row)) {
-						colXml += ('<calculate><expr><![CDATA[' + data.getValue('calculate', param.row) + ']]></expr></calculate>');
+						colXml += ('<calculate '+(self.xids['col_'+colName+'_calculate_XID']?('xid="'+self.xids['col_'+colName+'_calculate_XID']+'"'):'')+'><expr '+(self.xids['col_'+colName+'_calculate_expr_XID']?('xid="'+self.xids['col_'+colName+'_calculate_expr_XID']+'"'):'')+'><![CDATA[' + data.getValue('calculate', param.row) + ']]></expr></calculate>');
 						hasDef = true;
 					}
 					if (data.getValue('required', param.row)) {
-						colXml += ('<required><expr><![CDATA['
-								+ data.getValue('required') + ']]></expr><message><![CDATA['
+						colXml += ('<required '+(self.xids['col_'+colName+'_required_XID']?('xid="'+self.xids['col_'+colName+'_required_XID']+'"'):'')+'><expr '+(self.xids['col_'+colName+'_required_expr_XID']?('xid="'+self.xids['col_'+colName+'_required_expr_XID']+'"'):'')+'><![CDATA['
+								+ data.getValue('required') + ']]></expr><message '+(self.xids['col_'+colName+'_required_message_XID']?('xid="'+self.xids['col_'+colName+'_required_message_XID']+'"'):'')+'><![CDATA['
 								+ (data.getValue('requiredMessage') ? data.getValue('requiredMessage', param.row) : '') + ']]></message></required>');
 						hasDef = true;
 					}
 					if (data.getValue('constraint', param.row)) {
-						colXml += ('<constraint><expr><![CDATA['
-								+ data.getValue('constraint', param.row) + ']]></expr><message><![CDATA['
+						colXml += ('<constraint '+(self.xids['col_'+colName+'_constraint_XID']?('xid="'+self.xids['col_'+colName+'_constraint_XID']+'"'):'')+'><expr '+(self.xids['col_'+colName+'_constraint_expr_XID']?('xid="'+self.xids['col_'+colName+'_constraint_expr_XID']+'"'):'')+'><![CDATA['
+								+ data.getValue('constraint', param.row) + ']]></expr><message '+(self.xids['col_'+colName+'_constraint_message_XID']?('xid="'+self.xids['col_'+colName+'_constraint_message_XID']+'"'):'')+'><![CDATA['
 								+ (data.getValue('constraintMessage', param.row) ? data.getValue('constraintMessage', param.row) : '') + ']]></message></constraint>');
 						hasDef = true;
 					}
@@ -69,7 +89,7 @@ define(function(require) {
 	};
 
 	Model.prototype.cols2data = function(cols, ruleDef) {
-		this['readonly'].set(ruleDef['readonly'].expr);
+		this.comp('dataReadonly').val(ruleDef['readonly'].expr);
 		if ($.isArray(cols)) {
 			var defaultValues = [];
 			for ( var i = 0; i < cols.length; i++) {
@@ -104,24 +124,76 @@ define(function(require) {
 				readonly : {},
 				col : {}
 			};
-			var $data = $(XML.fromString(xmlStr).documentElement), $rule = $data.children('rule');
-			ruleDef['readonly'].expr = $.trim($rule.children('readonly').children('expr').text());
+			/*
+			ruleXID
+			readonly_XID
+			readonly_expr_XID
+
+			col_fString_XID
+			col_fString_required_XID
+			col_fString_required_expr_XID
+			col_fString_required_message_XID
+
+			col_fInteger_constraint_XID
+			col_fInteger_constraint_expr_XID
+			col_fInteger_constraint_message_XID
+
+			col_fInteger_readonly_XID
+			col_fInteger_readonly_expr_XID
+
+			col_fInteger_calculate_XID
+			col_fInteger_calculate_expr_XID
+					this.xids = {};
+					 */
+			var $data = $(XML.fromString(xmlStr).documentElement), $rule = $data.children('rule'), self = this;
+			this.xids['ruleXID'] = $rule.attr('xid');
+			var $ruleReadonly = $rule.children('readonly');
+			this.xids['readonly_XID'] = $ruleReadonly.attr('xid');
+			var $ruleReadonlyExpr = $ruleReadonly.children('expr');
+			this.xids['readonly_expr_XID'] = $ruleReadonlyExpr.attr('xid');
+			ruleDef['readonly'].expr = $.trim($ruleReadonlyExpr.text());
 			$rule.children('col').each(function() {
 				var $col = $(this), def = {};
 				if ($col.attr('name')) {
+					var colName = $col.attr('name');
+					self.xids['col_'+colName+'_XID'] = $col.attr('xid');
+					
+					var $colReadonly = $col.children('readonly');
+					self.xids['col_'+colName+'_readonly_XID'] = $colReadonly.attr('xid');
+					var $colReadonlyExpr = $colReadonly.children('expr');
+					self.xids['col_'+colName+'_readonly_expr_XID'] = $colReadonlyExpr.attr('xid');
 					def['readonly'] = {
-						expr : $.trim($col.children('readonly').children('expr').text())
+						expr : $.trim($colReadonlyExpr.text())
 					};
+
+					var $colcalculate = $col.children('calculate');
+					self.xids['col_'+colName+'_calculate_XID'] = $colcalculate.attr('xid');
+					var $colcalculateExpr = $colcalculate.children('expr');
+					self.xids['col_'+colName+'_calculate_expr_XID'] = $colcalculateExpr.attr('xid');
 					def['calculate'] = {
-						expr : $.trim($col.children('calculate').children('expr').text())
+						expr : $.trim($colcalculateExpr.text())
 					};
+
+					var $colrequired = $col.children('required');
+					self.xids['col_'+colName+'_required_XID'] = $colrequired.attr('xid');
+					var $colrequiredExpr = $colrequired.children('expr');
+					self.xids['col_'+colName+'_required_expr_XID'] = $colrequiredExpr.attr('xid');
+					var $colrequiredMessage = $colrequired.children('message');
+					self.xids['col_'+colName+'_required_message_XID'] = $colrequiredMessage.attr('xid');
 					def['required'] = {
-						expr : $.trim($col.children('required').children('expr').text()),
-						message : $.trim($col.children('required').children('message').text())
+						expr : $.trim($colrequiredExpr.text()),
+						message : $.trim($colrequiredMessage.text())
 					};
+
+					var $colconstraint = $col.children('constraint');
+					self.xids['col_'+colName+'_constraint_XID'] = $colconstraint.attr('xid');
+					var $colconstraintExpr = $colconstraint.children('expr');
+					self.xids['col_'+colName+'_constraint_expr_XID'] = $colconstraintExpr.attr('xid');
+					var $colconstraintMessage = $colconstraint.children('message');
+					self.xids['col_'+colName+'_constraint_message_XID'] = $colconstraintMessage.attr('xid');
 					def['constraint'] = {
-						expr : $.trim($col.children('constraint').children('expr').text()),
-						message : $.trim($col.children('constraint').children('message').text())
+						expr : $.trim($colconstraintExpr.text()),
+						message : $.trim($colconstraintMessage.text())
 					};
 					ruleDef.col[$col.attr('name')] = def;
 				}
@@ -158,6 +230,13 @@ define(function(require) {
 
 	Model.prototype.constraintExprClick = function(event){
 		this.openExpressionEditor("constraint");
+	};
+
+	Model.prototype.dataReadonlyExprClick = function(event){
+		var comp = this.comp("dataReadonly");
+		xuiService.openEditor("jSExpressionEditor", {value : comp.val()}, function(result) {
+			comp.val(result.value);
+		});
 	};
 
 	return Model;

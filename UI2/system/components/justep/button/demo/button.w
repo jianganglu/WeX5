@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <div xmlns="http://www.w3.org/1999/xhtml" component="$UI/system/components/justep/window/window">  
+  <div component="$UI/system/components/justep/model/model" xid="model1" style="position:absolute;;left:793.0px;top:392.0px" onLoad="model1Load"/>  
   <div component="$UI/system/components/justep/panel/panel" class="x-panel x-full"
     xid="panel1"> 
     <div class="x-panel-top" xid="top1"> 
@@ -17,14 +18,13 @@
         <div class="x-titlebar-right reverse" xid="div3"/> 
       </div> 
     </div>  
-    <div class="x-panel-content" xid="content2"> 
-      <h3  style="height:48px;vertical-align: middle;padding: 8px;display: inline-block;">button icon 
-        </h3>
-        <a component="$UI/system/components/justep/button/button" class="btn btn-link"
-          label="源码" xid="button6" onClick="showiconSource" bind-visible="isVisible"> 
-          <i xid="i6"/>  
-          <span xid="span8">源码</span> 
-        </a> 
+    <div class="x-panel-content" xid="content2" style="padding:8.75px"> 
+      <h3 style="height:48px;vertical-align: middle;padding: 8px;display: inline-block;">button icon</h3>  
+      <a component="$UI/system/components/justep/button/button" class="btn btn-link"
+        label="源码" xid="button6" onClick="showiconSource" bind-visible="isVisible"> 
+        <i xid="i6"/>  
+        <span xid="span8">源码</span> 
+      </a>  
       <div xid="buttonicon"> 
         <a component="$UI/system/components/justep/button/button" class="btn btn-default"
           xid="button11" icon="icon-loading-a"> 
@@ -62,12 +62,12 @@
           <span xid="span16">arrow-down</span> 
         </a> 
       </div>  
-      <h3  style="height:48px;vertical-align: middle;padding: 8px;display: inline-block;">button color</h3>
-        <a component="$UI/system/components/justep/button/button" class="btn btn-link"
-          label="源码" xid="button8" onClick="showStyleSource" bind-visible="isVisible"> 
-          <i xid="i8"/>  
-          <span xid="span29">源码</span> 
-        </a> 
+      <h3 style="height:48px;vertical-align: middle;padding: 8px;display: inline-block;">button color</h3>  
+      <a component="$UI/system/components/justep/button/button" class="btn btn-link"
+        label="源码" xid="button8" onClick="showStyleSource" bind-visible="isVisible"> 
+        <i xid="i8"/>  
+        <span xid="span29">源码</span> 
+      </a>  
       <div xid="buttonColor"> 
         <a component="$UI/system/components/justep/button/button" class="btn btn-default"
           label="default" xid="button22" onClick="basicEvent"> 
@@ -135,12 +135,12 @@
           <span xid="span40">purple</span> 
         </a> 
       </div>  
-      <h3  style="height:48px;vertical-align: middle;padding: 8px;display: inline-block;">button size </h3>
-        <a component="$UI/system/components/justep/button/button" class="btn btn-link"
-          label="源码" xid="button27" onClick="showSizeSource" bind-visible="isVisible"> 
-          <i xid="i47"/>  
-          <span xid="span46">源码</span> 
-        </a> 
+      <h3 style="height:48px;vertical-align: middle;padding: 8px;display: inline-block;">button size</h3>  
+      <a component="$UI/system/components/justep/button/button" class="btn btn-link"
+        label="源码" xid="button27" onClick="showSizeSource" bind-visible="isVisible"> 
+        <i xid="i47"/>  
+        <span xid="span46">源码</span> 
+      </a>  
       <div xid="buttonSize"> 
         <a component="$UI/system/components/justep/button/button" class="btn btn-default btn-xs"
           label="btn-xs" xid="button37"> 
@@ -163,17 +163,18 @@
           <span xid="span41">btn-lg</span> 
         </a> 
       </div>  
-      <h3  style="height:48px;vertical-align: middle;padding: 8px;display: inline-block;">button event </h3>
-          
-        <a component="$UI/system/components/justep/button/button" class="btn btn-link"
-          label="js" xid="button49" onClick="showJsSource"> 
-          <i xid="i49"/>  
-          <span xid="span48">js</span> 
-        </a> 
-      <a component="$UI/system/components/justep/button/button" class="btn btn-link" label="源码" xid="button48" onClick="showEventSource" bind-visible="isVisible"> 
-          <i xid="i48" />  
-          <span xid="span47">源码</span> 
-        </a><div xid="buttonEvent"> 
+      <h3 style="height:48px;vertical-align: middle;padding: 8px;display: inline-block;">button event</h3>  
+      <a component="$UI/system/components/justep/button/button" class="btn btn-link"
+        label="js" xid="button49" onClick="showJsSource"> 
+        <i xid="i49"/>  
+        <span xid="span48">js</span> 
+      </a>  
+      <a component="$UI/system/components/justep/button/button" class="btn btn-link"
+        label="源码" xid="button48" onClick="showEventSource" bind-visible="isVisible"> 
+        <i xid="i48"/>  
+        <span xid="span47">源码</span> 
+      </a>
+      <div xid="buttonEvent"> 
         <a component="$UI/system/components/justep/button/button" class="btn btn-default"
           label="看我变化" xid="defaultButton" onClick="buttonChange"> 
           <i xid="i27"/>  
@@ -186,12 +187,12 @@
         </a>  
         <div xid="parent"/> 
       </div>  
-      <h3  style="height:48px;vertical-align: middle;padding: 8px;display: inline-block;">buttonGroup </h3>
-        <a component="$UI/system/components/justep/button/button" class="btn btn-link"
-          label="源码" xid="button46" onClick="showButtonGroupSource" bind-visible="isVisible"> 
-          <i xid="i46"/>  
-          <span xid="span45">源码</span> 
-        </a> 
+      <h3 style="height:48px;vertical-align: middle;padding: 8px;display: inline-block;">buttonGroup</h3>  
+      <a component="$UI/system/components/justep/button/button" class="btn btn-link"
+        label="源码" xid="button46" onClick="showButtonGroupSource" bind-visible="isVisible"> 
+        <i xid="i46"/>  
+        <span xid="span45">源码</span> 
+      </a>  
       <div xid="showButtonGroup"> 
         <p>buttonGroup的css：</p>  
         <div component="$UI/system/components/justep/button/buttonGroup" class="btn-group"
@@ -244,10 +245,10 @@
             <span xid="span3"/> 
           </a> 
         </div> 
-</div> 
+      </div> 
     </div> 
   </div>  
   <div id="aler"/>  
   <span component="$UI/system/components/justep/windowDialog/windowDialog" xid="windowDialog"
-    src="$UI/system/components/justep/common/demo/dialog.w"/> 
+    src="$UI/system/components/justep/common/demo/dialog.w" status="normal"/> 
 </div>

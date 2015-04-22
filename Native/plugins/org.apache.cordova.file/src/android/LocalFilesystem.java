@@ -74,7 +74,7 @@ public class LocalFilesystem extends Filesystem {
 		if (absolutePath != null && absolutePath.startsWith(this.fsRoot)) {
 			return absolutePath.substring(this.fsRoot.length());
 		}
-		return null;
+		return absolutePath;
 	}
 
 	protected LocalFilesystemURL URLforFullPath(String fullPath) {

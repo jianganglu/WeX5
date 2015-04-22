@@ -1,13 +1,12 @@
 /*! 
-* X5 v3 (htttp://www.justep.com) 
-* Copyright 2014 Justep, Inc.
+* WeX5 v3 (htttp://www.justep.com) 
+* Copyright 2015 Justep, Inc.
 * Licensed under Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0) 
 */ 
 define(function(require){
 	require('$UI/system/lib/jquery/transition');
 	
-	var History = require("$UI/system/lib/history/history"),
-		Component = require("$UI/system/lib/base/component"),
+	var Component = require("$UI/system/lib/base/component"),
 		justep = require('$UI/system/lib/justep'),
 		Str = require("$UI/system/lib/base/string"),
 		ViewComponent = require("$UI/system/lib/base/viewComponent"),
@@ -19,47 +18,23 @@ define(function(require){
 	require("$UI/system/components/justep/common/res");
 	require("css!./css/contents").load();
 
-/* html
-
-<div component="$model/UI2/system/components/justep/contents/contents" class="slide-panel" 
-	xid="pages" active="0" slidable="true"> 
-	<div class="panel active" xid="pages-content1">
-		//内容
-	</div>	
-	<div class="panel" xid="pages-content2"> 
-		//内容
-	</div>	
-	<div class="panel" xid="pages-content3"> 
-		//内容
-	</div> 
-</div>
-
-*/
-	
-/*
- * 主要class名称
- * slide-panel panel active left right next prev
- */	
-	
 	var baseCls = 'x-contents';
 
 	var Contents = ViewComponent.extend({
-		mixins:[History],
-		
 		getConfig : function(){
 			return ComponentConfig;
 		},
 		
 		/**
 		 * @event onActiveChange
-		 * @source {SlidePanel}
+		 * @source {Contents}
 		 * @param {Integer} from
 		 * @param {integer} to
 		 * @type {String} 'prev' 'next'
 		 */
 		constructor: function(options){
 			/**
-			 * 当前panel的索引
+			 * 当前content的索引
 			 * @property active
 			 * @type {Integer}
 			 */
@@ -82,10 +57,11 @@ define(function(require){
 			 * @property slidable
 			 * @type {Boolean}
 			 */
-			this.slidable = true;
+			this.slidable = false;
+			
+			this.routable = true;
 			
 			this.callParent(options);
-			
 		},
 		buildTemplate: function(config){
 			//default value
@@ -93,21 +69,21 @@ define(function(require){
 			config.wrap = config.wrap !== undefined? config.wrap : true;
 			config.swipe = config.swipe !== undefined? config.swipe : true;
 			
-			var panels = '';	
+			var contents = '';	
 
 			return Str.format(
 					"<div xid='{0}' class='{1}' component='{2}'>{3}</div>", 
-					config.xid, baseCls, url, panels);
+					config.xid, baseCls, url, contents);
 		},
 		init: function(value, bindingContext){
 			this.callParent(value, bindingContext);
-			History.prototype.constructor.apply(this, arguments);
+			/*History.prototype.constructor.apply(this, arguments);*/
 			var me = this;
 			this.$el = $(this.domNode);
 
 			var m = this.getModel(),
 				xids = [],
-				promises = []; 
+				promises = [];
 			$('>.x-contents-content', this.$el).each(function(){
 				xids.push($(this).attr('xid'));
 			});
@@ -118,44 +94,28 @@ define(function(require){
 				me.to(me.active);
 				me._inited = true;
 			});
-			
-			this.on('historyForward',function(event){
-				var index = this.getActiveIndex();
-				if(index == -1){
-					return true;
-				}else{
-					if(this.to(index+1)){
-						return false;
-					}else{
-						return true;
-					}
-				}
-			});
-			this.on('historyBack',function(event){
-				var index = this.getActiveIndex();
-				if(index == -1){
-					return true;
-				}else{
-					if(location.hash === ""){
-						this.to(0);
-						return false;
-					}
-					if(this.to(index-1)){
-						return false;
-					}else{
-						return true;
-					}
-				}
-			});
 			if(this.swipe){
 				this.supportContentsTouchMove();
 			}
 		},
+		addRouteItem: function($active,$next){
+			if(!this.routable){
+				return;
+			}
+			var activeXid = $active.attr('xid');
+			var nextXid = $next.attr('xid');
+			var $routeState = this.getModel().$routeState;
+			$routeState.removeState(activeXid,'');
+			$routeState.addState(nextXid,'','');
+			var isReplace = this._inited ? false : true;
+			$routeState.publishState(isReplace);
+		},
+		
 		/**
 		 * 是否支持手势滑动
 		 * @method canSwipe
 		 * @param {String} 滑动的方向, prev, next
-		 * @return {Boolean} 
+		 * @return {Boolean}
 		 */
 		canSwipe: function(type){
 			var swipe = this.swipe;
@@ -334,6 +294,7 @@ define(function(require){
 							$active.transform('');
 							$left.transform('');
 							self.contents[leftIndex].fireEvent('onActive', {source : self, index: leftIndex});
+							self.fireEvent('onActiveChanged', {source : self, to: leftIndex, from: activeIndex, type: "next"});
 							self.getModel().fireEvent('reflow', $left.get(0));
 						});
 						self.fireEvent('onActiveChange', {source : self, to: leftIndex, from: activeIndex, type: "next"});
@@ -354,6 +315,7 @@ define(function(require){
 							$active.transform('');
 							$right.transform('');
 							self.contents[rightIndex].fireEvent('onActive', {source : self, index: rightIndex});
+							self.fireEvent('onActiveChanged', {source : self, to: leftIndex, from: activeIndex, type: "next"});
 							self.getModel().fireEvent('reflow', $right.get(0));
 						});
 						self.fireEvent('onActiveChange', {source : self, to: rightIndex, from: activeIndex, type: "next"});
@@ -373,7 +335,7 @@ define(function(require){
 			});
 		},
 		/**
-		 * 获取当前活动panel的索引
+		 * 获取当前活动content的索引
 		 * @method getActiveIndex 
 		 * @returns {Integer}
 		 */
@@ -383,7 +345,7 @@ define(function(require){
 			return $(">.x-contents-content", this.$el).index(this.$active);
 		},
 		/**
-		 * 通过名字获取panel的索引
+		 * 通过名字获取content的索引
 		 * @method getIndexByXid
 		 * @param {String} xid
 		 * @return {String}
@@ -400,7 +362,7 @@ define(function(require){
 			return this.getIndexByXid(xid) != -1;
 		},
 		/**
-		 * 获取当前激活panel的xid
+		 * 获取当前激活content的xid
 		 * @method getActiveXid
 		 * @returns {String}
 		 */
@@ -409,7 +371,7 @@ define(function(require){
 			return this.$active.attr('xid');
 		},
 		/**
-		 * panel切换到指定的位置
+		 * content切换到指定的位置
 		 * @method to
 		 * @param {Integer|String} content的xid或者索引
 		 */
@@ -427,8 +389,12 @@ define(function(require){
 				//return this.$el.one('slide.container', function () { that.to(pos); });//TODO:event
 			
 			if (activeIndex == pos){
-				if(!this._inited)
+				if(!this._inited){
 					this.contents[pos] && this.contents[pos].fireEvent('onActive', {source : this, index: pos});
+					var $active = this.$el.find('>.x-contents-content.active');
+					this.addRouteItem($active,$active);
+				}
+				
 				fn && fn();
 				return;	
 			} 
@@ -436,7 +402,7 @@ define(function(require){
 			return this.slide(pos > activeIndex ? 'next' : 'prev', $($(">.x-contents-content", this.$el)[pos]), fn);
 		},
 		/**
-		 * 切换到下一个panel
+		 * 切换到下一个content
 		 * @method next
 		 */
 		next: function (fn) {
@@ -444,7 +410,7 @@ define(function(require){
 			return this.slide('next', null, fn);
 		},
 		/**
-		 * 切换到前一个panel
+		 * 切换到前一个content
 		 * @method prev
 		 */
 		prev: function (fn) {
@@ -452,7 +418,7 @@ define(function(require){
 			return this.slide('prev', null, fn);
 		},
 		/**
-		 * 切换到指定panel, 同时可以指定切换的方向
+		 * 切换到指定content, 同时可以指定切换的方向
 		 * @method slide 
 		 * @param {String} 切换的方向, 'prev'或'next'
 		 * @param {Integer} 目标的索引
@@ -492,10 +458,13 @@ define(function(require){
 						$next.addClass('active').removeClass('x-left-to-center');
 						$active.addClass('x-content-on-right').removeClass('active x-center-to-right');
 						that.sliding = false;
+						that.active = pos;
 						that.getModel().fireEvent('reflow', $next.get(0));
 						setTimeout(function () { 
 							that.$el.trigger('slide.container');
+							that.fireEvent('onActiveChanged', {source : this, to: pos, from: currentPos, type: type});
 							fn && fn();
+							that.addRouteItem($active,$next);
 						}, 0);
 					});
 					$next.addClass("x-left-to-center").removeClass('x-content-on-right x-content-on-left');
@@ -505,10 +474,13 @@ define(function(require){
 						$next.addClass('active').removeClass('x-right-to-center');
 						$active.addClass('x-content-on-left').removeClass('active x-center-to-left');
 						that.sliding = false;
+						that.active = pos;
 						that.getModel().fireEvent('reflow', $next.get(0));
 						setTimeout(function () { 
 							that.$el.trigger('slide.container');
+							that.fireEvent('onActiveChanged', {source : this, to: pos, from: currentPos, type: type});
 							fn && fn();
+							that.addRouteItem($active,$next);
 						}, 0);
 					});
 					$next.addClass("x-right-to-center").removeClass('x-content-on-right x-content-on-left');
@@ -517,30 +489,27 @@ define(function(require){
 			} else {
 				this.$el.trigger(e);
 				if (e.isDefaultPrevented()) return;
-				$active.removeClass('active');
-				$next.addClass('active');
+				
+				if(direction == "right"){
+					$active.addClass('x-content-on-right').removeClass('active');
+				}else{
+					$active.addClass('x-content-on-left').removeClass('active');
+				}
+				$next.removeClass('x-content-on-left x-content-on-right').addClass('active');
 				this.sliding = false;
+				that.active = pos;
 				this.$el.trigger('slide.container');
+				this.fireEvent('onActiveChanged', {source : this, to: pos, from: currentPos, type: type});
 				fn && fn();
+				that.addRouteItem($active,$next);
 				this.getModel().fireEvent('reflow', $next.get(0));
 			}
-			this._pushHistory(pos);
+			
 			return this;
 		},
-
-		_pushHistory: function(pos){
-			if(!justep.Browser.IE6 && !justep.Browser.IE7 && !justep.Browser.IE8)
-				if($('.x-contents').find(this.$domNode).length === 0){
-					if(this._inited){
-						this.pushState({
-							from : this.getActiveIndex(),
-							to : pos
-						},null,'#page' + pos);
-					}
-				} 
-		},
+		
 		/**
-		 * 添加panel
+		 * 添加content
 		 * @method add
 		 * @param {Object}config
 		 */
@@ -552,7 +521,7 @@ define(function(require){
 			return new Content(config);
 		},
 		/**
-		 * 删除panel 
+		 * 删除content 
 		 * @method remove
 		 * @param {Integer} index
 		 */
@@ -567,15 +536,15 @@ define(function(require){
 			if(length>0){
 				var me = this;
 				this.to(to || 0, function(){
-					var centent = me.contents[index];
-					justep.Array.remove(me.contents, centent);
-					centent.destroy();
+					var content = me.contents[index];
+					justep.Array.remove(me.contents, content);
+					Component.removeComponent(content);
 				});
 			}
 			else{
-				var centent = this.contents[index];
-				justep.Array.remove(this.contents, centent);
-				centent.destroy();
+				var content = this.contents[index];
+				justep.Array.remove(this.contents, content);
+				Component.removeComponent(content);
 				delete this.active;
 			}
 		},
@@ -584,13 +553,21 @@ define(function(require){
 			for(var i in this.contents){
 				if(i == this.active) continue;
 				var content = this.contents[i];
-				content.destroy();
+				Component.removeComponent(content);
 			}
 			this.contents = [current];
 			this.active = 0;
 		},
+		removeAll: function(){
+			for(var i in this.contents){
+				var content = this.contents[i];
+				Component.removeComponent(content);
+			}
+			this.contents = [];
+			this.active = -1;
+		},
 		/**
-		 * 获取panel的个数
+		 * 获取content的个数
 		 * @method getLength
 		 * @returns
 		 */
@@ -602,12 +579,14 @@ define(function(require){
 			case 'slidable':
 				if(typeof value == 'string')
 					value = value == 'true';
-				this.slidable = !!value; 
+				this.slidable = !!value;
+				if(this.slidable)
+					$(this.domNode).addClass('slidable');
 				break;
 			}
 		},
 		/**
-		 * 获取panel对象
+		 * 获取content对象
 		 * @method getContent
 		 * @param {String} xid
 		 * @return {Content}
@@ -618,13 +597,11 @@ define(function(require){
 					return this.contents[i]; 
 			}
 		},
-		loadContent: function(xid, url, fn){
-			var content = this.getContent(xid);
-			if(!content){
-				content = this.add({xid: xid});
+		dispose: function(){
+			for(var i = this.contents.length-1; i>=0; i-- ){
+				Component.removeComponent(this.contents[i]);
 			}
-			//this.to(xid,function);
-			content.load(url, fn);
+			this.contents = null;
 		}
 	});
 	

@@ -54,7 +54,9 @@
 		<properties>
 			<property name="xid" text="编号" required="false"/>  
 			<property name="visible" text="是否可见" default-value="true" editor-ref="booleanList" data-type="boolean"/>
+			<!-- 
 			<property name="height" text="高度" data-type="integer" default-value="48"/>
+			 -->
 			<property name="class"  text="class" editor-ref="classSelector">
 				<editor-parameter><![CDATA[
 				{
@@ -107,7 +109,9 @@
 		<properties>
 			<property name="xid" text="编号" required="false"/>  
 			<property name="visible" text="是否可见" default-value="true" editor-ref="booleanList" data-type="boolean"/>
+			<!-- 
 			<property name="height" text="高度" data-type="integer" default-value="48"/>
+			 -->
 			<property name="class"  text="class" editor-ref="classSelector">
 				<editor-parameter><![CDATA[
 				{

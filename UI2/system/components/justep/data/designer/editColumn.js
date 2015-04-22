@@ -1,6 +1,6 @@
 /*! 
-* X5 v3 (htttp://www.justep.com) 
-* Copyright 2014 Justep, Inc.
+* WeX5 v3 (htttp://www.justep.com) 
+* Copyright 2015 Justep, Inc.
 * Licensed under Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0) 
 */ 
 define(function(require) {
@@ -29,8 +29,9 @@ define(function(require) {
 		data.each(function(param){
 			var name = data.getValue('name', param.row),
 				type = data.getValue('type', param.row),
-				label = data.getValue('displayName', param.row);
-				def.push('<column name="'+name+'" type="'+type+'" label="'+label+'"/>');
+				label = data.getValue('displayName', param.row),
+				xid = data.getValue('xid', param.row);
+				def.push('<column '+(xid?('xid="'+xid+'"'):'')+' name="'+name+'" type="'+type+'"'+((label===undefined || label===null)?'':(' label="'+label+'"'))+'/>');
 				if(data.getValue('isIDColumn', param.row)) idColumn = name;
 		});
 		return {def:def,idColumn:idColumn}; 
@@ -41,25 +42,18 @@ define(function(require) {
 			var $data = $(XML.fromString(xmlStr).documentElement), data = this.comp('data'), idColumn=$data.attr('idColumn');
 			$data.children('column').each(function(){
 				var $col = $(this);
-				data.newData({
-					defaultValues : [ {
+				data.add({
+						xid : $col.attr('xid'),
 						name : $col.attr('name'),
 						type : $col.attr('type'),
 						displayName : $col.attr('label'),
 						isIDColumn: $col.attr('name')!==idColumn?false:true
-					} ]
-				});
+					});
 			});
 			data.first();
 		}
 	};
 	
-	//创建下拉选择type
-	Model.prototype.gridColCreateEditor = function(event){
-		var list = ['String','Integer','Float','Boolean','Date','Time','DateTime'];
-		event.editor.jqxDropDownList({autoDropDownHeight: true, source: list});
-    };
-                        
 	Model.prototype.modelLoad = function(event) {
 		var self = this;
 		//window.setTimeout(function(){
@@ -69,30 +63,35 @@ define(function(require) {
 		//}, 1000);
 	};
 
-	Model.prototype.addClick = function(event) {
-		var data = this.comp('data'), col = 'col' + data.getCount();
-		data.newData({
-			defaultValues : [ {
+	Model.prototype.removeRow = function(up){
+		var data = this.comp('data'), row1 = data.getCurrentRow(true);
+		var index = data.getRowIndex(row1);
+		index += (up?-1:1);
+		if(index<0 || index>=data.getCount()) return;
+		var datas = data.datas.peek();
+		var row2 = datas[index];
+		data.exchangeRow(row1,row2);
+	};
+
+	
+	Model.prototype.dataCustomNew = function(event){
+		var data = event.source, col = 'col' + data.getCount();
+		data.add({
 				name : col,
-				type : 'String',
-				displayName : col
-			} ]
+				type : 'String'
 		});
 	};
 
-	Model.prototype.deleteClick = function(event){
-		var data = this.comp('data');
-		data.deleteData();
+	
+	Model.prototype.upClick = function(event){
+		this.removeRow(true);
 	};
 
-	Model.prototype.dataValueChange = function(event){
-		if(event.col=='isIDColumn' && event.newValue){
-			var data = event.source;
-			data.each(function(param){
-				data.setValue('isIDColumn', false, param.row);
-			});
-		}
+	
+	Model.prototype.downClick = function(event){
+		this.removeRow(false);
 	};
 
+	
 	return Model;
 });

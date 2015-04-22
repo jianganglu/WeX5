@@ -6,11 +6,11 @@
 <!-- 		<script type="text/javascript" src="../common/json.js"></script> -->
 		<script type="text/javascript" src="../common/jquery.js"></script>
 
-       <script type="text/javascript" src="../common/baseShapeVML.js"></script>
+<!--        <script type="text/javascript" src="../common/baseShapeVML.js"></script> -->
  
-       <script type="text/javascript" src="../common/baseShapeSVG.js"></script> 
+<!--        <script type="text/javascript" src="../common/baseShapeSVG.js"></script>  -->
  
-		  <script type="text/javascript" src="processDesigner.js?version=1414747205160"></script> 
+<!-- 	   <script type="text/javascript" src="processDesigner.js?version=1414747205160"></script>  -->
  
 		  
 		<script type="text/javascript" src="process.min.js"></script>
@@ -249,48 +249,64 @@
         } 
         
         var socketServerUrl = getUrlParam("serverUrl");
+        var socket;
+        var sockedOpened = false;
+        
+        function createWebSocket(isReconnection){
+        	
+        	socket = new WebSocket(socketServerUrl); 
+            // 打开Socket 
+            socket.onopen = function(event) { 
+              sockedOpened = true;
+              // 监听消息
+              socket.onmessage = function(event) { 
+           
+            	  var data ;
+            	  try{
+            		 data =  eval("(" + event.data + ")");//typeof data=='string'?eval("(" + event.data + ")"):event.data;
+            	  }catch(e){
+            		 // alert("出错啦："+event.data);
+            	  }
+            	  if(data && data.eventType == 'getInitData'){
+            		  var initData = data.initData;
+
+//            		  setTimeout(function(){
+            			  loadData(initData);
+//            		  },2000);
+            	  } else{
+            		 // alert(data);
+//            		  setTimeout(function(){
+            			  if(data && typeof data !='string'){
+            				  data = JSON.stringify(data);
+            			  }
+            			  socket.send(data||"{}");
+//            		  },2000);
+            		  
+            	  }
+              }; 
+
+              // 监听Socket的关闭
+              socket.onclose = function(event) { 
+                socket = null;
+                sockedOpened = false;
+    			console.log('Client notified socket has closed', event);
+    			createWebSocket(true);
+              }; 
+              
+              if(!isReconnection){
+              		socket.send(JSON.stringify({eventType:'getInitData',filePath:getUrlParam("filePath")}));             	  
+              }else{
+            	  socket.send(JSON.stringify({eventType:'reConnection',filePath:getUrlParam("filePath")}));        
+              }
+              // 关闭Socket.... 
+              //socket.close() 
+            };
+        }
      // 创建一个Socket实例
-        var socket = new WebSocket(socketServerUrl); 
-        // 打开Socket 
-        socket.onopen = function(event) { 
+        //var socket = new WebSocket(socketServerUrl); 
 
-          // 监听消息
-          socket.onmessage = function(event) { 
-       
-        	  var data ;
-        	  try{
-        		 data =  eval("(" + event.data + ")");//typeof data=='string'?eval("(" + event.data + ")"):event.data;
-        	  }catch(e){
-        		 // alert("出错啦："+event.data);
-        	  }
-        	  if(data && data.eventType == 'getInitData'){
-        		  var initData = data.initData;
-
-//        		  setTimeout(function(){
-        			  loadData(initData);
-//        		  },2000);
-        	  } else{
-        		 // alert(data);
-//        		  setTimeout(function(){
-        			  if(data && typeof data !='string'){
-        				  data = JSON.stringify(data);
-        			  }
-        			  socket.send(data||"{}");
-//        		  },2000);
-        		  
-        	  }
-          }; 
-
-          // 监听Socket的关闭
-          socket.onclose = function(event) { 
-            console.log('Client notified socket has closed',event); 
-          }; 
-          
-          socket.send(JSON.stringify({eventType:'getInitData',filePath:getUrlParam("filePath")})); 
-          // 关闭Socket.... 
-          //socket.close() 
-        };
-
+		createWebSocket();
+		
         function callJava(data){ 
         	setTimeout(function(){
         	   socket.send(data);        		

@@ -8,13 +8,20 @@
 	background: @body-bg;
 }
 .x-control-group-title{
-	background-color: @navbar-default-bg;
+	background-color: @panel-default-heading-bg;
 	margin-bottom: 0.625em;
 	padding: 0.625em;
 	border-radius:@navbar-border-radius;
-	color: @navbar-default-link-color;
+	color: @panel-default-text;
 	font-weight: bold;
 	font-size: 1.125em;
+	cursor: pointer;
+}
+
+.x-control-group{
+	&.x-collapsed .x-control-group-title{
+		margin-bottom:0;
+	}
 }
 
 .x-control-group-title-primary{

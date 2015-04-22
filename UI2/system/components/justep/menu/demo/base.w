@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <div xmlns="http://www.w3.org/1999/xhtml" xid="window" class="window" component="$UI/system/components/justep/window/window">  
-  <div component="$UI/system/components/justep/model/model" xid="model" style="height:auto;left:277px;top:35px;"/>  
+  <div component="$UI/system/components/justep/model/model" xid="model" style="height:auto;left:277px;top:35px;" onLoad="modelLoad"/>  
   <div component="$UI/system/components/justep/panel/panel" class="x-panel x-full"
     xid="panel1"> 
     <div class="x-panel-top" xid="top1"> 
@@ -18,12 +18,14 @@
         <div class="x-titlebar-right reverse" xid="div3"/> 
       </div> 
     </div>  
-    <div class="x-panel-content" xid="content1"> 
+    <div class="x-panel-content" xid="content1" style="padding:8.75px"> 
+      <h3>menu
       <a component="$UI/system/components/justep/button/button" class="btn btn-link"
         label="源码" xid="button3" onClick="showMenuSource" bind-visible="isVisible"> 
         <i xid="i3"/>  
         <span xid="span3">源码</span> 
-      </a>  
+      </a>
+      </h3>  
       <p>菜单组件,可放置一组菜单选项</p>  
       <div> 
         <ul component="$UI/system/components/justep/menu/menu" class="x-menu dropdown-menu"
@@ -55,5 +57,5 @@
     </div> 
   </div>  
   <span component="$UI/system/components/justep/windowDialog/windowDialog" xid="windowDialog"
-    src="$UI/system/components/justep/common/demo/dialog.w"/> 
+    src="$UI/system/components/justep/common/demo/dialog.w" status="normal"/> 
 </div>

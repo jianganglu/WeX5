@@ -5,7 +5,7 @@
   <ul component="$UI/system/components/bootstrap/navs/navs" class="nav nav-tabs"
     xid="navs1"> 
     <li role="presentation" class="active" xid="li1"> 
-      <a href="javascript:void(0)" xid="a1">Item</a> 
+      <a xid="a1">Item</a> 
     </li>  
     <li xid="li2"> 
       <a xid="a2">Item</a>

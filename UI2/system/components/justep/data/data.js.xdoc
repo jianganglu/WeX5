@@ -19,15 +19,37 @@
 /**
 	@name Data.Row#parent
 	@function
-	@type Data.Row 
+	@returns {Data.Row} 
 	@description 行数据的parent对象，当是树形数据时有效
+ */ 
+
+/**
+	@name Data.Row#children
+	@function
+	@returns {List} 
+	@description 获取行数据的子数据，但没有时返回undefined
  */ 
 
 /**
 	@name Data.Row#hasChildren
 	@function
-	@type Boolean 
+	@returns {Boolean} 
 	@description 行数据是否有子数据
+ */ 
+
+/**
+	@name Data.Row#index
+	@function
+	@returns {int} 
+	@description 行数据索引
+ */ 
+
+/**
+	@name Data.Row#assign
+	@function
+	@param	{Data.Row} row 行对象
+	@param	{List<string>} cols 需要赋值的列名数组,缺省全部列
+	@description 整行赋值
  */ 
 
 /**
@@ -48,6 +70,7 @@
  @function
  @param	{String} col 列名
  @param	{String} value 值，可选参数，当没有这个参数时为取值
+ @returns {Object}
  @description 对应列取值或者赋值
  @example
   <xmp>
@@ -58,9 +81,18 @@
 */
 
 /**
+ @name Data.Row#oval
+ @function
+ @param	{String} col 列名
+ @returns {Object}
+ @description 保存前获取修改后列原值,保存后同val取得值
+*/
+
+/**
  @name Data.Row#label
  @function
  @param	{String} col 列名
+ @returns {String}
  @description 对应列的显示名称，主要用于感知组件的bind
  @example
   <xmp>
@@ -72,6 +104,7 @@
 /**
  @name Data.Row#getID
  @function
+ @returns {String}
  @description 获取当前行的ID
 */
 
@@ -115,7 +148,7 @@
 /**
  @name Data#count
  @function
- @param	{function} filterCallback 过滤的回调函数，需要返回boolean，为true时行有效，回调函数给出参数event，{'source':data对象，row：行}，缺省全部有效
+ @param	{function} filterCallback 过滤的回调函数，需要返回boolean，为true时行有效，回调函数给出参数event，{'data':data对象，row：行}，缺省全部有效
  @returns {number}
  @description 获取data的记录数，函数返回的是前端当前已经加载的数据的记录数，不包含分页还没有加载到前端的数据
  @example
@@ -134,7 +167,7 @@
  @name Data#sum
  @function
  @param	{string} column <b>[required]</b>进行统计的列
- @param	{function} filterCallback 过滤的回调函数，需要返回boolean，为true时行有效，回调函数给出参数event，{'source':data对象，row：行}，缺省全部有效
+ @param	{function} filterCallback 过滤的回调函数，需要返回boolean，为true时行有效，回调函数给出参数event，{'data':data对象，row：行}，缺省全部有效
  @returns {number}
  @description 获取data中指定列的合计，函数返回的是前端当前已经加载记录的合计，不包含分页还没有加载到前端的数据，注意：返回的数值精度受js的number精度影响
  @example
@@ -153,7 +186,7 @@
  @name Data#avg
  @function
  @param	{string} column <b>[required]</b>进行统计的列
- @param	{function} filterCallback 过滤的回调函数，需要返回boolean，为true时行有效，回调函数给出参数event，{'source':data对象，row：行}，缺省全部有效
+ @param	{function} filterCallback 过滤的回调函数，需要返回boolean，为true时行有效，回调函数给出参数event，{'data':data对象，row：行}，缺省全部有效
  @returns {number}
  @description 获取data中指定列的平均值，函数返回的是前端当前已经加载记录的平均值，不包含分页还没有加载到前端的数据，注意：返回的数值精度受js的number精度影响
  @example
@@ -172,7 +205,7 @@
  @name Data#min
  @function
  @param	{string} column <b>[required]</b>进行统计的列
- @param	{function} filterCallback 过滤的回调函数，需要返回boolean，为true时行有效，回调函数给出参数event，{'source':data对象，row：行}，缺省全部有效
+ @param	{function} filterCallback 过滤的回调函数，需要返回boolean，为true时行有效，回调函数给出参数event，{'data':data对象，row：行}，缺省全部有效
  @returns {number}
  @description 获取data中指定列的最小值，函数返回的是前端当前已经加载记录的最小值，不包含分页还没有加载到前端的数据，注意：返回的数值精度受js的number精度影响
  @example
@@ -191,7 +224,7 @@
  @name Data#max
  @function
  @param	{string} column <b>[required]</b>进行统计的列
- @param	{function} filterCallback 过滤的回调函数，需要返回boolean，为true时行有效，回调函数给出参数event，{'source':data对象，row：行}，缺省全部有效
+ @param	{function} filterCallback 过滤的回调函数，需要返回boolean，为true时行有效，回调函数给出参数event，{'data':data对象，row：行}，缺省全部有效
  @returns {number}
  @description 获取data中指定列的最大值，函数返回的是前端当前已经加载记录的最大值，不包含分页还没有加载到前端的数据，注意：返回的数值精度受js的number精度影响
  @example
@@ -426,6 +459,7 @@
 /**
  @name Data#getCurrentRow
  @function
+ @param {boolean} peek，不影响bind计算链，即想获取当前行但是又不感知当前行变化时可以使用getCurrentRow(true)获取当前行  
  @description 获取data当前的行
 */
 
@@ -457,12 +491,19 @@
  */
 
 /**
+ @name Data#getRowIndex
+ @function
+ @param {Data.Row} row，行对象  
+ @description 获取data的行索引
+ */
+
+/**
  @name Data#loadData
  @function
  @param {object} data <b>[required]</b>需要加载的Json数据，格式同biz层序列化格式
  @param {boolean} append 数据增加模式 true/false
  @param {Data.Row} parent 树形数据时增加数据的父，为null时数据加载到根下
- @param {integer} index 加载数据的插入位置,缺省数据为追加模式
+ @param {integer} index 加载数据的插入位置,缺省数据插入到末尾
  @description 加载数据
 */
 
@@ -528,12 +569,38 @@
 */
 
 /**
+ @name Data#getAggregateValue
+ @function
+ @param {string} col <b>[required]</b>列名称
+ @returns {object}
+ @description 通过统计列名获取统计值，统计值来源于后端queryAction的aggregate参数定义，详细请参考queryAction
+ @example
+ <xmp>
+  注意：
+  1、返回都是字符串类型
+  2、统计值更新依赖refreshData，data设置数据分页加载取后续页数据时不会刺激统计计算更新
+  后端queryAction的aggregate参数定义：count(SA_OPPerson) as personCount
+ //前端js中获取
+ this.comp('mainData').getAggregateValue('personCount')
+ </xmp>
+*/
+
+/**
  @name Data#getValue
  @function
  @param {string} col <b>[required]</b>列名称
  @param {Data.Row} row 行，默认：当前行
  @returns {object}
  @description 通过列名和行获取列的值
+*/
+
+/**
+ @name Data#getOriginalValue
+ @function
+ @param {string} col <b>[required]</b>列名称
+ @param {Data.Row} row 行，默认：当前行
+ @returns {object}
+ @description 通过列名和行获取列的原值，保存前获取修改后列原值,保存后同getValue取的值
 */
 
 /**
@@ -654,10 +721,10 @@
  <xmp>
  //查找fName中包含"李"的提一条数据
  var rows = this.comp('mainData').find(['fName'],['李'],true,true,true);
- if(rows.length()==0) alert('没有符合条件数据');
+ if(rows.length==0) alert('没有符合条件数据');
  //查找fName="李四"，fAge=18的数据
  var rows = this.comp('mainData').find(['fName','fAge'],['李',18]);
- if(rows.length()==0) alert('没有符合条件数据');
+ if(rows.length==0) alert('没有符合条件数据');
  </xmp>
 */
 
@@ -794,6 +861,12 @@
 	 	}
  	 });
  </xmp>		
+*/
+
+/**
+ @name Data#deleteAllData
+ @function
+ @description 删除data所有数据，感知directDeleteMode和confirmDelete属性设置
 */
 
 /**
@@ -949,6 +1022,7 @@
 /**
  @name Data#getCount
  @function
+ @param {Data.Row} parent 树形数据的父
  @returns {integer}
  @description 获取data记录数
 */
@@ -1015,6 +1089,14 @@
 */
 
 /**
+ @name Data#exchangeRow
+ @function
+ @param {Data.Row} row1 <b>[required]</b>行1
+ @param {Data.Row} row2 <b>[required]</b>行2 
+ @description 数据行进行交换位置
+*/
+
+/**
  @name Data#getInvalidInfo
  @function
  @returns {string}
@@ -1065,7 +1147,7 @@
 		"source" : 组件的js对象,
 		"changedSource" ：触发变化的组件的js对象，当从data触发时返回从data对象,
 		"selfChanged" : 是否自身变化，false：从data触发的变化,
-		"type" : 触发变化的类型，包括：new、delete、refresh、valueChanged、clear，其他参数根据触发类型不同给出不同参数，参考onAfterNew等事件参数
+		"type" : 触发变化的类型，包括：new、delete、refresh、valueChanged、clear、slaveDataChanged、exchangeRow，其他参数根据触发类型不同给出不同参数，参考onAfterNew等事件参数
 	}
 	</xmp>
 */
@@ -1149,23 +1231,6 @@
 */
 
 /**
-	@name Data#onNewError
-	@event
-	@description <b>[回调型事件]</b>新增数据失败
-	@param {object} event 
-	<br/><b>结构如下：</b>
-	<xmp> 
-	{
-		"source" : 组件的js对象,
-		"errorType" : 'server',
-		"errorNode" : 错误信息,
-		"httpError" : http请求失败(true/false),
-		"httpState" : http请求返回码
-	}
-	</xmp>
-*/
-
-/**
 	@name Data#onBeforeNew
 	@event
 	@description <b>[回调型事件]</b>业务数据新增前
@@ -1215,24 +1280,8 @@
 	<xmp> 
 	{
 		"source" : 组件的js对象,
+		"option" : 新增时传入的option参数，包括：parent,defaultValues
 		"rows" : {List} 新增的行数组
-	}
-	</xmp>	
-*/
-
-/**
-	@name Data#onDeleteError
-	@event
-	@description <b>[回调型事件]</b>直接删除数据失败
-	@param {object} event 
-	<br/><b>结构如下：</b>
-	<xmp> 
-	{
-		"source" : 组件的js对象,
-		"errorType" : 'server',
-		"errorNode" : 错误信息,
-		"httpError" : http请求失败(true/false),
-		"httpState" : http请求返回码
 	}
 	</xmp>	
 */
@@ -1277,23 +1326,6 @@
 	{
 		"source" : 组件的js对象,
 		"deleteRows" : 删除的行数组
-	}
-	</xmp>	
-*/
-
-/**
-	@name Data#onRefreshError
-	@event
-	@description <b>[回调型事件]</b>刷新数据失败
-	@param {object} event 
-	<br/><b>结构如下：</b>
-	<xmp> 
-	{
-		"source" : 组件的js对象,
-		"errorType" : 'server',
-		"errorNode" : 错误信息,
-		"httpError" : http请求失败(true/false),
-		"httpState" : http请求返回码
 	}
 	</xmp>	
 */
@@ -1348,23 +1380,6 @@
 */
 
 /**
-	@name Data#onSaveError
-	@event
-	@description <b>[回调型事件]</b>保存数据失败
-	@param {object} event 
-	<br/><b>结构如下：</b>
-	<xmp> 
-	{
-		"source" : 组件的js对象,
-		"errorType" : 'server',
-		"errorNode" : 错误信息,
-		"httpError" : http请求失败(true/false),
-		"httpState" : http请求返回码
-	}
-	</xmp>	
-*/
-
-/**
 	@name Data#onBeforeSave
 	@event
 	@description <b>[回调型事件]</b>业务数据保存前，事件在批事务启动后触发，写在这个事件里的biz action请求将在一个批操作完成
@@ -1374,6 +1389,7 @@
 	{
 		"source" : 组件的js对象,
 		"cancel" : 可修改，设置为true后中断当前保存动作
+		"options" : 保存时给入的参数
 	}
 	</xmp>	
 */
@@ -1388,6 +1404,7 @@
 	{
 		"source":组件的js对象,
 		"cancel" : 可修改，设置为true后中断当前保存动作
+		"options" : 保存时给入的参数
 	}
 	</xmp>	
 */
@@ -1402,6 +1419,7 @@
 	{
 		"source" : 组件的js对象, 
 		"cancel" : 可修改，设置为true后中断当前保存动作
+		"options" : 保存时给入的参数
 	}
 	</xmp>	
 */
@@ -1428,6 +1446,22 @@
 */
 
 /**
+ @name Data#newChild
+ @operation
+ @see Data#newData
+ @description 新增子数据
+ @returns {void}
+*/
+
+/**
+ @name Data#newBrother
+ @operation
+ @see Data#newData
+ @description 新增同级数据
+ @returns {void}
+*/
+
+/**
  @name Data#save
  @operation
  @see Data#saveData
@@ -1439,7 +1473,7 @@
  @name Data#delete
  @operation
  @see Data#deleteData
- @param {List<Data.Row|Data.Row>} 删除的行或者行数组，缺省为当前行
+ @param {List<Data.Row>|Data.Row} 删除的行或者行数组，缺省为当前行
  @description 删除数据
  @returns {void}
 */
@@ -1481,6 +1515,48 @@
 */
 
 /**
+ @name Data#loadPage
+ @operation
+ @description 加载页数据，当设置limit有效
+ @returns {void}
+*/
+
+/**
+ @name Data#firstPage
+ @operation
+ @description 加载第一页数据，当设置limit有效
+ @returns {void}
+*/
+
+/**
+ @name Data#nextPage
+ @operation
+ @description 加载下一页数据，当设置limit有效
+ @returns {void}
+*/
+
+/**
+ @name Data#prevPage
+ @operation
+ @description 加载前一页数据，当设置limit有效
+ @returns {void}
+*/
+
+/**
+ @name Data#lastPage
+ @operation
+ @description 加载最后一页数据，当设置limit有效
+ @returns {void}
+*/
+
+/**
+ @name Data#loadAllPage
+ @operation
+ @description 加载剩余所有数据，当设置limit有效
+ @returns {void}
+*/
+
+/**
  @name Data#loadNextPage
  @operation
  @description 加载下页数据，当设置limit有效
@@ -1492,6 +1568,25 @@
  @operation
  @description 加载剩余所有数据，当设置limit有效
  @returns {void}
+*/
+
+/**
+	@name Data#treeOption                                                                                   
+	@attribute 
+	@description 树参数
+	@see Data#getTreeOption
+	@example
+	<b>包括属性：</b>
+		parentRelation <b>[attribute]</b> 父关系，形成父子树的父关系
+		rootFilter <b>[attribute]</b> 根过滤条件，当设置时树形数据将按节点加载数据
+		delayLoad <b>[attribute]</b> 延迟数据加载，默认值为true
+		nodeKindRelation <b>[attribute]</b> 节点类型关系，data操作时使用指定relation自动记录是否叶子节点信息
+	<b>xml格式：</b>
+	<xmp>
+		<treeOption parentRelation="" delayLoad="" rootFilter=""
+			nodeKindRelation=""
+			nodeLevelRelation="" />
+	</xmp>
 */
 
 /**

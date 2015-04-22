@@ -1,6 +1,6 @@
 /*! 
-* X5 v3 (htttp://www.justep.com) 
-* Copyright 2014 Justep, Inc.
+* WeX5 v3 (htttp://www.justep.com) 
+* Copyright 2015 Justep, Inc.
 * Licensed under Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0) 
 */ 
 define(function(require) {
@@ -39,17 +39,18 @@ define(function(require) {
 		var id = "__justepErrorDialog__";
 		var node = $("#" + id)[0];
 		if (!node){
+			/*<span style='font-weight:bold'>"+msgLabel+"</span>*/
 			var content = "	<div class='modal' style='z-index:30000' id='"+ id +"'>" +
 						"		<div class='modal-dialog'>" +
 						"			<div class='modal-content'>" +
 						"				<div class='modal-header'>" +
 						"					<h4>" + titleLabel + "</h4>" +
 						"				</div>" +
-						"				<div class='modal-body'>" +
-						"					<div class='x-error-message'><span style='font-weight:bold'>"+msgLabel+"</span><span style='word-wrap: break-word;word-break: break-all;' class='x-error-message-body'/></div>" +
+						"				<div class='modal-body' style='overflow:auto;max-height:400px'>" +
+						"					<div class='x-error-message'><span style='word-wrap: break-word;word-break: break-all;' class='x-error-message-body'/></div>" +
 						"					<div class='x-error-code'><span style='font-weight:bold'>"+codeLabel+"</span><span class='x-error-code-body'/></div>" +
 						"					<div class='x-error-reason'><span style='font-weight:bold'>"+reasonLabel+"</span><span class='x-error-reason-body'/></div>" +
-						"					<div><a href='javascript:void(0)' class='x-error-show-detail'>"+showDetailLabel+"</a></div>" +
+						"					<div><a  class='x-error-show-detail'>"+showDetailLabel+"</a></div>" +
 						"					<div class='x-error-stack' style='word-wrap: break-word;'/>" +
 						"				</div>" +
 						"				<div class='modal-footer'>" +
@@ -62,6 +63,9 @@ define(function(require) {
 			
 			var $node = $(content);
 			$("#applicationHost").append($node);
+			if (!(window.__justep && window.__justep.isDebug)){
+				$(".x-error-show-detail").hide();
+			}
 			$node.find(".x-error-close").on("click", function(){
 				$node.hide();
 			});
@@ -104,7 +108,15 @@ define(function(require) {
 		this.$domNode.show();
 	};
 	
-	
+
+	function getError(err){
+		var msg = err.message || "";
+		try{
+			return JSON.parse(msg);
+		}catch(data){
+			return null;
+		}
+	}
 
 	window.onerror = function(){
 		var err = null;
@@ -116,28 +128,33 @@ define(function(require) {
 		}
 		var data = {};
 		if (err){
-			var content = getServerError(err);
-			if (content){
-				//server error
-				data.server = JSON.parse(content);
-				data.client = {};
-				data.client.message = (err.message||"").replace(justep.Error.SERVER_ERROR_START, "").replace(justep.Error.SERVER_ERROR_END, "");
-				data.client.stack = (err.stack||"").replace(justep.Error.SERVER_ERROR_START, "").replace(justep.Error.SERVER_ERROR_END, "");
-				
+			var json = getError(err);
+			if (json){
+				data.server = json;
 			}else{
-				content = getClientError(err);
+				var content = getServerError(err);
 				if (content){
-					//client error
-					data.client = JSON.parse(content);
-					if (!data.client.stack){
-						data.client.stack = (err.stack||"");
-					}
-					data.client.stack = data.client.stack.replace(justep.Error.CLIENT_ERROR_START, "").replace(justep.Error.CLIENT_ERROR_END, "");
-				}else{
-					//other error
+					//server error
+					data.server = JSON.parse(content);
 					data.client = {};
-					data.client.message = err.message;
-					data.client.stack = err.stack;
+					data.client.message = (err.message||"").replace(justep.Error.SERVER_ERROR_START, "").replace(justep.Error.SERVER_ERROR_END, "");
+					data.client.stack = (err.stack||"").replace(justep.Error.SERVER_ERROR_START, "").replace(justep.Error.SERVER_ERROR_END, "");
+					
+				}else{
+					content = getClientError(err);
+					if (content){
+						//client error
+						data.client = JSON.parse(content);
+						if (!data.client.stack){
+							data.client.stack = (err.stack||"");
+						}
+						data.client.stack = data.client.stack.replace(justep.Error.CLIENT_ERROR_START, "").replace(justep.Error.CLIENT_ERROR_END, "");
+					}else{
+						//other error
+						data.client = {};
+						data.client.message = err.message;
+						data.client.stack = err.stack;
+					}
 				}
 			}
 		}else{

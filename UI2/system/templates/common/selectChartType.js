@@ -1,7 +1,7 @@
 define(function(require) {
 	var $ = require("jquery");
 	var justep = require("$UI/system/lib/justep");
-	var loadTreeJs = require("$UI/system/templates/index/loadTreeJs");
+	var loadTreeJs = require("$UI/system/components/designerCommon/tree/tree");
 	var bind = require("bind");
 	var templateService = require("$UI/system/templates/common/js/templateService");
 

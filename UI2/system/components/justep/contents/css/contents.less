@@ -1,10 +1,11 @@
 @import '../../../bootstrap/lib/css/mixins.less';
 
 .x-contents {
-	overflow: hidden;
+	overflow: auto;
 	position: relative;
 	
 	.x-contents-content {
+		display: none;
 		position: absolute;
 		top: 0;
 		left: 0;
@@ -27,8 +28,12 @@
 	}
 }	
 
-.cssanimations { 
-	.x-contents>.x-contents-content {
+.cssanimations {
+	.x-contents.slidable {
+		overflow: hidden;	
+	} 
+	.x-contents.slidable>.x-contents-content {
+		display: block;
 		-webkit-transform: translate3d(-100%, 0, 0);
 		-ms-transform: translate3d(-100%, 0, 0);
 		transform: translate3d(-100%, 0, 0);

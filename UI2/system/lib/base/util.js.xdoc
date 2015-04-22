@@ -129,6 +129,14 @@
 	@returns {void}
 */
 
+/**
+	@name Util.hint
+	@function
+	@description 消息提醒
+	@param {String} text 显示的文本
+	@param {Object} options delay自动关闭, 默认是3秒, 设置时使用毫秒为单位; parent显示的父容器,默认是body, 使用jquery selector来设置或jquery对象, 如"#abc" ".abc"; type提示类型, 默认是info, 还可以是success, warning, danger 
+	@returns {void}
+*/
 
 
 

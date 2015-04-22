@@ -1,6 +1,6 @@
 /*! 
-* X5 v3 (htttp://www.justep.com) 
-* Copyright 2014 Justep, Inc.
+* WeX5 v3 (htttp://www.justep.com) 
+* Copyright 2015 Justep, Inc.
 * Licensed under Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0) 
 */ 
 define(function(require){
@@ -45,6 +45,7 @@ define(function(require){
         	
         	this.callParent(value,bindingContext);
         	this.$rootEle = $(this.domNode).parent();
+        	this.$rootEle.addClass('x-scroll-view');
 			this.$scrollEle = this.$rootEle.find('>.x-scroll');
         	this.getModel().on('onModelConstructDone',this.render,this);
         	this.getModel().on('onScrollRefresh',function(event){
@@ -123,7 +124,7 @@ define(function(require){
 			this.scroller = new iScroll(this.$rootEle.get(0), config);
 			this.scroller.options.topOffset = 0;
 			this.getModel().on('reflow',function(domNode){
-				if($(domNode).find(this.$rootEle).length >0){
+				if($(domNode).find(this.$rootEle).length >0 || $(domNode).is(this.$rootEle)){
 					this.refresh();
 				}
 			},this);
@@ -154,14 +155,16 @@ define(function(require){
         		var self = this;
         		clearTimeout(this.refreshID);
         		this.refreshID = setTimeout(function(){
-        			if(self.$pdEle && self.$pdEle.length > 0){
-            			var threshold = self.$pdEle.outerHeight(true);
-            			self.scroller.options.topOffset = threshold;
-            			self.scroller.minScrollY = -threshold;
-            		}
-        			self.scroller.refresh();
-        			self.getModel().fireEvent('onScrollRefresh',{source:self});
-        			self.noMoreLoad = false;
+        			if(self.getModel()){
+        				if(self.$pdEle && self.$pdEle.length > 0){
+                			var threshold = self.$pdEle.outerHeight(true);
+                			self.scroller.options.topOffset = threshold;
+                			self.scroller.minScrollY = -threshold;
+                		}
+            			self.scroller.refresh();
+            			self.getModel().fireEvent('onScrollRefresh',{source:self});
+            			self.noMoreLoad = false;
+        			}
         		},1000);
         	}
         },

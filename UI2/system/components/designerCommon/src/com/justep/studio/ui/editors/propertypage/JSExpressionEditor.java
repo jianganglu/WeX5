@@ -539,7 +539,7 @@ public class JSExpressionEditor extends Composite implements IPropertyDialogPage
 		Map<String, String> map = new HashMap<String, String>();
 		String value = styledText.getText();
 		if(value != null && !value.equals("")){
-			value = "js:"+value;
+			value = value;
 		}
 		map.put(this.propData.getName(), value);
 		return map;

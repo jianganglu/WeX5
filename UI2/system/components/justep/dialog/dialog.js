@@ -1,6 +1,6 @@
 /*! 
-* X5 v3 (htttp://www.justep.com) 
-* Copyright 2014 Justep, Inc.
+* WeX5 v3 (htttp://www.justep.com) 
+* Copyright 2015 Justep, Inc.
 * Licensed under Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0) 
 */ 
 define(function(require) {
@@ -8,14 +8,13 @@ define(function(require) {
 	require('css!./css/dialog').load();
 
 	var $ = require("jquery");
-	var History = require("$UI/system/lib/history/history");
+	
 	var justep = require("$UI/system/lib/justep");
 
 	var url = require.normalizeName("./dialog");
 	var ComponentConfig = require("./dialog.config");
 
 	var Dialog = justep.BindComponent.extend({
-		mixins : [ History ],
 		getConfig : function() {
 			return ComponentConfig;
 		},
@@ -29,33 +28,85 @@ define(function(require) {
 			this.height = '80%';
 			this.top = null;
 			this.left = null;
+			this.routable = false;
 		},
 		dispose : function() {
 			$(window).off('resize', this.__resizeHandle);
 			this.callParent();
 		},
 		doInit : function(value, bindingContext) {
-			History.prototype.constructor.apply(this, arguments);
-			this.on('historyForward', function(event) {
-				if (this.opened) {
-					return true;
-				} else {
-					this.open();
-					return false;
-				}
+		    //屏蔽鼠标滚轮
+			var self = this;
+			this.$domNode.on('mousewheel',function(e){
+				if(self.opened) e.stopPropagation();
 			});
-			this.on('historyBack', function(event) {
-				if (this.opened) {
-					this.close();
-					return false;
-				} else {
-					return true;
-				}
+			
+			this._getTitleNode().mousedown(function(evt){
+				self._dragStart(evt);
 			});
-			this.$domNode.find('.x-dialog-title:first > button.close').on('click',$.proxy(this.close, this));
+			this.__dragMoveHandle = $.proxy(this._dragMove, this);
+			this.__dragEndHandle = $.proxy(this._dragEnd, this);
+			this.__closeHandle = $.proxy(this.close, this);
 			this.__resizeHandle = $.proxy(this.doResize, this);
+			this.$domNode.mousemove(this.__dragMoveHandle).mouseup(this.__dragEndHandle).find('.x-dialog-title:first > button.close').on('click',this.__closeHandle);
 			$(window).on('resize', this.__resizeHandle);
 		},
+		_dragStart: function(evt){
+			var target = evt.target;
+			if(!$(target).is('button.close')){
+				this.$domNode.addClass('x-dialog-drag');
+				this._moving = true;
+				this._dragContext = {
+					onselectstart:document.onselectstart,
+					x: evt.clientX,
+					y: evt.clientY,
+					dlg: this._getDialogNode().offset()
+				};
+				document.onselectstart=function(){return false;};
+			}
+		},
+		_dragMove: function(evt){
+			if(this._moving && this._dragContext){
+				var left = evt.clientX - this._dragContext.x + this._dragContext.dlg.left;
+				var top = evt.clientY - this._dragContext.y + this._dragContext.dlg.top;
+				this._getDialogNode().offset({top:top,left:left});
+				this._moved = true;
+			}
+		},
+		_dragEnd: function(evt){
+			this.$domNode.removeClass('x-dialog-drag');
+			this._moving = false;
+			if(this._dragContext && $.isFunction(this._dragContext.onselectstart))
+				document.onselectstart=this._dragContext.onselectstart;
+			this._dragContext = null;
+		},
+		doRoute : function(name,param,routeState){
+			if(!this.routable){
+				return;
+			}
+			if(name === ""){
+				if(routeState == "enter"){
+					this.open();
+				}else if(routeState == "leave"){
+					this.close();
+				}
+			}
+		},
+		addRouteItem : function(type){
+			if(!this.routable){
+				return;
+			}
+			var $routeState = this.getModel().$routeState;
+			var xid = this.$domNode.attr('xid');
+			if(type == 'open'){
+				$routeState.addState(xid,'','');
+				$routeState.publishState();
+			}else if(type == 'close'){
+				$routeState.removeState(xid,'','');
+				$routeState.publishState();
+			}
+		},
+		
 		doResize : function() {
 			if (this.opened) {
 				this.render();
@@ -64,9 +115,10 @@ define(function(require) {
 		buildTemplate : function(cfg) {
 			if (!cfg)
 				cfg = {};
+			var xid = cfg.xid || justep.UUID.createUUID(); 
 			this.set(cfg);
-			return $('<span component="' + url + '">' + '<div class="x-dialog-overlay">' + '</div>'
-					+ '<div class="x-dialog" showTitle="' + !!cfg.showTitle + '">' + '<div class="x-dialog-title">' 
+			return $('<span xid="' + xid + '" component="' + url + '">' + '<div class="x-dialog-overlay">' + '</div>'
+					+ '<div class="x-dialog" style="display:none;" showTitle="' + !!cfg.showTitle + '">' + '<div class="x-dialog-title">' 
 					+ '<button type="button" class="close"><span>×</span></button>' 
 					+ '<h4 class="x-dialog-title-text">' + (cfg.title ? cfg.title : '')	+ '</h4>' 
 					+ '</div>' + '<div class="x-dialog-body">' + (cfg.content ? cfg.content : '')
@@ -103,6 +155,9 @@ define(function(require) {
 		_getTitleTextNode : function() {
 			return this.$domNode.find('.x-dialog-title-text:first');
 		},
+		_getTitleNode : function() {
+			return this.$domNode.find('.x-dialog-title:first');
+		},
 		_getBodyNode : function() {
 			return this.$domNode.find('.x-dialog-body:first');
 		},
@@ -110,10 +165,12 @@ define(function(require) {
 			this._getDialogNode().removeClass('x-dialog-in').hide();
 			this._getOverlayNode().removeClass('x-dialog-overlay-visible');
 			// justep.Util.enableTouchMove(document.body);
+			$('body').removeClass('x-dialog-body-overflow-hidden');
 			this.opened = false;
 			this.fireEvent('onClose', {
 				source : this
 			});
+			this.addRouteItem("close");
 		},
 		setContent: function(content){
 			this._getBodyNode().html(content);
@@ -149,19 +206,35 @@ define(function(require) {
 			}
 			$dlg.css({'top':mTop,'left':mLeft});
 		},
-		open : function() {
+		open : function(option) {
 			// lzg 暂时屏蔽,影响较大
 			// justep.Util.disableTouchMove(document.body);
+			$('body').addClass('x-dialog-body-overflow-hidden');
 			var $dlg = this._getDialogNode();
 			this._getOverlayNode().addClass('x-dialog-overlay-visible');
 			this.render();
 			$dlg.show().addClass('x-dialog-in');
-			this._setDialogTopLeft();//需要显示后才能计算出高度
-			this.pushState({}, null, '#dialog');
+			if(!this._moved) this._setDialogTopLeft();//需要显示后才能计算出高度
+			this.addRouteItem('open',option);
 			this.opened = true;
 			this.fireEvent('onOpen', {
 				source : this
 			});
+		}
+	});
+
+	justep.Component.addOperations(Dialog, {
+		open : {
+			label : "",
+			method : function(args) {
+				return this.owner.open();
+			}
+		},
+		close : {
+			label : "",
+			method : function(args) {
+				return this.owner.close();
+			}
 		}
 	});
 

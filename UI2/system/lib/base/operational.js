@@ -1,6 +1,6 @@
 /*! 
-* X5 v3 (htttp://www.justep.com) 
-* Copyright 2014 Justep, Inc.
+* WeX5 v3 (htttp://www.justep.com) 
+* Copyright 2015 Justep, Inc.
 * Licensed under Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0) 
 */ 
 define(function(require) {
@@ -165,7 +165,8 @@ define(function(require) {
 			if (!this.enable)
 				return;
 			var args = this._initParams(ctx);
-			return this.method(args);
+			//增加第二个参数为上下文
+			return this.method(args, ctx);
 		}
 	});
 

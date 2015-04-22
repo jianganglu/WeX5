@@ -33,6 +33,13 @@
 */
 
 /**
+	@name ControlGroup#collapsible
+	@attribute 
+	@type boolean
+	@description 允许点击标题折叠展开
+*/
+
+/**
 	@name ControlGroup#set
 	@function
 	@description 设置属性值
@@ -41,6 +48,7 @@
 	<xmp> 
 	{
 		"title" : 标题
+		"collapsible" : 允许点击标题折叠展开
 	}
 	</xmp>	
 	@return {void} 
@@ -52,6 +60,18 @@
 	@description 获取属性值
 	@param {String} name 属性名称，取值范围："title"
 	@return {Object} 
+*/
+
+/**
+	@name ControlGroup#collapse
+	@function
+	@description 折叠
+*/
+
+/**
+	@name ControlGroup#expand
+	@function
+	@description 展开
 */
 
 /**

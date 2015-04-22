@@ -1,6 +1,6 @@
 /*! 
-* X5 v3 (htttp://www.justep.com) 
-* Copyright 2014 Justep, Inc.
+* WeX5 v3 (htttp://www.justep.com) 
+* Copyright 2015 Justep, Inc.
 * Licensed under Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0) 
 */ 
 define(function(require) {
@@ -57,6 +57,12 @@ define(function(require) {
 		}
 	}
 	
+	var sim = false;
+	try{
+		sim = window.parent && window.parent.getOSName;
+	}catch(err){
+		
+	}
 	
 	var Browser = {
 		IE: getInternetExplorerVersion(),
@@ -74,8 +80,8 @@ define(function(require) {
 		
 		deviceType: deviceTypes[currentDevice()],
 		
-		isSimulator: window.parent && window.parent.getOSName,
-		isX5App: navigator.userAgent.indexOf("x5app") >= 0,
+		isSimulator: sim,
+		isX5App: (navigator.userAgent.indexOf("x5app") >= 0) || (navigator.userAgent.indexOf("Crosswalk") >= 0),
 		isPCFromUserAgent: deviceTypes[currentDevice()] === "PC",
 		isMobileFromUserAgent: (deviceTypes[currentDevice()] === "Android") || (deviceTypes[currentDevice()] === "iPhone") || (deviceTypes[currentDevice()] === "Windows Phone"),
 		isIOS: (deviceTypes[currentDevice()] === "iPad") || (deviceTypes[currentDevice()] === "iPod") || (deviceTypes[currentDevice()] === "iPhone"),

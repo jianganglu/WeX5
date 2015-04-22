@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<elements>
+	<element name="$UI/system/components/justep/excelLayout/excelLayout" tag-name="div" icon="excel.gif" text="excel布局" 
+		display-property="id"
+		component-type="layout-container"
+		java-class="ExcelLayout"
+		binding-component="$UI/system/components/justep/excelLayout/excelLayout"
+		design-view="web-designer" >
+		<properties>
+			<property name="xid" text="编号" required="false" />   
+			<property name="src" display-name="src"  text="布局文件"  editor-ref="excelList,createExcelDialog" allow-empty="false"/>
+			<property name="class"  text="class" editor-ref="classSelector">
+				<editor-parameter><![CDATA[
+				{
+
+					"5kind": {
+						label: "基础",
+						value: "x-excel-layout",
+						require: false
+					}
+				}
+				]]></editor-parameter>
+			</property>
+<!--			<property name="style" text="样式" editor-ref="styleDialog">-->
+<!--				<property name="left" text="位置左" is-style="true" />-->
+<!--				<property name="top" text="位置上" is-style="true" />-->
+<!--				<property name="height" text="高度" is-style="true" />-->
+<!--				<property name="width" text="宽度" is-style="true"/>-->
+<!--				<property name="background-color" text="背景颜色" is-style="true" editor-ref="simplecolor" />-->
+<!--				<property name="display" text="显示" editor-ref="display" is-style="true" /> -->
+<!--			</property>			-->
+		</properties>
+		<property-editors><!--属性编辑器描述，可通过下拉列表或者弹出对话框来设置属性值，不这是默认问普通的文本输入框。-->
+	
+			<property-editor name="size" type="list" >  
+				<static-data value=",100%" />
+			</property-editor>	
+			<property-editor name="excelList" type="list">
+				<dynamic-data class-name="ExcelFileListDatasource" method="getDatasource"/>
+			</property-editor>	
+			<property-editor name="createExcelDialog" type="dialog" tip="新建" icon="data.gif">
+				<dialog-page class-name="com.justep.studio.ui.editors.propertypage.CreateExcelDialog"/>	
+			</property-editor>
+			
+			<property-editor name="display" type="list" > 				
+				<static-data value=",block,none" />
+			</property-editor>
+			
+		</property-editors>
+		<templates>
+		   <template name="default"><![CDATA[ 
+		       <div  component="$UI/system/components/justep/excelLayout/excelLayout" class="x-excel-layout" style="width:100%; height: 100%;"> 
+  
+      			</div> 
+		   ]]></template>
+		</templates>
+		<toolbar>			
+			<item text="切换到excel设计" method="gotoExcelLayout"></item>
+			<item text="退出excel设计" method="closeExcelLayout"></item>
+			<!-- <item text="退出全屏" method="exitFullScreen"></item>-->
+		<!--<item text="根据关系批量创建组件" method="newComponentByRelation"> </item>-->			
+		</toolbar>
+	</element>
+</elements>

@@ -11,7 +11,7 @@
   
   
   
-  <div xid="div3" style="padding-top:8px;padding-bottom:8px;"><span component="$UI/system/components/justep/button/checkbox" class="x-checkbox" xid="autoSelectPlugins" label="自动选择使用到的Corodva插件" checked="true" onChange="checkbox2Change"></span></div><div xid="pluginsDiv" style="display:none">
+  <div xid="div3" style="padding-top:8px;padding-bottom:8px;"><span component="$UI/system/components/justep/button/checkbox" class="x-checkbox" xid="autoSelectPlugins" label="自动选择使用到的Corodva插件（源代码模式请手工选择插件，插件相关选项对服务器打包模式有效）" checked="true" onChange="checkbox2Change"></span></div><div xid="pluginsDiv" style="display:none">
   
   <div xid="div2" style="padding-top:8px;padding-bottom:16px"><a component="$UI/system/components/justep/button/button" class="btn btn-default" label="全选" xid="btnSelectAll" onClick="btnSelectAllClick">
    <i xid="i1"></i>

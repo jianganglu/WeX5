@@ -10,7 +10,7 @@ define(function(require){
 			this.callParent(value, bindingContext);
 			this.$domNode = $(this.domNode);
 			this.template = {
-				heading: '<div class="panel-heading"><h4 class="panel-title"><a href="javascript:void(0)">Title</a></h4></div>',
+				heading: '<div class="panel-heading"><h4 class="panel-title"><a >Title</a></h4></div>',
 				body: '<div class="panel-body"/>',
 				footer: '<div class="panel-footer"/>'
 			};
@@ -28,7 +28,7 @@ define(function(require){
 			$(this.selector.footer, this.$domNode).attr("d_canMove", false).attr("d_canAddChild", true);
 		},
 		
-		onBuildMenu:function( 
+		onBuildMenu:function(event){ 
 			event.enableStatus = event.enableStatus || {};
 			event.enableStatus.addHeading = ($('>.panel-heading', this.$domNode).length==0); 
 			event.enableStatus.addBody = ($('>.panel-body', this.$domNode).length==0); 
@@ -37,15 +37,15 @@ define(function(require){
 		
 	
 	    addHeading: function(){
-	    	this._addItem("$UI/system/components/bootstrap/panel/panel#heading", "heading");
+	    	this._addItem("$UI/system/components/bootstrap/panel/panel(bootstrap)#heading", "heading");
 	    }, 
 	    
 	    addBody: function(){
-	    	this._addItem("$UI/system/components/bootstrap/panel/panel#body", "body");
+	    	this._addItem("$UI/system/components/bootstrap/panel/panel(bootstrap)#body", "body");
 	    },	
 	    
 		addFooter: function(){
-	    	this._addItem("$UI/system/components/bootstrap/panel/panel#footer", "footer");
+	    	this._addItem("$UI/system/components/bootstrap/panel/panel(bootstrap)#footer", "footer");
 		},
 	    
 	    _addItem: function(component, name){
@@ -72,5 +72,5 @@ define(function(require){
 		}
 	});
 	
-	return {'$UI/system/components/bootstrap/panel/panel':Panel};
+	return {'$UI/system/components/bootstrap/panel/panel(bootstrap)':Panel};
 });

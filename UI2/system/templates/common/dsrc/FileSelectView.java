@@ -26,7 +26,7 @@ public class FileSelectView extends JProcessorImpl {
 		imgMap.put(".action.m", "action.gif");
 		imgMap.put(".mapping.m", "mapping.gif");
 		imgMap.put(".ontology.m", "ontology.gif");
-		imgMap.put(".process.m", "P.gif");
+		imgMap.put(".process.m", "process.gif");
 		imgs = imgMap.keySet();
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

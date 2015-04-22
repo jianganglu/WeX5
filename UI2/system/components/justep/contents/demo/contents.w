@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <div xmlns="http://www.w3.org/1999/xhtml" xid="window" class="window" component="$UI/system/components/justep/window/window">  
+  <div component="$UI/system/components/justep/model/model" xid="model" style="position:absolute;;left:65.0px;top:69.0px" onLoad="modelLoad"/>
   <span component="$UI/system/components/justep/windowDialog/windowDialog" xid="windowDialog"
-    src="$UI/system/components/justep/common/demo/dialog.w"/>  
+    src="$UI/system/components/justep/common/demo/dialog.w" status="normal"/>  
   <div component="$UI/system/components/justep/panel/panel" class="x-panel x-full"
     xid="panel1"> 
     <div class="x-panel-top" xid="top1"> 
@@ -34,18 +35,19 @@
       <div component="$UI/system/components/justep/contents/contents" xid="pages"
         class="x-contents x-full" active="0" slidable="true" onActiveChange="pagesSlide"
         wrap="true" swipe="true"> 
-        <div class="x-contents-content" xid="content-1" onActive="contentsActive"> 
+        <div class="x-contents-content" xid="content-1" onActive="contentsActive" style="padding:8.75px"> 
           <h3 style="height:48px;vertical-align: middle;padding: 8px;display: inline-block;">contents</h3>  
-            
           <a component="$UI/system/components/justep/button/button" class="btn btn-link"
             label="js" xid="jsSource" onClick="showJsSource"> 
             <i xid="jsSou"/>  
             <span>js</span> 
           </a>  
-          <a component="$UI/system/components/justep/button/button" class="btn btn-link" label="源码" xid="source" onClick="showContentsSource" bind-visible="isVisible"> 
-            <i xid="sou" />  
+          <a component="$UI/system/components/justep/button/button" class="btn btn-link"
+            label="源码" xid="source" onClick="showContentsSource" bind-visible="isVisible"> 
+            <i xid="sou"/>  
             <span>源码</span> 
-          </a><br/>  
+          </a>
+          <br/>  
           <p>1、容器组件，多个contents之间可任意切换</p>  
           <p>2、可以将同一类数据放到一个contents中</p>  
           <p>3、左右滑动可切换页面</p>  

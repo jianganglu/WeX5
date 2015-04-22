@@ -40,7 +40,7 @@
 		
 		<templates>
 		   <template name="default"><![CDATA[ 
-				<div component="$UI/system/components/justep/labelEdit/labelEdit" class="x-label-edit x-label20">
+				<div component="$UI/system/components/justep/labelEdit/labelEdit" class="x-label-edit x-label30">
 					<label class="x-label"/>
 					<input component="$UI/system/components/justep/input/input" class="form-control x-edit"/>
 				</div>
@@ -88,7 +88,7 @@
 		
 		<templates>
 		   <template name="default"><![CDATA[ 
-				<div component="$UI/system/components/justep/labelEdit/labelEdit" class="x-label-edit x-label20">
+				<div component="$UI/system/components/justep/labelEdit/labelEdit" class="x-label-edit x-label30">
 					<label class="x-label"/>
 					<input component="$UI/system/components/justep/input/password" class="form-control x-edit"/>
 				</div>
@@ -136,7 +136,7 @@
 		
 		<templates>
 		   <template name="default"><![CDATA[ 
-				<div component="$UI/system/components/justep/labelEdit/labelEdit" class="x-label-edit x-label20">
+				<div component="$UI/system/components/justep/labelEdit/labelEdit" class="x-label-edit x-label30">
 					<label class="x-label"/>
 					<input component="$UI/system/components/justep/input/range" class="x-edit"/>
 				</div>
@@ -184,7 +184,7 @@
 		
 		<templates>
 		   <template name="default"><![CDATA[ 
-				<div component="$UI/system/components/justep/labelEdit/labelEdit" class="x-label-edit x-label20">
+				<div component="$UI/system/components/justep/labelEdit/labelEdit" class="x-label-edit x-label30">
 					<label class="x-label"/>
 					<div component="$UI/system/components/justep/output/output" class="x-output x-edit"/>
 				</div>
@@ -232,7 +232,7 @@
 		
 		<templates>
 		   <template name="default"><![CDATA[ 
-				<div component="$UI/system/components/justep/labelEdit/labelEdit" class="x-label-edit x-label20">
+				<div component="$UI/system/components/justep/labelEdit/labelEdit" class="x-label-edit x-label30">
 					<label class="x-label"/>
 					<select component="$UI/system/components/justep/select/select" class="form-control x-edit"/>
 				</div>
@@ -280,7 +280,7 @@
 		
 		<templates>
 		   <template name="default"><![CDATA[ 
-				<div component="$UI/system/components/justep/labelEdit/labelEdit" class="x-label-edit x-label20">
+				<div component="$UI/system/components/justep/labelEdit/labelEdit" class="x-label-edit x-label30">
 					<label class="x-label"/>
 					<textarea component="$UI/system/components/justep/textarea/textarea" class="form-control x-edit"/>
 				</div>
@@ -328,7 +328,7 @@
 		
 		<templates>
 		   <template name="default"><![CDATA[ 
-				<div component="$UI/system/components/justep/labelEdit/labelEdit" class="x-label-edit x-label20">
+				<div component="$UI/system/components/justep/labelEdit/labelEdit" class="x-label-edit x-label30">
 					<label class="x-label"/>
 					<span component="$UI/system/components/justep/select/radioGroup" class="x-radios x-edit"/>
 				</div>
@@ -376,7 +376,7 @@
 		
 		<templates>
 		   <template name="default"><![CDATA[ 
-				<div component="$UI/system/components/justep/labelEdit/labelEdit" class="x-label-edit x-label20">
+				<div component="$UI/system/components/justep/labelEdit/labelEdit" class="x-label-edit x-label30">
 					<label class="x-label"/>
 					<span component="$UI/system/components/justep/select/checkboxGroup" class="x-checkboxs x-edit"/>
 				</div>
@@ -424,7 +424,7 @@
 		
 		<templates>
 		   <template name="default"><![CDATA[ 
-				<div component="$UI/system/components/justep/labelEdit/labelEdit" class="x-label-edit x-label20">
+				<div component="$UI/system/components/justep/labelEdit/labelEdit" class="x-label-edit x-label30">
 					<label class="x-label"/>
 					<span component="$UI/system/components/justep/button/toggle" class="x-toggle x-edit"/>
 				</div>
@@ -473,7 +473,7 @@
 		
 		<templates>
 		   <template name="default"><![CDATA[ 
-				<div component="$UI/system/components/justep/labelEdit/labelEdit" class="x-label-edit x-label20">
+				<div component="$UI/system/components/justep/labelEdit/labelEdit" class="x-label-edit x-label30">
 					<label class="x-label"/>
 					<div class="x-edit"></div>   					
 				</div>

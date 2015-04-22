@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <elements>
-	<element name="$UI/system/components/bootstrap/dialog/dialog" tag-type="rich" tag-name="div" icon="dialog.png" text="模态对话框"  
+	<element name="$UI/system/components/bootstrap/dialog/dialog(bootstrap)" tag-type="rich" tag-name="div" icon="dialog.png" text="模态对话框"  
 	    binding-component="$UI/system/components/bootstrap/dialog/dialog" display-property="xid" 
 		component-type="layout-container" validator="ViewValidator" design-view="web-designer" >
 		<properties>
@@ -38,7 +38,7 @@
 			  <div class="modal-dialog">
 			    <div class="modal-content">
 			      <div class="modal-header">
-			        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&amp;times;</span><span class="sr-only">Close</span></button>
+			        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&#215;</span><span class="sr-only">Close</span></button>
 			        <h4 class="modal-title">Modal title</h4>
 			      </div>
 			      <div class="modal-body">

@@ -6,7 +6,7 @@
     xid="panel1"> 
     <div class="panel-heading" xid="heading1">
    <h4 class="panel-title" xid="h41">
-    <a href="javascript:void(0)" xid="a1">Title</a></h4> </div><div class="panel-body" xid="body1"/>  
+    <a xid="a1">Title</a></h4> </div><div class="panel-body" xid="body1"/>  
     <div class="panel-footer" xid="footer1"/> 
   </div> 
 </div>

@@ -1,11 +1,13 @@
 .msg {
-	border: 1px solid #3c3;
+	/* 	border: 1px solid #3c3; */
 	margin-left: 10px;
-	background: url(checkmark.png) no-repeat 2px 3px #3c3;
+	background: url(../demo/checkmark.png) no-repeat 2px 3px ;
 	padding: 3px 6px 3px 20px;
-	position: fixed;
+/* 	position: fixed; */
 	right: 6%;
-	top: 10px
+	top: 10px;
+	width:13px;
+	height:24px
 }
 
 .x-source-code-area {

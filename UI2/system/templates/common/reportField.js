@@ -15,8 +15,9 @@ define(function(require) {
 	};
 
 	Model.prototype.setData = function() {
+		var data = this.comp("data");
 		var config = this.templateEngine.getConfig();
-		if (this.comp("data").getCount() != 0) {
+		if (data.getCount() != 0) {
 			return;
 		}
 		var s = config.current.mainData.columns;
@@ -33,8 +34,8 @@ define(function(require) {
 				isTrue : "true",
 			});
 		}
-		this.comp("data").clear();
-		this.comp("data").newData({
+		data.clear();
+		data.newData({
 			autoLoad : 'true',
 			defaultValues : defaultValues
 		});
@@ -47,10 +48,6 @@ define(function(require) {
 			msg += "报表字段没有选择,"
 		}
 		return msg;
-	}
-	
-	Model.prototype.aa = function() {
-		alert("reportField")
 	}
 	
 	Model.prototype.add = function(event) {
@@ -122,6 +119,7 @@ define(function(require) {
 
 	Model.prototype.reportDataIndexChanged = function(event){
 		var reportData = event.source;
+		if(!this.templateEngine) return;
 		var config = this.templateEngine.getConfig();
 		var report_data = [];
 		reportData.each(function(param) {

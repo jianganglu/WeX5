@@ -1,6 +1,6 @@
 /*! 
-* E5 v3 (htttp://www.justep.com) 
-* Copyright 2014 Justep, Inc.
+* BeX5 v3 (htttp://www.justep.com) 
+* Copyright 2015 Justep, Inc.
 */ 
 define(function(require) {
 	require("$UI/system/components/justep/common/res");
@@ -45,5 +45,5 @@ define(function(require) {
 		}
 	});
 
-	return {'$UI/system/components/bootstrap/dropdown/dropdown': Dropdown};
+	return {'$UI/system/components/bootstrap/dropdown/dropdown(bootstrap)': Dropdown};
 });

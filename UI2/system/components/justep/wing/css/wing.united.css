@@ -359,6 +359,9 @@
 .x-wing[display='compress'] > .x-wing-content.compress-on-right {
   margin-left: 300px;
 }
+.x-wing[display='compress'] > .x-wing-right {
+  display: none;
+}
 .x-wing-xs.x-wing[display='reveal'] > .x-wing-content.on-left,
 .x-wing-xs.x-wing[display='push'] > .x-wing-content.on-left {
   -webkit-transform: translate3d(-200px, 0, 0);

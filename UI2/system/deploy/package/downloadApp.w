@@ -11,7 +11,7 @@
   <div xid="div6" style="padding-left: 8px;">
     
     
-  <label xid="label4" class="x-label"><![CDATA[小提示：手机/平板连接的无线网络需要和电脑是同一局域网。ios需越狱（服务器打包的可部署https免越狱安装）。]]></label></div>  
+  <label xid="label4" class="x-label"><![CDATA[小提示：手机/平板连接的无线网络需和电脑是同一局域网。ios需越狱（服务器打包可部署https免越狱安装）。]]></label></div>  
   <div xid="div7" style="padding: 8px"> 
     
      

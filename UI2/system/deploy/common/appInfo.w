@@ -29,6 +29,7 @@
    <textarea component="$UI/system/components/justep/textarea/textarea" class="form-control x-edit" xid="plugins" readonly="true"></textarea></div>
   <div xid="div2" style="padding-top:8px">
    <span component="$UI/system/components/justep/button/checkbox" class="x-checkbox" xid="extBrowser" label="Andorid使用增强型浏览器" checked="true" disabled="true"></span>
-  <span component="$UI/system/components/justep/button/checkbox" class="x-checkbox" xid="resEncryption" label="资源加密" style="padding-left:16px" disabled="true"></span></div>
+  <span component="$UI/system/components/justep/button/checkbox" class="x-checkbox" xid="resEncryption" label="资源加密" style="padding-left:16px" disabled="true"></span>
+  <span component="$UI/system/components/justep/button/checkbox" class="x-checkbox" xid="sourceMode" label="源码模式" style="padding-left:16px" disabled="true"></span></div>
   </div>
   </div>

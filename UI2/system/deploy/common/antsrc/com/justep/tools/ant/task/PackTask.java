@@ -7,13 +7,14 @@ public class PackTask extends HttpTask {
 	private String userID;
 	private String appName;
 	private String platform;
+	private String sourceMode;
 	private String appBuilderServer;
 	private String session;
 
 	protected String getURL() {
 		// appName可能有空格，需要做编码
 		String encodeAppName = appName.replace(" ", "%20");
-		return appBuilderServer + "/app/pack?" + "userID=" + userID + "&&appName=" + encodeAppName + "&&platform=" + platform + "&&session=" + session;
+		return appBuilderServer + "/app/pack?" + "userID=" + userID + "&&appName=" + encodeAppName + "&&platform=" + platform + "&&sourceMode=" + sourceMode + "&&session=" + session;
 	}
 
 	protected void preparePost(HttpPost httppost) {
@@ -29,6 +30,10 @@ public class PackTask extends HttpTask {
 
 	public void setPlatform(String platform) {
 		this.platform = platform;
+	}
+
+	public void setSourceMode(String sourceMode) {
+		this.sourceMode = sourceMode;
 	}
 
 	public void setAppBuilderServer(String appBuilderServer) {

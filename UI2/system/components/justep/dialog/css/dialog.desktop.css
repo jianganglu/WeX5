@@ -1,3 +1,9 @@
+.x-dialog-body-overflow-hidden {
+  overflow: hidden;
+}
+.x-dialog-drag .x-dialog {
+  cursor: move;
+}
 .x-dialog-overlay {
   position: fixed;
   left: 0;
@@ -40,7 +46,7 @@
   background-clip: padding-box;
 }
 .x-dialog.x-dialog-normal .x-dialog-body {
-  padding: 20px;
+  padding: 15px;
 }
 .x-dialog .x-dialog-title {
   position: absolute;
@@ -59,7 +65,7 @@
   padding-top: 56px;
   /*'padding-top'+'padding-bottom'+text+border*/
 }
-.x-dialog[showTitle='true'] .x-dialog-title {
+.x-dialog[showTitle='true'] > .x-dialog-title {
   display: block;
 }
 .x-dialog-title-text {

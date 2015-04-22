@@ -9,11 +9,16 @@ define(function(require) {
 
 		if (this.getParent().edit) {
 			var config = this.appEngine.getConfig();
+			this.comp("sourceMode").val(config.sourceMode == true);
 			this.comp("version").val(config.version);
 			this.comp("packageName").val(config.packageName);
-			this.comp("extBrowser").val(config.extBrowser);
-			this.comp("resEncryption").val(config.resEncryption);
+			this.comp("extBrowser").val(config.extBrowser == true);
+			this.comp("resEncryption").val(config.resEncryption == true);
 			this.comp("mqttServerURL").val(config.mqttServerURL);
+
+			this.comp("sourceMode").set({
+				"disabled" : true
+			});
 		}
 	};
 
@@ -43,9 +48,16 @@ define(function(require) {
 			return false;
 		} else {
 			var version = this.comp("version").get("value");
-			if (version.split('.').length != 3) {
+			var numbers = version.split('.');
+			if (numbers.length != 3) {
 				alert("“版本号”应该由点隔开的三部分构成");
 				return false;
+			}
+			for ( var i = 0; i < numbers.length; i++) {
+				if (numbers[i].match(/\d*/i) != numbers[i]) {
+					alert("版本号中“" + numbers[i] + "”不是数字");
+					return false;
+				}
 			}
 		}
 
@@ -66,6 +78,7 @@ define(function(require) {
 	Model.prototype.nextPage = function(wizard) {
 		if (this.validate()) {
 			var config = this.appEngine.getConfig();
+			config.sourceMode = this.comp("sourceMode").get("checked") === true;
 			config.version = this.comp("version").get("value");
 			config.packageName = this.comp("packageName").get("value");
 			config.extBrowser = this.comp("extBrowser").get("checked") === true;

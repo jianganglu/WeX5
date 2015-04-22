@@ -35,6 +35,7 @@ import com.justep.studio.StudioPlugin2;
 import com.justep.studio.data.DataRecord;
 import com.justep.studio.data.DataSet;
 import com.justep.studio.ui.dialog.CommonSelectorDialog;
+import com.justep.studio.ui.dialogs.WebDialog;
 import com.justep.studio.ui.editors.util.XuiDynJavaManager;
 import com.justep.studio.ui.editors.xui.PropertyItem;
 import com.justep.studio.ui.editors.xui.XuiDataModel;
@@ -44,7 +45,6 @@ import com.justep.studio.ui.views.ConsoleView;
 import com.justep.studio.util.FileHelper;
 import com.justep.studio.util.JSONUtil;
 import com.justep.studio.util.StudioConfig;
-import com.justep.studio.wizard.NewWFileWizardDialog;
 
 public class TemplateService {
 
@@ -264,7 +264,11 @@ public class TemplateService {
 	}
 
 	public static void closeDialog(Map<String, Object> context) {
-		NewWFileWizardDialog.closeDialog();
+		String pageId = (String)context.get("pageId");
+		WebDialog dlg = WebDialog.getInstanceByPageId(pageId);
+		if(dlg != null){
+			 dlg.cancelPressed();
+		}
 	}
 
 	/**

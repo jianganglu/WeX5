@@ -8,6 +8,7 @@ public class AppInfo {
 	// 应用基本信息
 	public String userID;
 	public String appName;
+	public Boolean sourceMode;
 	public String version;
 	public String packageName;
 	public String serverURL;

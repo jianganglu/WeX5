@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <elements>
-	<element name="$UI/system/components/bootstrap/alert/alert" tag-type="rich" tag-name="div" icon="alert.png" text="工具条"  
+	<element name="$UI/system/components/bootstrap/alert/alert(bootstrap)" tag-type="rich" tag-name="div" icon="alert.png" text="工具条"  
 	    binding-component="$UI/system/components/bootstrap/alert/alert" display-property="xid" 
 		component-type="layout-container" validator="ViewValidator" design-view="web-designer" >
 		<properties>
@@ -30,7 +30,7 @@
 		</events>
 		<templates>
 		   <template name="default"><![CDATA[
-				<div class="alert alert-warning" component="$UI/system/components/bootstrap/alert/alert">
+				<div class="alert alert-warning hidden" component="$UI/system/components/bootstrap/alert/alert(bootstrap)">
 					<button type="button" class="close">
 						<span aria-hidden="true">×</span><span class="sr-only">Close</span>
 					</button>

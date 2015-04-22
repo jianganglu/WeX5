@@ -155,4 +155,35 @@
 		</toolbar>
 	</element>
 	
+	<element name="$UI/system/components/justep/list/list#listTemplate" icon="li.gif"  
+	    discriminate-condition="executeXpath(contains(@class,'x-list-template'))"
+		component-type="foreach" parent-range="$UI/system/components/justep/list/list"
+		design-view="web-designer" >
+		<properties>
+			<property name="xid" text="编号" required="false" />  
+
+			<property name="class"  text="class" >
+				<editor-parameter><![CDATA[
+				{
+					"0base": {
+						label: "基础样式",
+						value: "x-list-template"
+					}
+				}
+				]]></editor-parameter>
+			</property>
+			<property name="style" text="样式" />
+			<include path="$UI/system/components/designerCommon/commonConfig.xml#//common-properties/group[@name='bind']"/>
+		</properties>
+
+		<templates>
+		   <template name="default">
+		   </template>
+		</templates>
+		<events>
+			<include path="$UI/system/components/designerCommon/commonConfig.xml#//html-evens/*"/>
+        </events>
+		<toolbar>			
+		</toolbar>
+	</element>
 </elements>

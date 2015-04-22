@@ -19,6 +19,11 @@ define(function(require) {
 		_getTempleteFile : function(filePath, context) {
 			var file = templateService.readFile(filePath);
 			var template = Handlebars.compile(file);
+			//注册索引+1的helper
+			 var handleHelper = Handlebars.registerHelper("addOne",function(index){
+			    //返回+1之后的结果
+			   return index+1;
+			  });
 			return template(context);
 		},
 
@@ -34,11 +39,9 @@ define(function(require) {
 		},
 
 		/*
-		 * config.items[n] 
-		 * config.images[n] 
-		 * config.context[templateFile]
-		 * config.context[templateFile].targetFiles[targetFile] 
-		 * config.current 当前配置信息，例如 mainData.concept mainData.reader 等
+		 * config.items[n] config.images[n] config.context[templateFile]
+		 * config.context[templateFile].targetFiles[targetFile] config.current
+		 * 当前配置信息，例如 mainData.concept mainData.reader 等
 		 */
 		getConfig : function() {
 			if (!this.config) {
@@ -71,6 +74,7 @@ define(function(require) {
 							configPage : $this.attr("configPage")
 						});
 						context[realTemplateFile] = {};
+						context.handlebarsExpre = {};
 					});
 				}
 				this.config.items = items;
@@ -113,6 +117,7 @@ define(function(require) {
 				config.context[templateFile].targetFiles[targetFile] = {};
 			}
 			config.context[templateFile].targetFiles[targetFile][name] = value;
+			config.context.handlebarsExpre[name] = value;
 		},
 
 		removeContext : function(templateFile, targetFile, name) {
@@ -137,17 +142,24 @@ define(function(require) {
 			var context = this.getConfig().context;
 			var excludeFiles = [];
 			for ( var templateFile in context) {
-				if (context[templateFile].targetFiles) {
-					for ( var targetFile in context[templateFile].targetFiles) {
-						this._createFile(templateFile, context[templateFile].targetFiles[targetFile], targetFile);
+				if (templateFile !=='handlebarsExpre') {
+					if (context[templateFile].targetFiles) {
+						for ( var targetFile in context[templateFile].targetFiles) {
+							if (templateFile.indexOf(",") != -1) {
+								templatefile = templateFile.split(",")[0];
+								this._createFile(templatefile, context[templateFile].targetFiles[targetFile], templatefile.split("/")[templatefile.split("/").length-1]);
+								excludeFiles.push(templatefile);
+							}else {
+								this._createFile(templateFile, context[templateFile].targetFiles[targetFile], targetFile);
+								excludeFiles.push(templateFile);
+							}
+						}
+					} else {
+							this._createFile(templateFile, context.handlebarsExpre, this._getRealTargetFile(templateFile, this.targetFileName));
+							excludeFiles.push(templateFile);
 					}
-				} else {
-					this._createFile(templateFile, [], this._getRealTargetFile(templateFile, this.targetFileName));
 				}
-				excludeFiles.push(templateFile);
 			}
-			;
-
 			this._copyResourceFiles(excludeFiles);
 		}
 

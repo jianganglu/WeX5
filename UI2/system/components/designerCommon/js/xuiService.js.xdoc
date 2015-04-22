@@ -1,0 +1,255 @@
+/**
+	@name XuiService
+	@url $UI2/system/components/designerCommon/js/xuiService
+	@class
+	@category javascript
+	@model UI2
+	@description java端的w文档操作工具类
+*/
+
+/**
+	@name XuiService.openPage
+	@function
+	@description 打开对话框页面
+	@param {String} url 要打开的目标页面地址
+	@param {Object} params json结构的参数，传入目标页面中使用
+	@param {Object} callBack 对话框点确认后的回调方法
+	@returns {String}
+*/
+
+/**
+	@name XuiService.getPageParams
+	@function
+	@description 获取页面参数，json格式
+	@param {String} pageId 页面id
+	@returns {Object}
+*/
+
+/**
+	@name XuiService.getXuiDoc
+	@function
+	@description 获取xui文档对象，该对象用于操作java端的dom节点
+	@returns {XuiDoc}
+*/
+
+/**
+	@name XuiService.getAllAppNames
+	@function
+	@description 获取UI下所有的应用名称
+	@returns {String[]}
+*/
+
+/**
+	@name XuiService.xuiDoc
+	@url $UI2/system/components/designerCommon/js/xuiService/xuiDoc
+	@class 
+	@extendurl $UI/system/lib/base/object
+	@category javascript
+	@description data的行数据对象
+	@model UI2
+**/
+
+/**
+	@name Data.Row#data
+	@property
+	@type Data 
+	@description <b>[filed][readonly]</b>行数据的data对象
+*/ 
+
+/**
+	@name XuiService.xuiDoc#getFilePath
+	@function
+	@description 获取当前的w文件路径
+	@returns {String}
+ */ 
+
+/**
+	@name XuiService.xuiDoc#getNodeByDId
+	@function
+	@param {String} did 页面id
+	@description 根据设计时id获取模型节点
+	@returns {String} 返回目标节点的字符串格式
+ */ 
+
+ 
+ /**
+	@name XuiService.xuiDoc#selectNodes
+	@function
+	@param {String} xpath 标准的xpath表达式
+	@description 根据xpath选择模型节点
+	@returns {String} 返回目标节点的字符串格式
+ */ 
+ 
+  /**
+	@name XuiService.xuiDoc#genaXId
+	@function
+	@param {String} componentName 组件注册名
+	@description 生成全文档唯一的xid
+	@returns {String} 
+ */ 
+ 
+ /**
+	@name XuiService.xuiDoc#getTemplate
+	@function
+	@param {String} componentName 组件注册名
+	@description 获取组件模版内容
+	@returns {String} 
+ */ 
+ 
+ /**
+	@name XuiService.xuiDoc#createComponent
+	@function
+	@param {String} componentName 组件注册名
+	@param {Object} parent 父节点  字符串或者dom节点
+	@param {Object} options json格式的可选参数，包含before--did 表示在这个id对应的元素之前插入、templateContent--模板内容、paintComponent--true/false 是否绘制当前创建的组件
+	@param {function} callBack 回调函数
+	@description 创建组件
+	@example
+	<xmp>
+	    xuiDoc.createComponent(componentName,pId,{paintComponent:paintComponent,templateContent:templateText},function(node){
+		    	
+		});
+	</xmp>
+ */ 
+ 
+ /**
+	@name XuiService.xuiDoc#batchCreateComponent
+	@function
+	@param {Object[]} configs 参数列表，单个参数项为componentName--组件注册名，parentElementId--父节点did，templateContent--模版内容
+	@param {function} callBack 回调函数
+	@description 批量创建组件
+    @example
+	  <xmp>
+		var configs = [];
+		for(var i=0;i<cols.length;i++){
+			configs.push({
+				componentName : "$UI/system/components/justep/grid/grid#column",
+				parentElementId : self.columns_dId,
+				templateContent : '<column width="100" name="'+cols[i]+'"/>'
+			});
+		}
+		//批量创建列
+		xuiDoc.batchCreateComponent(configs, function() {
+			self.repaintGrid();
+		});
+				
+	  </xmp>  
+ */ 
+ 
+ 
+ /**
+	@name XuiService.xuiDoc#deleteComponent
+	@function
+	@param {Object[]} comObjOrIds  组件对象或者did列表
+	@param {Object} options json格式的可选参数，包含paths--当前要删除节点的jquery查询路径
+	@param {function} callBack 回调函数
+	@description 删除组件
+ */ 
+ 
+/**
+	@name XuiService.xuiDoc#set
+	@function
+	@param {Object} comObjOrId  组件对象或者did 
+	@param {Object} config json格式的参数,如{name:'test'}
+	@param {function} callBack 回调函数
+	@description 设置属性值,支持同时设置多个
+ */ 
+ 
+/**
+	@name XuiService.xuiDoc#get
+	@function
+	@param {Object} comObjOrId  组件对象或者did 
+	@param {String} propName 属性名
+	@description 获取属性值
+	@returns {Object} 
+ */  
+ 
+ /**
+	@name XuiService.xuiDoc#updateProperties
+	@function
+	@param {Object} $htmlNodeList  jquery节点列表
+	@param {String[]} properties 属性列表
+	@param {Boolean} isExclude 是否是排除属性
+	@param {function} callBack 回调函数
+	@description 更新js端的dom节点属性值更新到java模型中对应的dom节点上
+ */ 
+ 
+ /**
+	@name XuiService.xuiDoc#updateNodes
+	@function
+	@param {Object} $htmlNodeList  jquery节点列表
+	@param {String[]} excludeProperties 排除那些属性不更新
+	@param {Boolean} isExclude 是否是排除属性
+	@param {function} callBack 回调函数
+	@description 把js端的dom节点内容更新到java模型中
+ */ 
+ 
+ /**
+	@name XuiService.xuiDoc#updateText
+	@function
+	@param {Object} $htmlNodeList  jquery节点列表
+	@param {Boolean} isCDATA 是否是包含在cdata中
+	@param {function} callBack 回调函数
+	@description 把js端的dom节点文本更新到java模型对应的节点中
+ */ 
+ 
+ /**
+	@name XuiService.xuiDoc#replaceChild
+	@function
+	@param {Object} comObjOrDId  组件对象或者did 
+	@param {String} childTemplate 子元素的模板内容
+	@param {Object} options 可选参数 包含：xpathCondition 查询子元素的xpath paintComponent 是否需要在界面上绘制这些子节点
+	@param {function} callBack 回调函数
+	@description  替换子元素
+ */ 
+ 
+ /**
+	@name XuiService.xuiDoc#repaintComponent
+	@function
+	@param {Object} comObjOrDId  组件对象或者did 
+	@param {function} callBack 回调函数
+	@description  重新绘制组件
+ */ 
+ 
+ /**
+	@name XuiService.xuiDoc#move
+	@function
+	@param {Object} comObjOrDId  组件对象或者did 
+	@param {Object} targetParentObjOrDId  目标父组件对象或者d_id 
+	@param {Object} beforeObjOrId  参考组件对象或者d_id --表示移动到组件之前
+	@param {function} callBack 回调函数
+	@description  移动组件节点
+ */ 
+ 
+  /**
+	@name XuiService.xuiDoc#getAllOperations
+	@function
+	@description  获取所有组件的操作
+	@returns {Object} 
+ */ 
+ 
+ /**
+	@name XuiService.xuiDoc#setCSS
+	@function
+	@param {Object} comObjOrDId  组件对象或者did 
+	@param {Object} cssConfig  json格式的设置项，如：{width:"100px",height:"450px"}
+	@description  设置css项
+ */ 
+ 
+ /**
+	@name XuiService.xuiDoc#batchSetCSS
+	@function
+	@param {String[]} d_ids  目标节点的did列表 
+	@param {Object} cssConfig  json格式的设置项，如：{width:"100px",height:"450px"}
+	@description  批量设置css项
+ */ 
+ 
+  /**
+	@name XuiService.xuiDoc#getXuiService
+	@function
+	@param {String[]} d_ids  目标节点的did列表 
+	@param {Object} cssConfig  json格式的设置项，如：{width:"100px",height:"450px"}
+	@description  获取xuiService对象
+ */ 
+ 
+ 

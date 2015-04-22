@@ -10,7 +10,7 @@ define(function(require) {
 	var webSocket = require("$UI/system/components/designerCommon/js/webSocketMng");
 	var xuiService = require("$UI/system/components/designerCommon/js/xuiService");
 	var xuiDoc = xuiService.getXuiDoc();
-	var justep = require('$UI/system/lib/justep');
+	var xmlUtil = require('$UI/system/lib/base/xml');
 
 	// function rebuildUrl(url){
 	// if(url.substring(0,4) != "http"){
@@ -77,7 +77,9 @@ define(function(require) {
 		if(currentElement){
 			var xid = currentElement.getAttribute("xid");
 			if (xid) {
-				currentElement.setAttribute("id", dModel.getContextID() + "_" + xid);
+				if(!currentElement.getAttribute("id")){
+					currentElement.setAttribute("id", dModel.getContextID() + "_" + xid);					
+				}
 			}
 		}
 
@@ -299,11 +301,33 @@ define(function(require) {
 				componentNames : JSON.stringify(array1)
 			});
 		},
+		
+		showConver : function(){
+		  if(!this.conver){
+			  this.conver = $("<div style='z-index:2000000;background:#aaa;opacity:0.2;width:100%;height:100%;position:absolute;top:0;left:0'><h3 style='width:180px;margin:auto;margin-top:200px;'>正在处理......</h3></div>").appendTo(document.body);
+		  }
+		},
+		
+		hideConver : function(){
+			if(this.conver){
+				this.conver.remove();
+				this.conver = null;
+			}
+		},
 
 		dispatchEvent : function(event) {
+			if(event.addConver){
+				this.showConver();
+				setTimeout(function(){
+					event.filePath = webSocket.getRequestParameter("filePath");
+					webSocket.callJava(event);
+				},50)
+			}else{
+				event.filePath = webSocket.getRequestParameter("filePath");
+				webSocket.callJava(event);
+			}
 			// if(window.callJava){
-			event.filePath = webSocket.getRequestParameter("filePath");
-			webSocket.callJava(event);
+
 			// }
 		},
 
@@ -313,9 +337,80 @@ define(function(require) {
 		// };
 		// this.dispatchEvent(eventInfo);
 		// },
+		/**
+		 * 打开片段模板向导.
+		 */
+		openFragmentTemplateWizard : function(config){
+			var self = this;
+			var configXml = xuiDoc.getConfig(this.currentName);
+			if(configXml){
+				configXml = $(configXml);
+				var builderUrl = configXml.attr("builder-url");
+				if(builderUrl){
+					self.endCreateComponent();
+					xuiService.openPage(builderUrl, $.extend({
+						title : configXml.attr("text"),
+						width:configXml.attr("width"),
+						height:configXml.attr("height")
+					},config), function(result) {
+						if(result){ 
+							var templateContent = config.templateContent = result.templateContent;
+							if(templateContent){
+								//截取component
+								var idx = templateContent.indexOf(">");
+								var str = templateContent.substring(0,idx);
+								var idx1 = str.indexOf(" component");
+								if(idx1 !=-1){
+									var idx2 = str.indexOf('"',idx1+2);
+									var idx3 = str.indexOf('"',idx2+2);
+									config.componentName = str.substring(idx2+1,idx3);
+								}
+							}
+							config.addConver = true;
+						 
+							var currentConfig = comConfig[config.componentName];
+							if(!currentConfig){
+								self.dispatchEvent(config);
+								return;
+							}
+							var comClass = currentConfig["js-class"];
+							if (comClass) {
+								self.callBeforecreate(comClass, config);
+								if (!config.cancel) {
+									self.dispatchEvent(config);
+								} else {
+									self.endCreateComponent();
+								}
+							} else {
+								var compPath = currentConfig["jsFilePath"] || currentConfig["owner-component"];
+								if (compPath) {
+									compPath = compPath.replace(window._$model, "$model");
+									require([ compPath ], function() {
+										window.regComponents(arguments[0]);
+										comClass = currentConfig["js-class"];
+										self.callBeforecreate(comClass, config);
+										if (!config.cancel) {
+											self.dispatchEvent(config);
+										} else {
+											self.endCreateComponent();
+										}
+									});
+									return;
+								} else {
+									self.dispatchEvent(config);
+								}
+							}
+							//self.dispatchEvent(config);
+						}
+					});
+				}
+		    }
+		},
 
 		dispatchCreateComponentEvent : function() {
 			if (typeof this.insertPos == 'object') {
+				var currentConfig = comConfig[this.currentName];
+
 				var parent = this.insertPos.parent;
 				var after = this.insertPos.after;
 				var before = this.insertPos.before;
@@ -347,14 +442,18 @@ define(function(require) {
 				}
 				var e;
 				
-				$(parentPath).trigger(e = $.Event('beforeAddChild', config));
+				$(parentPath || "*[d_id='"+config.parentElementId+"']").trigger(e = $.Event('beforeAddChild', config));
 
-				if (e.isDefaultPrevented()) return;
+				if (e.isDefaultPrevented() || config.cancel) return;
 				
 				var self = this;
 
-				var currentConfig = comConfig[this.currentName];
+			
 				if (currentConfig) {
+					if(currentConfig && currentConfig['component-type'] == 'fragmentWizard'){
+						self.openFragmentTemplateWizard(config);//打开片段模板向导
+						return;
+					}
 					var comClass = currentConfig["js-class"];
 					if (comClass) {
 						self.callBeforecreate(comClass, config);
@@ -389,7 +488,7 @@ define(function(require) {
 		callBeforecreate : function(comClass, config) {
 			if (comClass && comClass.onBeforeCreate) {
 				var templateText = xuiDoc.getCompTemplate(config.componentName);// 需要改成异步
-				config.template = justep.XML.fromString(templateText).documentElement;
+				config.template = xmlUtil.fromString(templateText).documentElement;
 				comClass.onBeforeCreate(config);
 				config.templateContent = typeof config.template == 'string' ? config.template : $(config.template).xml();
 				delete config.template;
@@ -1002,6 +1101,10 @@ define(function(require) {
 				self.dispatchLocationChangedEvent(oldPath);
 			}
 			self.hideCursor();
+			$(target).trigger($.Event('childChanged'), {
+				target : target,
+				type : 'move'
+			});
 		},
 
 		/**
@@ -1043,6 +1146,10 @@ define(function(require) {
 					current.selectionBox.paint();
 					this.repaintResizeBoxes();
 				}
+				$(current).trigger($.Event('childChanged'), {
+					target : current,
+					type : 'move'
+				});
 			}
 		},
 
@@ -1178,6 +1285,24 @@ define(function(require) {
 							com[methodName](params);
 							this.reSelect(element, true);
 						}
+					}else{
+						var comName = element.getAttribute("componentName");
+						if(comName){
+							var cfg = comConfig[comName];
+							if(cfg){
+								var owner = cfg.owner;
+								if(owner){
+									var ownerElement = $(element).closest("*[componentName='"+owner+"']")[0];
+									if(ownerElement){
+										com = this.getComponent(ownerElement);
+										if (com && com[methodName]) {
+											com[methodName](params);
+											this.reSelect(element, true);
+										}
+									}
+								}
+							}
+						}
 					}
 				}
 			}
@@ -1261,6 +1386,7 @@ define(function(require) {
 		selectTimeout : null,
 
 		paintComponent : function(config) {
+	
 			var self = this;
 			if (config.requireList && config.requireList.length > 0) {
 				for ( var i = 0; i < config.requireList.length; i += 1) {
@@ -1273,6 +1399,7 @@ define(function(require) {
 					delete config.requireList;
 					self.paintComponent(config);
 				});
+				this.hideConver();
 				return;
 			}
 
@@ -1363,7 +1490,6 @@ define(function(require) {
 				if (comClass) {
 					//element.setAttribute("tabindex", "1");  
 					element.onfocus = function(e){
-						console.log("----------->onfocus");
 						e.preventDefault(); 
 						e.stopPropagation(); 
 					}
@@ -1434,6 +1560,7 @@ define(function(require) {
 					type : 'add'
 				});
 			}
+			this.hideConver();
 		},
 
 		paintChildComponent : function(element) {
@@ -1514,6 +1641,7 @@ define(function(require) {
 					}  
 					element.setAttribute("xid", v);
 				}
+				
 				if (name == 'style') {
 					element.style.cssText = v;
 					this.reSelect(element, true);
@@ -1523,6 +1651,7 @@ define(function(require) {
 					}, config));
 					return;
 				}
+				
 				if (name == 'class') {
 					element.className = v;
 					this.reSelect(element, true);
@@ -1556,6 +1685,7 @@ define(function(require) {
 					}, config));
 					return;
 				}
+				
 				var params = {};
 				params[name] = v;
 
@@ -1596,18 +1726,23 @@ define(function(require) {
 			this.paintUI(node);
 		},
 
-		showCursor : function(x, y) {
+		showCursor : function(x, y,height) { 
+			//console.log("------------height:"+height)
+			height = height || 20;
+			var offset = $(this.element).offset();
 			if (!this.jCursorE) {
+				
 				this.jCursorE = $(
-						"<input name='cursor' style='display:none;top:0;left:0;position:absolute;background:red;z-index:13000;padding:0px;margin:0px;width:1px;height:20px;border:1px solid red'>")
-						.appendTo(this.element);
+						"<input name='cursor' style='display:none;top:0;left:0;position:absolute;background:red;z-index:93000;padding:0px;margin:0px;width:3px;height:"+height+"px;border:1px solid red'>")
+						.appendTo(document.body);
 			}
 			var parentNode = this.jCursorE[0].parentNode;
 			var scrollTop = this.getParentScrollTop(parentNode);
 			var scrollLeft = this.getParentScrollLeft(parentNode);
 			this.jCursorE.css({
-				top : y + scrollTop,
-				left : x + scrollLeft
+				top : y + scrollTop+offset.top,
+				left : x + scrollLeft + offset.left,
+				height:height
 			}).show();
 		},
 		getParentScrollTop : function(e) {
@@ -1769,6 +1904,7 @@ define(function(require) {
 					if (je.length == 0) {
 						continue;
 					}
+					var pe = je.parentNode;
 					self.unSelection(je);
 					var com = this.getComponent(je[0]);
 					je[0].componentObj = null;
@@ -1776,12 +1912,17 @@ define(function(require) {
 						this.componentObj = null;
 						self.beforeRemove(this);
 					});
+					$(je[0]).trigger($.Event('childChanged'), {
+						target : je[0],
+						type : 'remove'
+					});
 					if (com && com.dispose) {
 						com.dispose();
 					}
 					self.beforeRemove(je[0]);
 					je.remove();
 					removeCount += 1;
+
 				}
 
 			} else {
@@ -1798,11 +1939,16 @@ define(function(require) {
 						this.componentObj = null;
 						self.beforeRemove(this);
 					});
+					$(e).trigger($.Event('childChanged'), {
+						target : e,
+						type : 'remove'
+					});
 					if (com && com.dispose) {
 						com.dispose();
 					}
 					self.beforeRemove(e);
 					parent.removeChild(e);
+
 				}
 				this.selections = [];
 				// this.clearResizeBoxes();
@@ -2265,7 +2411,7 @@ define(function(require) {
 		},
 
 		/** 计算组件的插入位置* */
-		calcuInsertPos : function(currentElementOrComName, targetElement, clientX, clientY) {
+		calcuInsertPos : function(currentElementOrComName, targetElement, clientX, clientY) { 
 			var p = targetElement;
 			while (p && p.nodeType == 1) {
 				if (p == currentElementOrComName) {
@@ -2307,7 +2453,7 @@ define(function(require) {
 					var offset1 = jChildE.offset();
 
 					// println(refenceE.outerHTML+"------11-------->"+offset.left);
-					this.showCursor(offset1.left + jChildE.outerWidth() - containerOffset.left, offset1.top - containerOffset.top - 1);
+					this.showCursor(offset1.left + jChildE.outerWidth() - containerOffset.left, offset1.top - containerOffset.top - 1,jChildE.outerHeight());
 					// debugger;
 
 					return {
@@ -2344,7 +2490,7 @@ define(function(require) {
 								this.hideCursor();
 								return 3;
 							}
-							this.showCursor(offset.left - containerOffset1.left - 2, offset.top - containerOffset1.top - 1);
+							this.showCursor(offset.left - containerOffset1.left - 2, offset.top - containerOffset1.top - 1,jRefenceE.outerHeight());
 							return {
 								position : this.getConfigItem(currentElementOrComName, "position"),
 								left : clientX,
@@ -2358,7 +2504,7 @@ define(function(require) {
 								this.hideCursor();
 								return 4;
 							}
-							this.showCursor(offset.left + jRefenceE.outerWidth() - containerOffset1.left, offset.top - containerOffset1.top - 1);
+							this.showCursor(offset.left + jRefenceE.outerWidth() - containerOffset1.left, offset.top - containerOffset1.top - 1,jRefenceE.outerHeight());
 							return {
 								position : this.getConfigItem(currentElementOrComName, "position"),
 								left : clientX,

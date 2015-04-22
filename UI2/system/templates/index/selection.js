@@ -4,7 +4,7 @@ define(function(require) {
 	var bind = require("bind");
 	var XML = require('$UI/system/lib/base/xml');
 	var templateService = require("$UI/system/templates/common/js/templateService");
-	var loadTreeJs = require("./loadTreeJs");
+	var loadTreeJs = require("$UI/system/components/designerCommon/tree/tree");
 
 	loadTreeJs($);
 
@@ -170,7 +170,7 @@ define(function(require) {
 		var imgWindow=$("#imgWindow");
 		var imgContainer=$("#imgContainer");
 		if(imgContainer.width()-imgWindow.width()-imgWindow.scrollLeft()>=0){
-			imgWindow.scrollLeft(imgWindow.scrollLeft()+100);
+			imgWindow.scrollLeft(imgWindow.scrollLeft()+300);
 			if(imgContainer.width()-imgWindow.width()-imgWindow.scrollLeft()<0)
 				imgWindow.scrollLeft(imgContainer.width()-imgWindow.width());
 		}

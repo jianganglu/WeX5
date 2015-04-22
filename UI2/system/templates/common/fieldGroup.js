@@ -105,7 +105,8 @@ define(function(require) {
 	}
 
 	Model.prototype.getField = function() {
-		var useField = this.config.current.mainData.reportField;
+		var mainData = this.config.current.mainData;
+		var useField = mainData.reportField ? mainData.reportField : "";
 		var data = this.comp("data");
 		var groupData = this.comp("groupData");
 		var count = data.datas.get().length + groupData.datas.get().length;
@@ -127,6 +128,7 @@ define(function(require) {
 
 	Model.prototype.dataIndexChanged = function(event) {
 		var data = event.source;
+		if(!this.templateEngine) return ;
 		var config = this.templateEngine.getConfig();
 		var report_data = [];
 		data.each(function(param) {
@@ -141,6 +143,7 @@ define(function(require) {
 
 	Model.prototype.groupDataIndexChanged = function(event) {
 		var data = event.source;
+		if(!this.templateEngine) return ;
 		var config = this.templateEngine.getConfig();
 		var groupdata = [];
 		data.each(function(param) {

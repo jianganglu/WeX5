@@ -1,11 +1,12 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <elements>
-	<element name="$UI/system/components/bootstrap/pagination/pagination" tag-type="rich" tag-name="div" icon="pagination.png" text="工具条"  
+	<element name="$UI/system/components/bootstrap/pagination/pagination(bootstrap)" tag-type="rich" tag-name="div" icon="pagination.png" text="工具条"  
 	    binding-component="$UI/system/components/bootstrap/pagination/pagination" display-property="xid" 
 		component-type="layout-container" validator="ViewValidator" design-view="web-designer" >
 		<properties>
 			<property name="xid" text="编号" required="false" editor-discriptor-ref=""/>
 			<property name="data" text="引用数据" required="true"  editor-ref="dataPropDlg" is-id-ref="true"/>
+			<property name="length" text="数子按钮的个数" data-type="integer" default-value="7"/>
 			<property name="class"  text="class" editor-ref="classSelector">
 				<editor-parameter><![CDATA[
 				{
@@ -34,9 +35,6 @@
 		   <template name="default"><![CDATA[
 			<ul class="pagination" component="$UI/system/components/bootstrap/pagination/pagination">
 		        <li class="prev"><a href="#"><span aria-hidden="true">«</span><span class="sr-only">Previous</span></a></li>
-		        <li><a href="#">1</a></li>
-		        <li><a href="#">2</a></li>
-		        <li><a href="#">3</a></li>
 		        <li class="next"><a href="#"><span aria-hidden="true">»</span><span class="sr-only">Next</span></a></li>
 	      	</ul>		    
 		   ]]></template>

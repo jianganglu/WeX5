@@ -1,5 +1,6 @@
 define(function(require) {
 	var $ = require("jquery"), idIdx = 0, callBackCount = 0;
+	var xmlUtil = require('$UI/system/lib/base/xml');
 	var webSocket = require("$UI/system/components/designerCommon/js/webSocketMng");
 	var xuiServiceName = "com.justep.designer.service.XuiService";
 	window.errorCallBack = function(errorMsg) {
@@ -66,7 +67,20 @@ define(function(require) {
  
 			return template;
 		},
-
+		
+		/**
+		 * 获取组件模版内容.
+		 */
+		getConfig : function(componentName){
+			var xml = this.callJava(xuiServiceName, "getConfig", {
+				async : false,
+				"componentName" : componentName
+			});
+			if(xml){
+				return xmlUtil.fromString(xml).documentElement
+			}
+		},
+		
 		/**
 		 * 创建组件. parent 父节点--可以是dom节点也可以是d_id options 包含before--d_id
 		 * 表示在这个id对应的元素之前插入、templateContent--模板内容
@@ -412,10 +426,10 @@ define(function(require) {
 		 * 
 		 * @returns
 		 */
-		getAllOperations : function() {
+		getAllOperations : function(callBack) {
 			return this.callJava(xuiServiceName, "getAllOperations", {
-				async : false
-			});
+				async : true
+			},callBack);
 		},
 
 		/**
@@ -500,7 +514,7 @@ define(function(require) {
 		    }
 		   }
 		   if(lastStr){
-		    href += lastStr;
+			   href += lastStr;
 		   }
 		 
 		   params = params || {};

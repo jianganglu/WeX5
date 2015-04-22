@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <div xmlns="http://www.w3.org/1999/xhtml" xid="window" class="window" component="$UI/system/components/justep/window/window">  
-  <div component="$UI/system/components/justep/panel/panel" class="x-panel x-full"
+  <div component="$UI/system/components/justep/model/model" xid="model" style="position:absolute;;left:382.0px;top:99.0px" onLoad="modelLoad"></div><div component="$UI/system/components/justep/panel/panel" class="x-panel x-full"
     xid="panel"> 
     <div class="x-panel-top" xid="top1"> 
       <div component="$UI/system/components/justep/titleBar/titleBar" class="x-titlebar"
@@ -17,9 +17,9 @@
         <div class="x-titlebar-right reverse" xid="div3"/> 
       </div> 
     </div>  
-    <div class="x-panel-content" xid="content1"> 
+    <div class="x-panel-content" xid="content1" style="padding:8.75px"> 
       <div id="aler"/>  
-      <h3  style="height:48px;vertical-align: middle;padding: 8px;display: inline-block;">panel demo</h3>
+      <h3  style="height:48px;vertical-align: middle;padding: 8px;display: inline-block;">panel</h3>
           
         <a component="$UI/system/components/justep/button/button" class="btn btn-link"
           label="js" xid="jsSource" onClick="showJsSource"> 
@@ -47,8 +47,8 @@
     </div>  
     <div class="x-panel-bottom" xid="bottom1" style="background-color:#CCCCCC;"> 
       <h3 align="center">bottom部分 </h3> 
-      <span component="$UI/system/components/justep/windowDialog/windowDialog"
-        xid="windowDialog" src="$UI/system/components/justep/common/demo/dialog.w"/> 
     </div> 
+      <span component="$UI/system/components/justep/windowDialog/windowDialog"
+        xid="windowDialog" src="$UI/system/components/justep/common/demo/dialog.w" status="normal"/> 
   </div> 
 </div>

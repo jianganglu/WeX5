@@ -1,0 +1,71 @@
+/**
+	@name Row
+	@component $UI/system/components/justep/router/router
+	@extends ViewComponent
+	@extendurl $UI/system/lib/base/viewComponent
+	@description Router组件
+	@model UI2
+	@example
+	<xmp>
+	</xmp>
+*/
+
+/**
+	@name Router#xid
+	@attribute 
+	@type string
+	@description 
+*/	
+
+/**
+ @name Router#addRouteItem
+ @function
+ @param {string} type 路由项类型
+ @param {integer} param 路由项参数 
+ @description 添加路由项
+*/
+
+/**
+ @name Router#removeRouteItem
+ @function
+ @param {string} type 路由项类型
+ @description 删除路由项
+*/
+
+/**
+ @name Router#addRouteInnerItem
+ @function
+ @param {string} type 路由项类型
+ @param {integer} hashbang 子路由hashbang
+ @description 添加子路由
+*/
+
+/**
+ @name Router#publishState
+ @function
+ @param {boolean} isReplace 是否替换
+ @description 提交路由变动信息
+*/
+
+/**
+	@name Router#onRoute
+	@event 
+	@type string
+	@description 路由变动事件 
+	@param event 它的结构如下:
+	<xmp>
+	{	"source":"当前组件",
+		"cancel":"false",
+		"xid":"xid",
+		"name":"name",
+		"param":"param",
+		"routeState":"routeState",
+		"async":"false",
+		"dtd":"dtd"
+	}
+	</xmp>
+	
+	
+	
+	
+*/

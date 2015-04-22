@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <elements>
-	<element name="$UI/system/components/bootstrap/table/table" tag-type="rich" tag-name="div" icon="table.png" text="简单表格"
+	<element name="$UI/system/components/bootstrap/table/table(bootstrap)" tag-type="rich" tag-name="div" icon="table.png" text="简单表格"
 	    binding-component="$UI/system/components/bootstrap/table/table" 
 		component-type="layout-container"  design-view="web-designer" >
 		 		<properties>
@@ -80,7 +80,7 @@
 		</templates>
 	  </element>
 	  
-	 <element name="$UI/system/components/bootstrap/table/table#col" tag-name="th" icon="column.gif" text="top"  display-property="label,name"
+	 <element name="$UI/system/components/bootstrap/table/table(bootstrap)#col" tag-name="th" icon="column.gif" text="top"  display-property="label,name"
 		discriminate-condition="executeXpath(parent::node()/parent::node()/parent::node()/@component='$UI/system/components/bootstrap/table/table')" 
 		component-class="" component-type="layout-container" ownerCompName="$UI/system/components/bootstrap/table/table" parent-range="tr">
 		<properties>

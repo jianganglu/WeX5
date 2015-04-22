@@ -11,7 +11,7 @@
 			<property name="data" text="关联的data" editor-ref="contextComponent" editor-parameter="data"/>	
 			 -->
 			<property name="dataType" text="数据类型,当有bind-ref时使用bind-ref的数据类型" enabled-condition="not(@bind-ref)" editor-ref="dataTypeList"/>	
-			<property name="format" text="格式化，当绑定数据类型为Date、DateTime、Time时的显示格式" editor-ref="formatList"  readonly="false"/>
+			<property name="format" text="格式化，当绑定数据类型为Date、DateTime、Time、数值时的显示格式" editor-ref="inputFormatList"  readonly="false"/>
 			<property name="min" text="最小值，当绑定数据类型为Date、DateTime、Time时控制选择时间" editor-ref="minList"  readonly="false"/>
 			<property name="max" text="最大值，当绑定数据类型为Date、DateTime、Time时控制选择时间" editor-ref="maxList"  readonly="false"/>
 			<property name="placeHolder" text="提示信息"/>
@@ -42,6 +42,9 @@
 			<include path="$UI/system/components/designerCommon/commonConfig.xml#//common-properties/group[@name='bind']"/>
 		</properties>
 		<property-editors>
+			<property-editor name="inputFormatList" type="list">
+				<static-data value=",0{comma}000.00,yyyy-MM-dd,yyyy-MM-dd hh{semicolon}mm" />
+			</property-editor>
 			<property-editor name="dataTypeList" type="list" >
 				<static-data value="String,Integer,Float,Date,Time,DateTime"/>
 			</property-editor>

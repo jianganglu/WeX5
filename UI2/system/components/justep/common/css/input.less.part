@@ -3,6 +3,9 @@
 	padding-right: 22px;
 	cursor: pointer;
 
+	&[readonly]{
+		cursor: pointer;
+	}
   // Disabled and read-only inputs
   //
   // HTML5 says that controls under a fieldset > legend:first-child won't be
@@ -33,7 +36,7 @@ input.form-control[type='range']{
 	appearance: slider-horizontal;
 }
 
-select.form-control {
+.appearance select.form-control {
 	-webkit-appearance: textfield;
 	-moz-appearance: textfield;
 	appearance: textfield;
@@ -42,19 +45,19 @@ select.form-control {
 	background: @input-bg url(./img/chevron.png) no-repeat 100%;
 }
 
-select.input-sm {
+.appearance select.input-sm {
 	padding: 0 @padding-small-horizontal;
 }
 
-select.input-lg {
+.appearance select.input-lg {
 	padding: 0 @padding-large-horizontal;
 }
 
 .x-output {
   display: block;
-  font-size: @font-size-base;
+  /*font-size: @font-size-base;
   line-height: @line-height-base;
-  /*color: @label-color;*/
+  color: @label-color;*/
 }
 
 .form-inline {

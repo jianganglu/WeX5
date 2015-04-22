@@ -17,7 +17,7 @@ define(function(require) {
 					if(idx2 != -1){
 						targetValue = targetValue.substring(0,idx2);
 					}
-					return targetValue;
+					return decodeURIComponent(targetValue);
 				}
 			}
 		}

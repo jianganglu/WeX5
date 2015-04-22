@@ -29,6 +29,13 @@
 */
 
 /**
+	@name WindowDialog#forceRefreshOnOpen
+	@attribute 
+	@type boolean
+	@description 打开.w时强制刷新
+*/
+
+/**
 	@name WindowDialog#set
 	@function
 	@description 设置属性值
@@ -45,7 +52,8 @@
 		"left": {string} 对话框左偏移，支持css中所有的长度单位，如：200px、10%，缺省：居中	
 		"src" : {string} .w的url，需要使用require.toUrl(...)处理
 		"process" : {string} 打开.w使用的process，缺省使用当前环境的
-		"activity: {string}	打开.w使用的activity，缺省使用当前环境的		
+		"activity: {string}	打开.w使用的activity，缺省使用当前环境的
+		"forceRefreshOnOpen": {boolean} 打开.w时强制刷新，缺省false		
 	}
 	</xmp>	
 	@return {void} 

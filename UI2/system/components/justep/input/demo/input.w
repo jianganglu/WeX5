@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <div xmlns="http://www.w3.org/1999/xhtml" xid="window" class="window" component="$UI/system/components/justep/window/window">  
-  <div component="$UI/system/components/justep/model/model" xid="model1" style="position:absolute;height:auto;left:376px;top:13px;"> 
+  <div component="$UI/system/components/justep/model/model" xid="model" style="position:absolute;height:auto;left:376px;top:13px;" onLoad="modelLoad"> 
     <div component="$UI/system/components/justep/data/data" autoLoad="true"
       xid="data"> 
       <column label="id" name="id" type="String" xid="default1"/>  
@@ -34,12 +34,13 @@
     <div class="x-panel-content" xid="content1"> 
       <div component="$UI/system/components/justep/controlGroup/controlGroup"
         class="x-control-group" title="title"> 
-        <h3 style="height:48px;vertical-align: middle;padding: 8px;display: inline-block;">input style</h3>  
+        <h3>input style  
         <a component="$UI/system/components/justep/button/button" class="btn btn-link"
           label="源码" xid="button2" onClick="showInpStyleSource" bind-visible="flag"> 
           <i xid="i2"/>  
           <span xid="span2">源码</span> 
-        </a>  
+        </a> 
+        </h3>
         <div xid="controlGroupStyle"> 
           <input component="$UI/system/components/justep/input/input" class="form-control x-label-edit"
             xid="input1" placeHolder="input-default"/>  
@@ -53,12 +54,13 @@
       </div>  
       <div component="$UI/system/components/justep/controlGroup/controlGroup"
         class="x-control-group" title="title" xid="controlGroupUse"> 
-        <h3 style="height:48px;vertical-align: middle;padding: 8px;display: inline-block;">input use</h3>  
+        <h3>input use  
         <a component="$UI/system/components/justep/button/button" class="btn btn-link"
           label="源码" xid="button4" onClick="showInpUseSource" bind-visible="flag"> 
           <i xid="i4"/>  
           <span xid="span4">源码</span> 
-        </a>  
+        </a> 
+        </h3> 
         <div component="$UI/system/components/justep/labelEdit/labelEdit" class="x-label-edit"
           xid="labelInput1"> 
           <label class="x-label" xid="label1" style="width:20%;" bind-text="data.label('fString')"/>  
@@ -104,7 +106,7 @@
       </div>  
       <div component="$UI/system/components/justep/controlGroup/controlGroup"
         class="x-control-group" title="title" xid="controlGroupEvent"> 
-        <h3 style="height:48px;vertical-align: middle;padding: 8px;display: inline-block;">input event</h3>  
+        <h3>input event  
           
         <a component="$UI/system/components/justep/button/button" class="btn btn-link"
           label="js" xid="button7" onClick="showJsSource"> 
@@ -114,7 +116,9 @@
         <a component="$UI/system/components/justep/button/button" class="btn btn-link" label="源码" xid="button6" onClick="showInpEvent" bind-visible="flag"> 
           <i xid="i6" />  
           <span xid="span6">源码</span> 
-        </a><input component="$UI/system/components/justep/input/input" class="form-control x-label-edit"
+        </a>
+        </h3>
+        <input component="$UI/system/components/justep/input/input" class="form-control x-label-edit"
           xid="input16" onChange="inputChange"/>  
         <p>onRender事件，下面例子中输入1显示蓝色，输入2显示红色，输入其他显示黄色</p>  
         <input component="$UI/system/components/justep/input/input" class="form-control x-label-edit"
@@ -141,5 +145,5 @@
     </div> 
   </div>  
   <span component="$UI/system/components/justep/windowDialog/windowDialog" xid="windowDialog"
-    style="left:458px;top:183px;" src="$UI/system/components/justep/common/demo/dialog.w"/> 
+    style="left:458px;top:183px;" src="$UI/system/components/justep/common/demo/dialog.w" status="normal"/> 
 </div>

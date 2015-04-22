@@ -1,5 +1,15 @@
 @import "../../../bootstrap/lib/css/mixins.less";
 
+.x-dialog-body-overflow-hidden{
+	overflow: hidden;
+}
+
+.x-dialog-drag{
+	.x-dialog{
+		cursor: move;
+	}
+}
+
 .x-dialog-overlay {
 	position: fixed;
 	left: 0;
@@ -62,7 +72,7 @@
 
 .x-dialog[showTitle='true']{
 	padding-top: (@modal-title-padding + @modal-title-padding + floor((@font-size-h4 * @line-height-base)) + 1);/*'padding-top'+'padding-bottom'+text+border*/
-	.x-dialog-title{
+	&>.x-dialog-title{
 		display: block;
 	}
 }

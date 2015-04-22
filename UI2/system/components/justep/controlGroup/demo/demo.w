@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <div xmlns="http://www.w3.org/1999/xhtml" component="$UI/system/components/justep/window/window">  
-  <div component="$UI/system/components/justep/model/model" xid="model" style="height:auto;left:523px;top:619px;"> 
+  <div component="$UI/system/components/justep/model/model" xid="model" style="height:auto;left:523px;top:619px;" onLoad="modelLoad"> 
     <div component="$UI/system/components/justep/data/data" xid="mainData"
       idColumn="fName" autoLoad="true"> 
       <column name="fName" type="String" label="名称"/>  
@@ -38,15 +38,15 @@
       </div> 
     </div>  
     <div class="x-panel-content" xid="content1"> 
-      <p>容器组件,用来放置一组组件或数据 <a component="$UI/system/components/justep/button/button" class="btn btn-link"
+      <p style="padding-left:8.75px">容器组件,用来放置一组组件或数据 <a component="$UI/system/components/justep/button/button" class="btn btn-link"
           label="源码" xid="button1" onClick="showControlGroupStyle" bind-visible="isVisible"> 
           <i xid="i1"/>  
           <span xid="span1">源码</span> 
         </a> </p>  
       <div component="$UI/system/components/justep/controlGroup/controlGroup"
-        class="x-control-group" xid="controlGroupStyle" title="demo controlGroup"> 
+        class="x-control-group" xid="controlGroupStyle" title="controlGroup"> 
         <div class="x-control-group-title" xid="controlGroupTitle1"> 
-          <span xid="span2">demo controlGroup</span>
+          <span xid="span2">controlGroup</span>
         </div>  
         <div component="$UI/system/components/justep/labelEdit/labelEdit" class="x-label-edit x-label25"> 
           <label class="x-label center" data="mainData" bind-text="mainData.label('fName')"/>  
@@ -87,5 +87,5 @@
     </div>  
     </div>  
   <span component="$UI/system/components/justep/windowDialog/windowDialog" xid="windowDialog"
-    src="$UI/system/components/justep/common/demo/dialog.w" style="left:330px;top:394px;"/> 
+    src="$UI/system/components/justep/common/demo/dialog.w" style="left:330px;top:394px;" status="normal"/> 
 </div>

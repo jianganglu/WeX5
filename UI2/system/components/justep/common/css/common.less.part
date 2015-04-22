@@ -1,8 +1,5 @@
-html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, i, u, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, fieldset, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  vertical-align: baseline;
+a {
+	cursor: pointer;
 }
 
 ol, ul {
@@ -14,7 +11,6 @@ ol, ul {
 	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 	-moz-tap-highlight-color: rgba(0, 0, 0, 0);
 	-ms-touch-action: none;
-	-moz-user-select: -moz-none;
 	-webkit-touch-callout: none;
 	margin: 0;
 	padding: 0;
@@ -38,40 +34,20 @@ ol, ul {
       .box-shadow(@shadow);
     }
   }
+  &.x-cell-control {
+	background-image: url(img/errorLine.gif);
+	background-repeat: repeat-x;
+	background-position: bottom;
+  }
 }
 
 /** flex b------------------------- **/
-.x-flex(){
-	display: -webkit-box;
-	display: -webkit-flex;
-	display: -moz-box;
-	display: -moz-flex;
-	display: -ms-flexbox;
-	display: flex;
-}
-
 .x-flex{
-	.x-flex();
-}
-
-.x-flex-column(){
-	-webkit-box-direction: normal;
-	-moz-box-direction: normal;
-	-webkit-box-orient: vertical;
-	-moz-box-orient: vertical;
-	-webkit-flex-direction: column;
-	-ms-flex-direction: column;
-	flex-direction: column;
+	.x-flex-display();
 }
 
 .x-flex-column{
 	.x-flex-column();
-}
-
-.x-flex(@i){
-	-webkit-box-flex: @i;
-	-webkit-flex: @i;
-	flex: @i;
 }
 
 .x-flex1{
@@ -97,6 +73,29 @@ ol, ul {
    height:100%;
 }
 
+.x-cell-control{
+	.x-cell-control();
+	&.x-control > *{
+		.x-cell-control();
+	}
+	&.input-group{
+		.form-control{
+			.x-cell-control();
+		}
+		.input-group-btn>.btn{
+			width: 100%!important;
+			height: 100%!important;
+			border-top: 0px!important;
+			border-right: 0px!important;
+			border-bottom: 0px!important;
+			padding-top: 0px!important;
+			padding-bottom: 0px!important;
+			margin: 0px!important;
+			border-radius: 0!important;
+		}
+	}
+}
+
 .x-full {
 	position: absolute!important;
 	top: 0;
@@ -104,4 +103,29 @@ ol, ul {
 	bottom: 0;
 	height: auto;
 	width: 100%;
+}
+
+.form-inline {
+  // Kick in the inline
+  @media (min-width: @screen-sm-min) {
+    // Inline-block all the things for "inline"
+    .x-control {
+      display: inline-block;
+    }
+  }
+}
+
+.x-bordered{
+	border-radius: @panel-border-radius;
+  	border: 1px solid @panel-default-border;
+  	overflow: auto;	
+}
+
+.x-hint {
+	position: absolute;
+	top: 50px;
+	left: 50%;
+	width: 300px;
+	margin-left: -150px;
+	z-index: 1000;
 }

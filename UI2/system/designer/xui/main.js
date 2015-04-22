@@ -12,7 +12,7 @@ function getRequestParameter(paramName) {
 				if (idx2 != -1) {
 					targetValue = targetValue.substring(0, idx2);
 				}
-				return targetValue;
+				return decodeURIComponent(targetValue);;
 			}
 		}
 	}
@@ -37,6 +37,8 @@ requirejs.config({
 	paths : {
 		'$model' : "/" + contextPathName + "/"+__version,// _$model,
 		'bind' : '../../lib/bind/bind',
+		'modernizr': '../../lib/base/modernizr-2.8.3.min',
+
 		// 'framework' : uiPath + '/system/lib/framework',
 		// 'plugins' : uiPath + '/system/lib/framework/plugins',
 		// 'transitions' : uiPath + '/system/lib/framework/transitions',
@@ -52,10 +54,9 @@ requirejs.config({
 	// 'comConfig':'componentConfig2'
 	},
 	shim : {
-	// 'bootstrap': {
-	// deps: ['jquery'],
-	// exports: 'jQuery'
-	// }
+        'modernizr': {
+            exports: 'Modernizr'
+           }
 	},
 	map : {
 		  '*' : {
@@ -65,8 +66,8 @@ requirejs.config({
 		   css : _systemPath + '/lib/require/css.js'
 		  }
 	},
-
-	waitSeconds : 600
+	deps: ['modernizr'],
+	waitSeconds : 30
 });
 
 var initData;
@@ -85,10 +86,10 @@ function executeMethod(params) {
 }
 
 function executeCompMethod(params) {
+	
 	var oParams = typeof params == 'string' ? eval("(" + params + ")") : params;
 	var dId = params["d_id"];
 	var target = $("*[d_id='" + dId + "']:first")[0];
-
 	if (!target) {
 		return;
 	}
@@ -108,7 +109,8 @@ function executeCompMethod(params) {
 	}
 
 	delete params.target;
-	return JSON.stringify(params);
+	var str = JSON.stringify(params);
+	return str;
 }
 
 function regComponents(componentMap) {

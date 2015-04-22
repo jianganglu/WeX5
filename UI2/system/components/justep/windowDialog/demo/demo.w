@@ -19,7 +19,7 @@
     </div>  
     <div class="x-panel-content" xid="content1"> 
       <span component="$UI/system/components/justep/windowDialog/windowDialog"
-        xid="sourceDialog" src="$UI/system/components/justep/common/demo/dialog.w"/>  
+        xid="sourceDialog" src="$UI/system/components/justep/common/demo/dialog.w" status="normal"/>  
       <span component="$UI/system/components/justep/windowDialog/windowDialog"
         xid="windowDialog" style="top:107px;left:200px;" src="$UI/system/components/justep/windowDialog/demo/dialog.w" onReceive="windowDialogReceive"/>  
       <div xid="dialog"/>  

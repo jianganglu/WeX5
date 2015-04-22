@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <elements>
-	<element name="$UI/system/components/bootstrap/carousel/carousel" tag-type="rich" tag-name="div" icon="carousel.png" text="幻灯片"  
+	<element name="$UI/system/components/bootstrap/carousel/carousel(bootstrap)" tag-type="rich" tag-name="div" icon="carousel.png" text="幻灯片"  
 	    binding-component="$UI/system/components/bootstrap/carousel/carousel" display-property="xid" 
 		component-type="layout-container" validator="ViewValidator" design-view="web-designer" >
 		<properties>
@@ -27,11 +27,11 @@
         			active="0" slidable="true" wrap="true" swipe="true"> 
 			        <div class="x-contents-content"></div>  
 				</div>
-		  		<a class="left carousel-control" href="javascript:void(0)" role="button">
+		  		<a class="left carousel-control"  role="button">
 				    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
 				    <span class="sr-only">Previous</span>
 				</a>
-				<a class="right carousel-control" href="javascript:void(0)" role="button">
+				<a class="right carousel-control"  role="button">
 				    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
 				    <span class="sr-only">Next</span>
 				</a>				

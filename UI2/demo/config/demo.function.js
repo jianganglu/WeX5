@@ -25,13 +25,18 @@ define(function(require) {
 	require("w!/UI2/system/components/justep/contents/demo/contents.w");
 	require("w!/UI2/system/components/justep/model/demo/model.w");
 	require("w!/UI2/system/components/justep/cordova/demo/www/index.w");
-	require("w!/UI2/demo/device/process/geolocation/mainActivity.w");
-	require("w!/UI2/demo/device/process/barcode/mainActivity.w");
-	require("w!/UI2/demo/device/process/audio/mainActivity.w");
-	require("w!/UI2/demo/device/process/accelerometer/mainActivity.w");
-	require("w!/UI2/demo/device/process/camera/mainActivity.w");
-	require("w!/UI2/demo/uiSample/todoMVC/index.w");
+	require("w!/UI2/demo/device/geolocation/mainActivity.w");
+	require("w!/UI2/demo/device/barcode/mainActivity.w");
+	require("w!/UI2/demo/device/audio/mainActivity.w");
+	require("w!/UI2/demo/device/accelerometer/mainActivity.w");
+	require("w!/UI2/demo/device/camera/mainActivity.w");
+	require("w!/UI2/demo/misc/todoMVC/index.w");
 	require("w!/UI2/takeout/index.w");
+	require("w!/UI2/demo/baas/complexData/index.w");
+	require("w!/UI2/demo/baas/masterDetail/index.w");
+	require("w!/UI2/demo/baas/simpleData/index.w");
+	require("w!/UI2/demo/baas/treeData/index.w");
+	require("w!/UI2/demo/baas/treeDelayLoad/index.w");
 	require("w!/UI2/system/components/justep/data/demo/base.w");
 	require("w!/UI2/system/components/justep/barcode/demo/demoBarcodeImage.w");
 	return {
@@ -47,9 +52,44 @@ define(function(require) {
 				"$name" : "item",
 				"$text" : "",
 				"display" : "solid",
+				"label" : "简单数据",
+				"psmCount" : "1",
+				"url" : "/UI2/demo/baas/simpleData/index.w"
+			}, {
+				"$name" : "item",
+				"$text" : "",
+				"display" : "solid",
+				"label" : "复杂数据",
+				"psmCount" : "1",
+				"url" : "/UI2/demo/baas/complexData/index.w"
+			}, {
+				"$name" : "item",
+				"$text" : "",
+				"display" : "solid",
+				"label" : "树形数据一次加载",
+				"psmCount" : "1",
+				"url" : "/UI2/demo/baas/treeData/index.w"
+			}, {
+				"$name" : "item",
+				"$text" : "",
+				"display" : "solid",
+				"label" : "树形数据逐级加载",
+				"psmCount" : "1",
+				"url" : "/UI2/demo/baas/treeDelayLoad/index.w"
+			}, {
+				"$name" : "item",
+				"$text" : "",
+				"display" : "solid",
+				"label" : "主从数据",
+				"psmCount" : "1",
+				"url" : "/UI2/demo/baas/masterDetail/index.w"
+			}, {
+				"$name" : "item",
+				"$text" : "",
+				"display" : "solid",
 				"label" : "TodoMVC",
 				"psmCount" : "1",
-				"url" : "/UI2/demo/uiSample/todoMVC/index.w"
+				"url" : "/UI2/demo/misc/todoMVC/index.w"
 			} ],
 			"$name" : "item",
 			"$text" : "",
@@ -62,36 +102,36 @@ define(function(require) {
 				"display" : "solid",
 				"label" : "摄像头拍照/录像",
 				"psmCount" : "1",
-				"url" : "/UI2/demo/device/process/camera/mainActivity.w"
+				"url" : "/UI2/demo/device/camera/mainActivity.w"
 			}, {
 				"$name" : "item",
 				"$text" : "",
 				"display" : "solid",
 				"label" : "加速度传感器",
 				"psmCount" : "1",
-				"url" : "/UI2/demo/device/process/accelerometer/mainActivity.w"
+				"url" : "/UI2/demo/device/accelerometer/mainActivity.w"
 			}, {
 				"$name" : "item",
 				"$text" : "",
 				"display" : "solid",
 				"label" : "音频录制/播放",
 				"psmCount" : "1",
-				"url" : "/UI2/demo/device/process/audio/mainActivity.w"
+				"url" : "/UI2/demo/device/audio/mainActivity.w"
 			}, {
 				"$name" : "item",
 				"$text" : "",
 				"display" : "solid",
 				"label" : "二维码扫描",
 				"psmCount" : "1",
-				"url" : "/UI2/demo/device/process/barcode/mainActivity.w"
+				"url" : "/UI2/demo/device/barcode/mainActivity.w"
 			}, {
 				"$name" : "item",
 				"$text" : "",
 				"display" : "solid",
 				"label" : "地图/地理定位",
 				"psmCount" : "1",
-				"url" : "/UI2/demo/device/process/geolocation/mainActivity.w"
-			} ],
+				"url" : "/UI2/demo/device/geolocation/mainActivity.w"
+			}],
 			"$name" : "item",
 			"$text" : "",
 			"display" : "solid",

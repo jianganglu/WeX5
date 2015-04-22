@@ -50,6 +50,7 @@ public class Dialog implements ComponentTemplate {
 		eDialogOverlay.addAttribute("class", "x-dialog-overlay");
 		Element eDialog = eDef.addElement(divQName);
 		eDialog.addAttribute("class", "x-dialog");
+		eDialog.addAttribute("style", "display:none;");
 		if(null!=eDef.attribute("showTitle"))
 			eDialog.addAttribute("showTitle", eDef.attributeValue("showTitle"));
 		

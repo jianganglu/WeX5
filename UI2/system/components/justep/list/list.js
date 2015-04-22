@@ -1,6 +1,6 @@
 /*! 
-* X5 v3 (htttp://www.justep.com) 
-* Copyright 2014 Justep, Inc.
+* WeX5 v3 (htttp://www.justep.com) 
+* Copyright 2015 Justep, Inc.
 * Licensed under Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0) 
 */ 
 define(function(require) {
@@ -26,7 +26,6 @@ define(function(require) {
 			this.data = '';
 			this.hasMore = false;
 			this.autoLoad = true;
-			this.disabled = false;
 			this._canLoadData = false;
 			this.disablePullToRefresh = false;
 			this.disableInfiniteLoad = false;
@@ -41,10 +40,18 @@ define(function(require) {
 			this.set(config);
 			if (!config['class'])
 				config['class'] = 'x-list';
-			return "<div class='" + config['class'] + "' " + (config.style ? (" style='" + config.style + "' ") : "")
-					+ (config.xid ? (" xid='" + config.xid + "' ") : "") + " component='" + url + "' " + " >" + "<div class='x-list-head'>"
-					+ (config.head ? config.head : '') + "</div>" + "<div class='x-list-content'>" + (config.template ? config.template : '')
-					+ "</div>" + "</div>";
+			var xid = config.xid || justep.UUID.createUUID();
+			var $list = "<div class='" + config['class'] + "' " + (config.style ? (" style='" + config.style + "' ") : "")
+					+ (xid ? (" xid='" + xid + "' ") : "") + " component='" + url + "' " + " >" + (config.template ? config.template : '')
+					+ "</div>";
+			
+			var $tpl = $list.find('.x-list-template:first');
+			if(config.data){
+				var foreachFunc = "$model.foreach_"+xid+"($element)";
+				var foreachAfterRenderFunc = "$model.foreach_afterRender_"+xid+".bind($model,$element)";
+				$tpl.addClass('hide').attr('bind-foreach',"{data:"+foreachFunc+",afterRender:"+foreachAfterRenderFunc+"}");
+			}
+			return $list;
 		},
 		getData : function() {
 			return this.getModel().comp(this.data);
@@ -205,6 +212,7 @@ define(function(require) {
 		},
 		refresh : function(refreshData) {
 			if (this.data) {
+				this.pageIndex.set(-1);
 				var data = this.getData();
 				if (data instanceof Data && (refreshData || (!data.autoLoad && !data.isLoaded()))) {
 					data.refreshData();

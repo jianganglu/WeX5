@@ -13,8 +13,10 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
+import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
@@ -37,9 +39,7 @@ import com.justep.studio.util.XPathUtil;
 
 public class XuiService {
 	static int pageIdx = 0;
-	static Map<String,String> pageParamMap = new HashMap<String,String>();//用于存放传入页面的参数
-	static Map<String,String> returnValueMap = new HashMap<String,String>();//用于存放对话框页面的返回值
-	static Map<String,WebDialog> dialogMap = new HashMap<String,WebDialog>();//存放对话框对象
+
 	
 	public static void println(String msg){
 		 ConsoleView.println("XuiService:"+msg);
@@ -78,30 +78,44 @@ public class XuiService {
 			newUrl = StudioConfig.getRuntimeBaseUrl()+"/"+StudioConfig.getUIDirName() +newUrl.substring(3);
 		}
 
-		pageParamMap.put(pageId, JSONUtil.serialize(initData));
+		
 		if(StudioConfig.isDebug()){
 			ConsoleView.println("URL:"+newUrl);			
 		}
-		
-		WebDialog dlg = new WebDialog(Display.getDefault().getShells()[0],newUrl,initData){
-			public boolean close(){
-				Set<String> keySet = XuiService.dialogMap.keySet();
-				for(String key:keySet){
-					if(XuiService.dialogMap.get(key) == this){
-						XuiService.dialogMap.remove(key);
-						pageParamMap.remove(key);
-						break;
-					}
-				}
-				return super.close();
-			}
-		};
-	 
-		dialogMap.put(pageId, dlg);
+		initData.put("pageId", pageId);
+		final WebDialog dlg = WebDialog.getDialogInstance(newUrl,initData,true);
+//		dlg.addCloseListener(new WebDialogCloseListener() {
+//			
+//			public void closed() {
+//				Set<String> keySet = XuiService.dialogMap.keySet();
+//				for(String key:keySet){
+//					if(XuiService.dialogMap.get(key) == dlg){
+//						XuiService.dialogMap.remove(key);
+//						pageParamMap.remove(key);
+//						break;
+//					}
+//				}
+//			}
+//		});
+//		new WebDialog(Display.getDefault().getShells()[0],newUrl,initData){
+//			public boolean close(){
+//				Set<String> keySet = XuiService.dialogMap.keySet();
+//				for(String key:keySet){
+//					if(XuiService.dialogMap.get(key) == this){
+//						XuiService.dialogMap.remove(key);
+//						pageParamMap.remove(key);
+//						break;
+//					}
+//				}
+//				return super.close();
+//			}
+//		};
+//	 
+//		dialogMap.put(pageId, dlg);
 		
 		if(dlg.open()==Dialog.OK){
-			String returnValue = returnValueMap.get(pageId);
-			returnValueMap.remove(pageId);
+			String returnValue = WebDialog.getReturnValue(pageId);
+//			returnValueMap.remove(pageId);
 			if(callback != null && !callback.equals("")){
 				println("returnValue:"+returnValue);
 				executeCallback(context,callback,returnValue);
@@ -113,6 +127,13 @@ public class XuiService {
 		}
 	}
 	
+	public static void getCompTypes(Map<String,Object> context){
+		XuiDataModel dataModel = (XuiDataModel)context.get("xuiDataModel");
+		if(dataModel != null){
+			
+		}
+	}
+	
 	/**
 	 * 对话框确定动作.
 	 * @param context
@@ -120,8 +141,8 @@ public class XuiService {
 	public static void pageOkAction(Map<String,Object> context){
 		String pageId = (String)context.get("pageId");
 		String returnValue = (String)context.get("returnValue");
-		returnValueMap.put(pageId, returnValue);
-		WebDialog dlg = XuiService.dialogMap.get(pageId);
+		WebDialog.setReturnValue(pageId, returnValue);
+		WebDialog dlg = WebDialog.getInstanceByPageId(pageId);
 		if(dlg != null){
 			dlg.okPressed();
 		}
@@ -133,7 +154,7 @@ public class XuiService {
 	 */
 	public static void pageCloseAction(Map<String,Object> context){
 		String pageId = (String)context.get("pageId");
-		WebDialog dlg = XuiService.dialogMap.get(pageId);
+		WebDialog dlg = WebDialog.getInstanceByPageId(pageId);
 		if(dlg != null){
 			 dlg.cancelPressed();
 		}
@@ -141,7 +162,8 @@ public class XuiService {
 	
 	public static String getPageParams(final Map<String,Object> context){
 		String pageId = (String)context.get("pageId");
-		return pageParamMap.get(pageId);
+		return WebDialog.getPageParams(pageId);
+		//return pageParamMap.get(pageId);
 	}
 	
     public static void executeCallback(Map<String,Object> context,String callback,String params){
@@ -153,9 +175,10 @@ public class XuiService {
 	/**根据设计时id获取模型节点*/
 	public static String getModelNodeByDId(final Map<String,Object> context){
 		String d_id = (String)context.get("d_id");
-		XuiElement currentXuiElement = (XuiElement)context.get("currentXuiElement");
-		if(d_id != null && !d_id.equals("") && currentXuiElement != null){
-			XuiElement xuiElement = currentXuiElement.getXuiDataModel().findElementByDesignId(d_id);
+		//XuiElement currentXuiElement = (XuiElement)context.get("currentXuiElement");
+		XuiDataModel dataModel = (XuiDataModel)context.get("xuiDataModel");
+		if(d_id != null && !d_id.equals("") ){
+			XuiElement xuiElement = dataModel.findElementByDesignId(d_id);
 			if(xuiElement!=null){
 				String xml = xuiElement.getXuiDataModel().getDesigner().parseLayout(xuiElement);
 				return xml;
@@ -170,13 +193,15 @@ public class XuiService {
         println("selectModelNodes--params:"+context);
 		String xpath = (String)context.get("xpath");
 		String parentId = (String)context.get("parentId");
-		XuiElement currentXuiElement = (XuiElement)context.get("currentXuiElement");
+		XuiDataModel dataModel = null;
+		//XuiElement currentXuiElement = (XuiElement)context.get("currentXuiElement");
+		dataModel = (XuiDataModel)context.get("xuiDataModel");
 		XuiElement parentNode = null;
 		if(parentId != null && !parentId.equals("")){
 		}
-		parentNode = currentXuiElement.getXuiDataModel().findElementByDesignId(parentId);
-		if(parentNode == null &&  currentXuiElement !=null){
-			parentNode = currentXuiElement.getXuiDataModel().getRootElement();
+		parentNode = dataModel.findElementByDesignId(parentId);
+		if(parentNode == null ){
+			parentNode = dataModel.getRootElement();
 		}
 		 
 		if(xpath != null && !xpath.equals("") && parentNode !=null){
@@ -192,8 +217,16 @@ public class XuiService {
 	
 	@SuppressWarnings("rawtypes")
 	public static String getAllOperations(final Map<String,Object> context){
-		XuiElement currentXuiElement = (XuiElement)context.get("currentXuiElement");
-		String optConfig = currentXuiElement.getXuiDataModel().getDesigner().executeJSMethod(WindowDesignPanel.JSMETHOD_TYPE_CANVAS, "getAllOperation", new HashMap());
+		String callback = (String)context.get("callback");//js回调
+//		XuiElement currentXuiElement = (XuiElement)context.get("currentXuiElement");
+		XuiDataModel dataModel = (XuiDataModel)context.get("xuiDataModel");
+		String optConfig = dataModel.getDesigner().executeJSMethod(WindowDesignPanel.JSMETHOD_TYPE_CANVAS, "getAllOperation", new HashMap());
+		if(callback != null && !callback.equals("")){
+			Map<String,Object> result = new HashMap<String,Object>();
+			result.put("operations", optConfig);
+			String sValue = JSONUtil.serialize(result);
+			executeCallback(context,callback,sValue);
+		}
 		return optConfig;
 	}
 	
@@ -358,6 +391,16 @@ public class XuiService {
 		}
 	}
 	
+	public static String getConfig(final Map<String,Object> context){
+		XuiDataModel dataModel =  (XuiDataModel)context.get("xuiDataModel");
+		String componentName = (String)context.get("componentName");
+		org.dom4j.Element e = dataModel.getConfig().getConfig(componentName);
+		if(e != null){
+			return e.asXML();
+		}
+		return "";
+	}
+	
 	public static String getTemplate(final Map<String,Object> context){
 		XuiDataModel dataModel =  (XuiDataModel)context.get("xuiDataModel");
 		String componentName = (String)context.get("componentName");
@@ -404,7 +447,7 @@ public class XuiService {
 		try{
 			for(int i = contents.size()-1;i>=0;i-=1){ 
 				String content = rebuildTemplate(contents.get(i));
-				System.out.println("==="+content);
+				//System.out.println("==="+content);
 				Document document = W3cDocumentHelper.parseText(content);
 				Element element = document.getDocumentElement();
 				String d_id = element.getAttribute("d_id");
@@ -423,6 +466,15 @@ public class XuiService {
 					initData.put("paintComponent", false);
 					XuiElement xuiElemnt = dataModel.getUndoRedoManager().createComponent(initData);
 					newList.add(dataModel.getDesigner().parseLayout(xuiElemnt));
+				}else{
+					 NamedNodeMap nodeMap = element.getAttributes();
+					 for(int j = 0;j<nodeMap.getLength();j+=1){
+						 Attr attr = (Attr)nodeMap.item(j);
+						 String name = attr.getName();
+						 if(!name.startsWith("d_")){
+							 dataModel.getUndoRedoManager().changeProperty(d_id, name, ""+attr.getValue());		
+						 }
+					 }
 				}
 			}
 		} catch (ParserConfigurationException e) {

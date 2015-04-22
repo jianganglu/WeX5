@@ -1,4 +1,4 @@
-// Superhero 3.2.0
+// Superhero 3.3.2
 // Variables
 // --------------------------------------------------
 
@@ -33,6 +33,8 @@
 @link-color:            @brand-primary;
 //** Link hover color set via `darken()` function.
 @link-hover-color:      @link-color;
+//** Link hover decoration.
+@link-hover-decoration: underline;
 
 
 //== Typography
@@ -181,8 +183,16 @@
 @input-color:                    @body-bg;
 //** `<input>` border color
 @input-border:                   transparent;
-//** `<input>` border radius
+
+// TODO: Rename `@input-border-radius` to `@input-border-radius-base` in v4
+//** Default `.form-control` border radius
+// This has no effect on `<select>`s in some browsers, due to the limited stylability of `<select>`s in CSS.
 @input-border-radius:            @border-radius-base;
+//** Large `.form-control` border radius
+@input-border-radius-large:      @border-radius-large;
+//** Small `.form-control` border radius
+@input-border-radius-small:      @border-radius-small;
+
 //** Border color for inputs on focus
 @input-border-focus:             transparent;
 
@@ -204,6 +214,8 @@
 //** Border color for textual input addons
 @input-group-addon-border-color: transparent;
 
+//** Disabled cursor for form controls and buttons.
+@cursor-disabled:                not-allowed;
 
 //== Dropdowns
 //
@@ -628,6 +640,8 @@
 @progress-bg:                 @well-bg;
 //** Progress bar text color
 @progress-bar-color:          #fff;
+//** Variable for setting rounded corners on progress bar.
+@progress-border-radius:      @border-radius-base;
 
 //** Default progress bar color
 @progress-bar-bg:             @brand-primary;

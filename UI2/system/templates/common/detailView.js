@@ -12,14 +12,7 @@ define(function(require) {
 		this.templateFile = this.getContext().getRequestParameter("templateFile");
 		this.templateFilePath = this.templateEngine.templatePath + "/" + this.templateFile;
 		var self = this;
-		var keys = [];
-		for ( var key in this.templateEngine.getConfig().current.datas) {
-			keys.push({
-				detailKey : this.templateEngine.getConfig().current.datas[key]['dataId']
-			});
-		}
-		this.dataId = keys[0].detailKey;// 默认除mainData外，添加的第一个data为从表data
-		console.log("this.dataId == "+this.dataId)
+		this.comp('titleInput').val("从详细");
 		var grid = this.getElementByXid('grid');
 		var setVisible = function() {
 			$(grid).css("visibility", "visible");
@@ -34,6 +27,16 @@ define(function(require) {
 		});
 	};
 
+	// Model.prototype.getDataId = function() {
+	// var keys = [];
+	// for ( var key in this.templateEngine.getConfig().current.datas) {
+	// keys.push({
+	// detailKey : this.templateEngine.getConfig().current.datas[key]['dataId']
+	// });
+	// }
+	// return keys[0].detailKey;// 默认除mainData外，添加的第一个data为从表data
+	// };
+
 	Model.prototype._changeGridSize = function(grid) {
 		var height = $("body").height() - $('.form-navbar1').height() - $('.form-navbar2').height() - 30;
 		var width = $("body").width() * 10 / 12 - 20;
@@ -45,14 +48,8 @@ define(function(require) {
 
 	Model.prototype.addClick = function(event) {
 		var data = this.comp('detailData');
-		var DataConfig = this.templateEngine.getConfig().current.datas;
-		var keys = [];
-		// for ( var key in DataConfig) {
-		// keys.push({
-		// detailKey : key
-		// });
-		// }
-		var detailDataConfig = DataConfig["id_0"];
+		var config = this.templateEngine.getConfig();
+		var detailDataConfig = config.current ? config.current.detailData : {};
 		templateService.openSwtCommonSelectorDialog({
 			title : "选择列",
 			templateFilePath : this.templateFilePath,
@@ -219,15 +216,15 @@ define(function(require) {
 	Model.prototype.validate = function(wizard) {
 		var msg = "";
 		var data = this.comp('detailData');
-		var input = this.comp('titleInput');
-		var title = input.val();
+//		var input = this.comp('titleInput');
+//		var title = input.val();
 		var self = this;
 		if (data.datas.get().length <= 0) {
 			msg += "从表页没有数据，\n";
 		}
-		if (!title || "" == title.trim()) {
-			msg += "从表页没有输入标题，\n";
-		}
+//		if (!title || "" == title.trim()) {
+//			msg += "从表页没有输入标题，\n";
+//		}
 		data.each(function(param) {
 			var row = param.row;
 			var currentName = data.val("name", row);
@@ -246,13 +243,27 @@ define(function(require) {
 		return msg;
 	};
 
+	/*
+	 * 获取从data数据
+	 * */
+	Model.prototype.getData = function() {
+		var detailData = [];
+		var config = this.templateEngine.getConfig();
+		var detailDataConfig = config.current ? config.current.detailData : {};
+		detailData.push(detailDataConfig);
+		return detailData;
+	}
 	Model.prototype.finish = function(wizard) {
 		var detailData = this.comp('detailData');
 		var detail = [];
-		var dataId = this.dataId;
+		var detailForm = [];
+		var dataId = "detailData";
 		var self = this;
+		var i = 0;
 		detailData.each(function(param) {
 			var row = param.row;
+			even = i % 2;
+			var fieldName = "fieldName" + (even + 1);
 			var field = detailData.getValue("name", row);
 			var refID = detailData.val("refID", row);
 			var selectDataID = detailData.val("selectDataID", row);
@@ -276,6 +287,26 @@ define(function(require) {
 			case "input":
 				form_input = "form_input";
 			}
+			var formInput = "input" + fieldName;
+			var formPassword = "password" + fieldName;
+			var formRange = "range" + fieldName;
+			var formOutput = "output" + fieldName;
+			var formText = "text" + fieldName;
+			if (even == 0) {
+				detailForm.push({});
+			}
+			detailForm[detailForm.length - 1][fieldName] = field;
+			detailForm[detailForm.length - 1]["form_data"] = dataId;
+			detailForm[detailForm.length - 1]["form_refID"] = refID;
+			detailForm[detailForm.length - 1]["form_selectDataID"] = selectDataID;
+			detailForm[detailForm.length - 1]["form_selectLabelName"] = selectLabelName;
+			detailForm[detailForm.length - 1]["form_selectConcept"] = selectConcept;
+			detailForm[detailForm.length - 1][formInput] = form_input;
+			detailForm[detailForm.length - 1][formPassword] = form_password;
+			detailForm[detailForm.length - 1][formRange] = form_range;
+			detailForm[detailForm.length - 1][formOutput] = form_output;
+			detailForm[detailForm.length - 1][formText] = form_textarea;
+			i++;
 			detail.push({
 				"detail_field" : field,
 				"detail_data" : dataId,
@@ -292,8 +323,10 @@ define(function(require) {
 		});
 
 		this.templateEngine.addContext(this.templateFile, "detail", detail);
+		this.templateEngine.addContext(this.templateFile, "detailForm", detailForm);
 		this.templateEngine.addContext(this.templateFile, "detail_title", this.comp("titleInput").value);
 		this.templateEngine.addContext(this.templateFile, "detail_data", dataId);
+		this.templateEngine.addContext(this.templateFile, "detailFormData", this.getData());
 	};
 
 	Model.prototype.input1Change = function(event) {

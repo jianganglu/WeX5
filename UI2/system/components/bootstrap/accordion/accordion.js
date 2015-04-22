@@ -1,6 +1,6 @@
 /*! 
-* X5 v3 (htttp://www.justep.com) 
-* Copyright 2014 Justep, Inc.
+* WeX5 v3 (htttp://www.justep.com) 
+* Copyright 2015 Justep, Inc.
 * Licensed under Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0) 
 */ 
 define(function(require) {
@@ -21,12 +21,11 @@ define(function(require) {
 		},
 		// 构造函数
 		constructor : function(options) {
+			this.tabbed = true;
 			this.callParent(options);
 		},
 		// 动态创建组件
 		buildTemplate : function(config) {
-			//default value
-			return Str.format("<div class='x-accordion' xid='{0}' componet='{1}'></div>", config.xid);
 		},
 		
 		getConfig: function(){
@@ -44,25 +43,15 @@ define(function(require) {
         	});
 		},
 		show: function(index){
-			/*
-			var $target = $('>.panel>.panel-body', this.$el).eq(index);
-		    var data = $target.data('bs.collapse')
-			var option  = data ? 'toggle' : {parent: this.$el};
-			$target.collapse(option);
-			*/
+
 			this.fireEvent("onShow", {source: this, index: index});
 			
-			var $element = $('>.panel>.panel-body', this.$el).eq(index);
+			var $element = $('>.panel>.panel-collapse', this.$el).eq(index);
 			
 		    if (this.transitioning || $element.hasClass('in')) return
 		    
-		    //TODO: 事件
-
-		    var actives = this.$el.find('> .panel > .in')
-
-		    if (actives && actives.length) {
-		    	actives.removeClass('in');
-		    }
+		    if(this.tabbed)
+		    	this.$el.find('> .panel > .in').removeClass('in');
 
 		    $element
 		      .removeClass('collapse')
@@ -77,7 +66,6 @@ define(function(require) {
 		        .addClass('collapse in')
 		        .height('auto');
 		      this.transitioning = 0;
-		      //TODO event
 		    }
 
 		    if (!$.support.transition) return complete.call(this)
@@ -90,7 +78,7 @@ define(function(require) {
 		      .height($element[0][scrollSize]);			
 		},
 		hide: function(index){
-			var $element = $('>.panel>.panel-body', this.$el).eq(index);
+			var $element = $('>.panel>.panel-collapse', this.$el).eq(index);
 			
 		    if (this.transitioning || !$element.hasClass('in')) return;
 
@@ -122,7 +110,7 @@ define(function(require) {
 		      .emulateTransitionEnd(350);
 		},
 		toggle: function(index){
-			var $element = $('>.panel>.panel-body', this.$el).eq(index);
+			var $element = $('>.panel>.panel-collapse', this.$el).eq(index);
 		    this[$element.hasClass('in') ? 'hide' : 'show'](index);
 		}
 	});

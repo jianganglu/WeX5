@@ -75,13 +75,10 @@ public class GetRegPlugins extends com.justep.ui.impl.JProcessorImpl {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String modelPath = com.justep.filesystem.FileSystemWrapper.instance().getRealPath("/");
 		String nativeDir = modelPath + "Native";
-		String appName = request.getParameter("appName");
 		String commonPluginsDir = nativeDir + "/plugins";
-		String appPluginsDir = nativeDir + "/" + appName + "/plugins";
 
 		JSONArray plugins = new JSONArray();
 		appendPlugins(plugins, commonPluginsDir);
-		appendPlugins(plugins, appPluginsDir);
 
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType(ActionUtils.JSON_CONTENT_TYPE);

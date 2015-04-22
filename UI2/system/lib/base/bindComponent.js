@@ -1,6 +1,6 @@
 /*! 
-* X5 v3 (htttp://www.justep.com) 
-* Copyright 2014 Justep, Inc.
+* WeX5 v3 (htttp://www.justep.com) 
+* Copyright 2015 Justep, Inc.
 * Licensed under Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0) 
 */ 
 define(function(require) {
@@ -8,16 +8,22 @@ define(function(require) {
 	var ViewComponent = require("./viewComponent");
 
 	var BindComponent = ViewComponent.extend({
-		// 继承类实现
+		constructor : function(config) {
+			this.disabled = false;
+			this.refDisabled = false;
+			this.callParent(config);
+		},		// 继承类实现
 		doInit : function(value, bindingContext, allBindings) {
 		},
 		render : function() {
 			this.needRender = false;
 		},
+		isDisabled: function(){
+			return this.disabled || this.refDisabled;
+		},
 		dispose : function() {
 			if(this._subscribeReadOnlyHandle)this._subscribeReadOnlyHandle.dispose();
 			if(this._subscribeValidationHandle)this._subscribeValidationHandle.dispose();
-			this.$domNode.remove();
 			this.callParent();
 		},
 		val2ref : function() {// 将组件数据写回到ref
@@ -118,13 +124,18 @@ define(function(require) {
 				}
 				var readonly = ref.readonly.computed.get();
 				this.set({
-					disabled : readonly
+					refDisabled : readonly
 				});
 			}
 		},
+		disabledRender: function(){
+			if(this.$domNode)this.$domNode.attr('disabled', this.isDisabled());
+		},
 		propertyChangedHandler : function(key, oldVal, value) {
-			if (this.$domNode)
-				this.$domNode.attr(key, value);
+			if (this.$domNode){
+				if(key==='disabled' || key==='refDisabled') this.disabledRender();
+				else this.$domNode.attr(key, value);
+			}
 		},// 默认直接写dom属性
 		set : function(args) {
 			if (args) {

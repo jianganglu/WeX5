@@ -46,7 +46,7 @@ define(function() {
 
   // trident / msie
   if (engine[1] || engine[7])
-    useImportLoad = parseInt(engine[1]) < 6 || parseInt(engine[7]) <= 9;
+    useImportLoad = parseInt(engine[1]) < 6 || parseInt(engine[7]) < 9;
   // webkit
   else if (engine[2])
     useOnload = false;
@@ -93,6 +93,7 @@ define(function() {
     createIeLoad(nextLoad[0]);
   }
   var importLoad = function(url, callback) {
+
     if (!curSheet || !curSheet.addImport)
       createStyle();
 
@@ -158,7 +159,7 @@ define(function() {
 	  var rst = false;
 	  $('link[include]', head).each(function(){
 		  var includes = $(this).attr('include').split(',');
-		  for(var i in includes){
+		  for(var i = 0; i < includes.length; i++){
 			  if(includes[i].toLowerCase()==id.toLowerCase()){
 				  rst = true;
 			  	  return false;	
@@ -182,11 +183,22 @@ define(function() {
 			  url += ((url.indexOf('?') != -1)?'&':'?') + '$skin=' + skin;
 			  
 		  load({
-			  load: function(){
-				  (useImportLoad ? importLoad : linkLoad)(url, function(){
-					  $('link[href="' + url + '"]').attr('include', cssId);
-				  });
-			  }
+			  load: (function(){
+					var loaded = false;
+					return function(config){
+						if(loaded) return;
+						loaded = true;
+						(useImportLoad ? importLoad : linkLoad)(url, function(){
+							  var $link = $('link[href="' + url + '"]').attr('include', cssId);
+							  if(config){
+								  for(var i in config){
+									  if(config.hasOwnProperty(i))
+										  $link.attr(i, config[i])  
+								  }
+							  }
+						});
+					}
+				})()  
 		  });
 	  }else
 		  load({load: function(){}});

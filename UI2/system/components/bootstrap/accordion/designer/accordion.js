@@ -1,6 +1,6 @@
 /*! 
-* X5 v3 (htttp://www.justep.com) 
-* Copyright 2014 Justep, Inc.
+* WeX5 v3 (htttp://www.justep.com) 
+* Copyright 2015 Justep, Inc.
 * Licensed under Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0) 
 */ 
 define(function (require) {
@@ -12,7 +12,7 @@ define(function (require) {
 	var Component = require("$UI/system/lib/base/component");
 	var bind = require("bind");
 	
-	var panelTemplate = '<div class="panel panel-default" component="$UI/system/components/bootstrap/panel/panel"><div class="panel-heading"><h4 class="panel-title"><a href="javascript:void(0)">Title</a></h4></div><div class="panel-body"></div></div>';
+	var panelTemplate = '<div class="panel panel-default" component="$UI/system/components/bootstrap/panel/panel"><div class="panel-heading"><h4 class="panel-title"><a >Title</a></h4></div><div class="panel-collapse"><div class="panel-body"></div></div></div>';
 	
 	var cls = Accordion.extend({
 		init:function(value, bindingContext){
@@ -53,8 +53,19 @@ define(function (require) {
 		onPanelSelect: function(sub){
 			var index = $(sub.domNode).index();
 			this.show(index);
+		},
+		propertyChangedHandler: function(key, oldVal, value){
+			switch(key){
+			case "tabbed": 
+				if(value === true || value === "true"){
+		        	$('>.panel>.panel-collapse', this.$el).removeClass('in').eq(0).addClass('in');
+				}else{
+		        	$('>.panel>.panel-collapse', this.$el).addClass('in');
+				}
+				break;
+			}
 		}
 	});
 
-	return {'$UI/system/components/bootstrap/accordion/accordion': cls};
+	return {'$UI/system/components/bootstrap/accordion/accordion(bootstrap)': cls};
 });

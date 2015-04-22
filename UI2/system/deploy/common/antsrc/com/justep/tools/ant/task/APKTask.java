@@ -22,6 +22,7 @@ public class APKTask extends Task {
 	private String appPath;
 	private String appName;
 	private String version;
+	private String tmplVersion;
 	private String packageName;
 	private String startURL;
 
@@ -47,6 +48,10 @@ public class APKTask extends Task {
 
 	public void setVersion(String version) {
 		this.version = version;
+	}
+
+	public void setTmplVersion(String tmplVersion) {
+		this.tmplVersion = tmplVersion;
 	}
 
 	public void setPackageName(String packageName) {
@@ -78,7 +83,7 @@ public class APKTask extends Task {
 
 			// 设置版本号，这里仅替换了显示值，versionCode未替换
 			final String apktoolymlPath = appPath + "/apktool.yml";
-			replaceFileText(apktoolymlPath, "versionName: 5.3.0", "versionName: " + version);
+			replaceFileText(apktoolymlPath, "versionName: " + tmplVersion, "versionName: " + version);
 
 			// 设置默认打开的页面
 			String configXMLPath = appPath + "/res/xml/config.xml";

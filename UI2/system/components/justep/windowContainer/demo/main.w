@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <div xmlns="http://www.w3.org/1999/xhtml" component="$UI/system/components/justep/window/window" class="testWindowContainer">  
-  <div component="$UI/system/components/justep/model/model" style="height:auto;left:238px;top:239px;"/>  
+  <div component="$UI/system/components/justep/model/model" style="height:auto;left:238px;top:239px;"
+    xid="model" onLoad="modelLoad"/>  
   <div component="$UI/system/components/justep/panel/panel" class="x-panel x-full"
     xid="panel1"> 
     <div class="x-panel-top" xid="top1"> 
@@ -19,17 +20,19 @@
       </div> 
     </div>  
     <div class="x-panel-content" xid="content1"> 
-      <h3 style="height:48px;vertical-align: middle;padding: 8px;display: inline-block;">WindowContainer组件</h3>  
-        
-      <a component="$UI/system/components/justep/button/button" class="btn btn-link"
-        label="js" xid="button3" onClick="showJsSource"> 
-        <i xid="i3"/>  
-        <span xid="span3">js</span> 
-      </a>  
-      <a component="$UI/system/components/justep/button/button" class="btn btn-link" label="源码" onClick="showWinConSource" bind-visible="isVisible"> 
-        <i xid="i2" />  
-        <span xid="span2">源码</span> 
-      </a><div component="$UI/system/components/justep/controlGroup/controlGroup"
+      <h3 style="height:48px;vertical-align: middle;padding: 8px;display: inline-block;">WindowContainer </h3>
+        <a component="$UI/system/components/justep/button/button" class="btn btn-link"
+          label="js" xid="button3" onClick="showJsSource"> 
+          <i xid="i3"/>  
+          <span xid="span3">js</span> 
+        </a>  
+        <a component="$UI/system/components/justep/button/button" class="btn btn-link"
+          label="源码" onClick="showWinConSource" bind-visible="isVisible"> 
+          <i xid="i2"/>  
+          <span xid="span2">源码</span> 
+        </a> 
+       
+      <div component="$UI/system/components/justep/controlGroup/controlGroup"
         class="x-control-group"> 
         <h5>1. 主页面静态嵌入“子页面1”；“子页面1”静态嵌入“子页面2”；</h5>  
         <br/>  
@@ -46,8 +49,8 @@
           <h5 style="color:gray">将被“子页面3”替换。。。</h5> 
         </div> 
       </div> 
-    </div>  
-    </div>  
+    </div> 
+  </div>  
   <span component="$UI/system/components/justep/windowDialog/windowDialog" xid="windowDialog"
-    src="$UI/system/components/justep/common/demo/dialog.w"/> 
+    src="$UI/system/components/justep/common/demo/dialog.w" status="normal"/> 
 </div>

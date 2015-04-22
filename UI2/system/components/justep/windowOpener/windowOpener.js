@@ -1,6 +1,6 @@
 /*! 
-* X5 v3 (htttp://www.justep.com) 
-* Copyright 2014 Justep, Inc.
+* WeX5 v3 (htttp://www.justep.com) 
+* Copyright 2015 Justep, Inc.
 * Licensed under Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0) 
 */ 
 define(function(require) {
@@ -121,7 +121,7 @@ define(function(require) {
 				source : this,
 				data : this.sendData
 			});
-			this.window.postMessage({type: 'WindowOpener', data: this.sendData}, '*');
+			this.window.postMessage(JSON.stringify({type: 'WindowOpener', data: this.sendData}), '*');
 		}
 	};
 	
@@ -257,7 +257,6 @@ define(function(require) {
 	 * 确定 接收从window获得的数据
 	 */
 	WindowOpener.prototype.ensure = function(store, noclose) {
-		debugger;
 		this.fireEvent("onReceive", {
 			source : this,
 			data : store

@@ -163,8 +163,10 @@
         <source-file src="src/blackberry10/ContactOrganization.js" target-dir="Contacts"></source-file>
         <source-file src="src/blackberry10/ContactPhoto.js" target-dir="Contacts"></source-file>
         <source-file src="src/blackberry10/contactUtils.js" target-dir="Contacts"></source-file>
+        <!-- remove plugin bug
         <dependency id="com.blackberry.utils" />
         <dependency id="com.blackberry.pim.lib" />
+        -->
     </platform>
 
     <!-- wp7 -->

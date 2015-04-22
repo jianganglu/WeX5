@@ -1,6 +1,6 @@
 /*! 
-* X5 v3 (htttp://www.justep.com) 
-* Copyright 2014 Justep, Inc.
+* WeX5 v3 (htttp://www.justep.com) 
+* Copyright 2015 Justep, Inc.
 * Licensed under Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0) 
 */ 
 /**
@@ -16,7 +16,8 @@ define(function(require){
 			width: "string",
 			height: "string",
 			top: "string",
-			left: "string"
+			left: "string",
+			routable:"boolean"
 		},
 		events:["onOpen", "onClose"],
 		binds:{}

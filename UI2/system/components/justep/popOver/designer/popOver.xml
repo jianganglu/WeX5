@@ -50,7 +50,10 @@
 		    </div>	 
 		   ]]></template>
 		</templates>
- 
+		<operations>
+			<operation name="show" label="显示" enable="true" visible="true"/>
+			<operation name="hide" label="隐藏" enable="true" visible="true"/>
+ 		</operations>
 	</element>
 	
 </elements>

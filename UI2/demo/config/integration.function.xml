@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root> 
+  <item label="演示案例"> 
+    <item label="第三方集成案例"> 
+      <item label="Echarts集成" device="pc" process="/demo/components/process/ui2/ui2Process"
+        activity="mainActivity" url="$UI/demo/misc/echarts/demo.a" display="solid"/> 
+      <item label="地图集成" device="pc" process="/demo/components/process/ui2/ui2Process"
+        activity="mainActivity" url="$UI/demo/misc/map/map.a" display="solid"/>
+    </item> 
+    <item label="界面模块化">
+      <item label="引用js" device="pc" process="/demo/components/process/ui2/ui2Process"
+        activity="mainActivity" url="$UI/demo/misc/importJs/importJs.a" display="solid"/> 
+      <!--    
+      <item label="引用css和text" device="pc" process="/demo/components/process/ui2/ui2Process"
+        activity="mainActivity" url="$UI/demo/misc/importCss/importCss.a" display="solid"/>
+        --> 
+    </item> 
+  </item> 
+</root>

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <div xmlns="http://www.w3.org/1999/xhtml" xid="window" class="window takeout" component="$UI/system/components/justep/window/window">  
-  <div component="$UI/system/components/justep/model/model" xid="model" style="height:auto;left:186px;top:74px;"
+  <div component="$UI/system/components/justep/model/model" xid="model" style="height:auto;left:312px;top:243px;"
     onLoad="modelLoad"> 
     <div component="$UI/system/components/justep/data/data" autoLoad="true"
-      xid="foodData" idColumn="fID" confirmDelete="true"> 
+      xid="foodData" idColumn="fID" confirmDelete="true" onCustomRefresh="foodDataCustomRefresh"> 
       <column label="fID" name="fID" type="String" xid="default1"/>  
       <column label="fName" name="fName" type="String" xid="default2"/>  
       <column label="fPrice" name="fPrice" type="Float" xid="default3"/>  
@@ -12,7 +12,6 @@
       <column label="fImage" name="fImage" type="String" xid="default5"/>  
       <column label="calcPriceText" name="calcPriceText" type="String" xid="default23"/>  
       <column label="calcImageURL" name="calcImageURL" type="String" xid="default24"/>  
-      <data xid="default36">[{"fID":"001","fName":"老北京炸酱面","fPrice":20,"fDescription":"苏格兰打卤面，大杯可乐","fImage":"1.jpg"},{"fID":"002","fName":"宫爆鸡丁","fPrice":25,"fDescription":"宫爆鸡丁一份，两碗米饭，蛋花汤","fImage":"2.jpg"},{"fID":"003","fName":"剁椒鱼头套餐","fPrice":36,"fDescription":"剁椒鱼头，白菜豆腐汤，四碗面条，可口凉菜","fImage":"3.jpg"},{"fID":"004","fName":"老北京烤鸭套餐","fPrice":45,"fDescription":"北京烤鸭，四碗米饭，大杯可乐四桶，鸡蛋汤","fImage":"4.jpg"},{"fID":"005","fName":"土豆炖牛肉套餐","fPrice":35,"fDescription":"土豆炖牛肉一份，米饭四碗，可口可乐，凉菜","fImage":"5.jpg"}]</data>  
       <rule xid="rule2"> 
         <col name="calcPriceText" xid="ruleCol2"> 
           <calculate xid="calculate2"> 
@@ -24,10 +23,19 @@
             <expr xid="default35"><![CDATA[js:$model.transURL('./img/'+val('fImage'))]]></expr> 
           </calculate> 
         </col> 
-      </rule> 
+      </rule>  
+      <data xid="default6">[]</data> 
     </div>  
     <div component="$UI/system/components/justep/data/data" autoLoad="false"
-      xid="orderData" idColumn="fID" confirmRefresh="false" confirmDelete="false"> 
+      xid="userData" idColumn="fID" autoNew="false" onCustomRefresh="userDataCustomRefresh"> 
+      <column label="col3" name="fID" type="String" xid="default13"/>  
+      <column label="col0" name="fName" type="String" xid="default10"/>  
+      <column label="col1" name="fPhoneNumber" type="String" xid="default11"/>  
+      <column label="col2" name="fAddress" type="String" xid="default12"/> 
+    </div>  
+    <div component="$UI/system/components/justep/data/data" autoLoad="false"
+      xid="orderData" idColumn="fID" confirmRefresh="false" confirmDelete="false"
+      onCustomRefresh="orderDataCustomRefresh" limit="10"> 
       <column label="col6" name="fID" type="String" xid="default21"/>  
       <column label="col0" name="fCreateTime" type="DateTime" xid="default15"/>  
       <column label="col1" name="fContent" type="String" xid="default16"/>  
@@ -36,13 +44,6 @@
       <column label="col7" name="fUserName" type="String" xid="default22"/>  
       <column label="col5" name="fPhoneNumber" type="String" xid="default20"/>  
       <column label="col4" name="fAddress" type="String" xid="default19"/> 
-    </div>  
-    <div component="$UI/system/components/justep/data/data" autoLoad="false"
-      xid="userData" idColumn="fID" autoNew="false"> 
-      <column label="col3" name="fID" type="String" xid="default13"/>  
-      <column label="col0" name="fName" type="String" xid="default10"/>  
-      <column label="col1" name="fPhoneNumber" type="String" xid="default11"/>  
-      <column label="col2" name="fAddress" type="String" xid="default12"/> 
     </div>  
     <div component="$UI/system/components/justep/data/data" autoLoad="false"
       xid="cartData" idColumn="fFoodID"> 
@@ -89,13 +90,11 @@
       </rule> 
     </div> 
   </div>  
-  <span component="$UI/system/components/justep/messageDialog/messageDialog"
-    xid="messageDialog" style="left:44px;top:243px;"/>  
   <div component="$UI/system/components/justep/panel/panel" class="x-panel x-full"
     xid="panel1"> 
     <div class="x-panel-top" xid="top1"> 
       <div component="$UI/system/components/justep/titleBar/titleBar" class="x-titlebar"
-        xid="titleBar1" title="X5 外卖" style="background-color:#FFA000;"> 
+        xid="titleBar1" title="WeX5 外卖" style="background-color:#FFA000;"> 
         <div class="x-titlebar-left" xid="div1"> 
           <a component="$UI/system/components/justep/button/button" class="btn btn-link btn-only-icon"
             label="" xid="backBtn" icon="icon-chevron-left" onClick="{&quot;operation&quot;:&quot;window.close&quot;}"
@@ -104,7 +103,7 @@
             <span xid="span18"/> 
           </a> 
         </div>  
-        <div class="x-titlebar-title" xid="div2">X5 外卖</div>  
+        <div class="x-titlebar-title" xid="div2">WeX5 外卖</div>  
         <div class="x-titlebar-right reverse" xid="div3"/> 
       </div> 
     </div>  
@@ -119,8 +118,8 @@
                 <div component="$UI/system/components/justep/row/row" class="x-row x-row-center"
                   xid="row1"> 
                   <div xid="col1" style="width:120px;"> 
-                    <img data-bind="attr:{src:val('calcImageURL')}" alt=""
-                      xid="image1" style="border-radius:10px;width:100%;height:80px;"/> 
+                    <img alt=""
+                      xid="image1" style="width:100%;height:80px;" class="img-rounded" bind-attr-src="val('calcImageURL')"/> 
                   </div>  
                   <div class="x-col" xid="col3"> 
                     <div component="$UI/system/components/justep/row/row" class="x-row"
@@ -253,60 +252,71 @@
           </div> 
         </div>  
         <div class="x-contents-content" xid="orderContent"> 
-          <span xid="span19" style="margin-left: 5px; color: red;" bind-visible="$model.comp('orderData').count() == 0"><![CDATA[没有新订单！]]></span>  
-          <div component="$UI/system/components/justep/list/list" class="x-list"
-            xid="list2" data="orderData" style="margin: 5px;"> 
-            <ul class="x-list-template" xid="listTemplateUl3"> 
-              <li xid="li3" class="takeout-list-row"> 
-                <div component="$UI/system/components/justep/row/row" class="x-row"
-                  xid="row7"> 
-                  <div xid="col13"> 
-                    <span xid="span14" style="font-weight:bold;"><![CDATA[订餐时间：]]></span> 
-                  </div>  
-                  <div class="x-col" xid="col18"> 
-                    <div component="$UI/system/components/justep/output/output"
-                      class="x-output" xid="output7" bind-ref="ref('fCreateTime')"/> 
-                  </div> 
-                </div>  
-                <div component="$UI/system/components/justep/row/row" class="x-row"
-                  xid="row8"> 
-                  <div xid="col20"> 
-                    <span xid="span15" style="margin-left:5px;color:#FF8040;"><![CDATA[订餐内容：]]></span> 
-                  </div>  
-                  <div class="x-col" xid="col21"> 
-                    <div component="$UI/system/components/justep/output/output"
-                      class="x-output" xid="output8" bind-ref="ref('fContent')"/> 
-                  </div> 
-                </div>  
-                <div component="$UI/system/components/justep/row/row" class="x-row"
-                  xid="row9"> 
-                  <div xid="col23"> 
-                    <span xid="span16" style="margin-left:5px;color:#FF8040;"><![CDATA[配送信息：]]></span> 
-                  </div>  
-                  <div class="x-col" xid="col24"> 
-                    <div component="$UI/system/components/justep/output/output"
-                      class="x-output" xid="output9" bind-text="val('fUserName') + '，' + val('fPhoneNumber') + '，' + val('fAddress')"/> 
-                  </div> 
-                </div>  
-                <div component="$UI/system/components/justep/row/row" class="x-row"
-                  xid="row10"> 
-                  <div xid="col26" style="margin-left:5px;color:#FF8040;"> 
-                    <span xid="span17"><![CDATA[合计金额：]]></span> 
-                  </div>  
-                  <div class="x-col" xid="col27"> 
-                    <div component="$UI/system/components/justep/output/output"
-                      class="x-output" xid="output10" bind-text="'¥ ' + val('fSum') + '元'"
-                      style="color:#FF0000;font-weight:bold;"/> 
-                  </div> 
-                </div> 
-              </li> 
-            </ul> 
+          <div class="x-scroll" component="$UI/system/components/justep/scrollView/scrollView"
+            xid="scrollView1"> 
+            <div class="x-content-center x-pull-down container" xid="div8"> 
+              <i class="x-pull-down-img glyphicon x-icon-pull-down" xid="i12"/>  
+              <span class="x-pull-down-label" xid="span14">下拉刷新...</span> 
+            </div>  
+            <div class="x-scroll-content" xid="div9"> 
+              <div component="$UI/system/components/justep/list/list" class="x-list"
+                xid="orderList" data="orderData" style="margin: 5px;" limit="10" autoLoad="false"> 
+                <ul class="x-list-template" xid="listTemplateUl3"> 
+                  <li xid="li3" class="takeout-list-row"> 
+                    <div component="$UI/system/components/justep/row/row" class="x-row"
+                      xid="row7"> 
+                      <div xid="col13"> 
+                        <span xid="span17" style="font-weight:bold;">订餐时间：</span> 
+                      </div>  
+                      <div class="x-col" xid="col18"> 
+                        <div component="$UI/system/components/justep/output/output"
+                          class="x-output" xid="output7" bind-ref="ref('fCreateTime')"/> 
+                      </div> 
+                    </div>  
+                    <div component="$UI/system/components/justep/row/row" class="x-row"
+                      xid="row8"> 
+                      <div xid="col20"> 
+                        <span xid="span16" style="margin-left:5px;color:#FF8040;">订餐内容：</span> 
+                      </div>  
+                      <div class="x-col" xid="col21"> 
+                        <div component="$UI/system/components/justep/output/output"
+                          class="x-output" xid="output8" bind-ref="ref('fContent')"/> 
+                      </div> 
+                    </div>  
+                    <div component="$UI/system/components/justep/row/row" class="x-row"
+                      xid="row9"> 
+                      <div xid="col23"> 
+                        <span xid="span116" style="margin-left:5px;color:#FF8040;">配送信息：</span> 
+                      </div>  
+                      <div class="x-col" xid="col24"> 
+                        <div component="$UI/system/components/justep/output/output"
+                          class="x-output" xid="output9" bind-text="val('fUserName') + '，' + val('fPhoneNumber') + '，' + val('fAddress')"/> 
+                      </div> 
+                    </div>  
+                    <div component="$UI/system/components/justep/row/row" class="x-row"
+                      xid="row10"> 
+                      <div xid="col26" style="margin-left:5px;color:#FF8040;"> 
+                        <span xid="span117">合计金额：</span> 
+                      </div>  
+                      <div class="x-col" xid="col27"> 
+                        <div component="$UI/system/components/justep/output/output"
+                          class="x-output" xid="output10" bind-text="'¥ ' + val('fSum') + '元'"
+                          style="color:#FF0000;font-weight:bold;"/> 
+                      </div> 
+                    </div> 
+                  </li> 
+                </ul> 
+              </div> 
+            </div>  
+            <div class="x-content-center x-pull-up" xid="div10"> 
+              <span class="x-pull-up-label" xid="span15">加载更多...</span> 
+            </div> 
           </div> 
         </div>  
         <div class="x-contents-content" xid="ownContent"> 
-          <div xid="photoDiv" style="height:128px;width:128px;margin:5px auto;">
-            <img src="about:blank" alt="" xid="photoImage" height="100%" style="width:100%;"/>
-          </div>
+          <div xid="photoDiv" style="height:128px;width:128px;margin:5px auto;"> 
+            <img alt="" xid="photoImage" height="100%" style="width:100%;"/> 
+          </div>  
           <div xid="div6" style="margin:10px;padding:10px;border:solid 1px #E0E0E0;background-color:#E0E0FF;"> 
             <div component="$UI/system/components/justep/labelEdit/labelEdit"
               class="x-label-edit" xid="labelInput9"> 
@@ -333,7 +343,7 @@
               <i xid="i2"/>  
               <span xid="span1">修改用户信息</span> 
             </a> 
-          </div>  
+          </div> 
         </div> 
       </div> 
     </div>  

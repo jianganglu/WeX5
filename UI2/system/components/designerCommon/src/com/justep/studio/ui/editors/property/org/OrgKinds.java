@@ -15,7 +15,7 @@ import com.justep.studio.util.StudioConfig;
 public class OrgKinds {
 	public List<String[]> getOrgKindsList(PropertyItem propertyItem) {
 		List<String[]> orgKinds = new ArrayList<String[]>(); 
-		MDocument doc = ModelParser.parseFile(StudioConfig.getBIZPath() + "/system/config/opm.config.m");
+		MDocument doc = ModelParser.parseFile(StudioConfig.getBIZPath() + "/system/config/sys.config.m");
 		Config config = null;
 		for (Config c : doc.getConfigList()) {
 			if ("orgKind".equals(c.getName())) {

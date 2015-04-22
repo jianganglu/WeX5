@@ -1,1 +1,1 @@
-window.__justepMeta = null;
+window.__justep.__justepMeta = null;

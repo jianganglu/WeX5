@@ -18,4 +18,6 @@
    <span component="$UI/system/components/justep/button/checkbox" class="x-checkbox" xid="resEncryption" label="打包的资源进行加密（服务器打包模式有效），加密后应用运行将略多一点资源读取时间，但可以增强应用的安全性，使反编译无法直接获取资源"></span></div>
   <div component="$UI/system/components/justep/labelEdit/labelEdit" class="x-label-edit x-label20" xid="labelInput1" style="display:none">
    <label class="x-label" xid="label1"><![CDATA[推送服务地址：]]></label>
-   <input component="$UI/system/components/justep/input/input" class="form-control x-edit" xid="mqttServerURL" placeHolder="例：tcp://ip:port， android平台有效。注意需要选择推送插件"></input></div></div>
+   <input component="$UI/system/components/justep/input/input" class="form-control x-edit" xid="mqttServerURL" placeHolder="例：tcp://ip:port， android平台有效。注意需要选择推送插件"></input></div>
+  <div xid="div3" style="padding-top:8px">
+   <span component="$UI/system/components/justep/button/checkbox" class="x-checkbox" xid="sourceMode" label="源代码模式（服务器打包模式有效），本地应用将带所有源代码，可以自己手工通过Xcode或者ADT编译，也可以修改源代码后由服务器打包。本模式提供最大的修改灵活性，自动选择插件选项将失效，请手工选择插件"></span></div></div>

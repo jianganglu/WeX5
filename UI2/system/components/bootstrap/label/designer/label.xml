@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <elements>
-	<element name="$UI/system/components/bootstrap/label/label" tag-name="span" icon="element.gif" text="boostrap标签"  
+	<element name="$UI/system/components/bootstrap/label/label(bootstrap)" tag-name="span" icon="element.gif" text="boostrap标签"  
 	    discriminate-condition="hasClass('label')" resizable="false"
 		component-type="formControl"  design-view="web-designer" >
 		<properties>

@@ -1,13 +1,15 @@
 /*! 
-* X5 v3 (htttp://www.justep.com) 
-* Copyright 2014 Justep, Inc.
-* Licensed under Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0) 
-*/ 
+ * WeX5 v3 (htttp://www.justep.com) 
+ * Copyright 2015 Justep, Inc.
+ * Licensed under Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0) 
+ */
 /**
- * 1. 声明形使用 <div component="$UI/system/components/justep/windowContainer/windowContainer" src=""
- * process="" activity=""/> 2. js动态创建 var WindowContainerClass =
- * require("$UI/system/components/justep/windowContainer/windowContainer"); var windowContainer = new
- * WindowContainerClass({parentNode: e, src:"",process:"",activity:""});
+ * 1. 声明形使用 <div
+ * component="$UI/system/components/justep/windowContainer/windowContainer"
+ * src="" process="" activity=""/> 2. js动态创建 var WindowContainerClass =
+ * require("$UI/system/components/justep/windowContainer/windowContainer"); var
+ * windowContainer = new WindowContainerClass({parentNode: e,
+ * src:"",process:"",activity:""});
  */
 define(function(require) {
 	var $ = require("jquery");
@@ -77,42 +79,52 @@ define(function(require) {
 		},
 
 		refresh : function() {
-			if(this.__windowContainerInited){
+			if (this.__windowContainerInited) {
 				var src = this.get("src");
-				for ( var i = this.domNode.childNodes.length-1; i >= 0 ; i--) {
+				for ( var i = this.domNode.childNodes.length - 1; i >= 0; i--) {
 					justep.Bind.removeNode(this.domNode.childNodes[i]);
 				}
 				if (src) {
+					src = this._prepareSrc(src);
 					var settings = {
 						activate : true
 					};
-					settings.model = this._prepareSrc(src);
+					settings.model = src;
 					settings.preserveContext = true;
 					var self = this;
-					settings.loadError = function(err){
-						var evt = {source: self, err: err, cancel: false};
+					settings.loadError = function(err) {
+						var evt = {
+							source : self,
+							err : err,
+							cancel : false
+						};
 						self.fireEvent(WindowContainer.LOAD_ERROR_EVENT, evt);
-						return evt.cancel; 
+						return evt.cancel;
 					};
 					composition.compose(this.domNode, settings);
 				}
 			}
 		},
-
 		_prepareSrc : function(src) {
 			if (src) {
+				var ctx = this.getModel().getContext();
 				if ((src.indexOf("process=") == -1) && (src.indexOf("activity=") == -1)) {
 					var process = this.get("process");
 					var activity = this.get("activity");
-					var ctx = this.getModel().getContext();
-					if ((!process || !activity)
-							&& ctx.getProcess && ctx.getActivity) {
+					if ((!process || !activity) && ctx.getProcess && ctx.getActivity) {
 						process = ctx.getProcess();
 						activity = ctx.getActivity();
 					}
 					if (process && activity) {
 						src += (src.indexOf("?") == -1) ? "?" : "&";
 						src += "process=" + process + "&activity=" + activity;
+					}
+				}
+				if (ctx.getExecutor) {
+					var executor = ctx.getExecutor();
+					if (executor) {
+						src += (src.indexOf("?") == -1) ? "?" : "&";
+						src += "executor=" + executor;
 					}
 				}
 			}
@@ -128,6 +140,33 @@ define(function(require) {
 			this.fireEvent(WindowContainer.LOAD_EVENT, {
 				source : this
 			});
+			this._prepareRouteStateChannel();
+		},
+
+		_prepareRouteStateChannel : function() {
+			var self = this;
+			this.getInnerModel().off('onRouteStatePublish');
+
+			/**
+			 * 第一次根据url进来时候 onRouteStatePublish的时机比起loaded先后顺序不确定
+			 */
+			var fireRouteStateChange = function(event) {
+
+				if (self._prepareRouteStateChannel._lastHashbang != event.hashbang) {
+					self.fireEvent("onRouteStatePublish", event);
+					self._prepareRouteStateChannel._lastHashbang = event.hashbang;
+				}
+			};
+
+			this.getInnerModel().on("onRouteStatePublish", function(event) {
+				fireRouteStateChange(event);
+			}, this);
+
+			fireRouteStateChange({
+				isReplace : true,
+				hashbang : this.getInnerModel().$routeState.toHashbang()
+			});
+
 		}
 	});
 

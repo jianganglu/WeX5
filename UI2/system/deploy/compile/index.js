@@ -17,6 +17,7 @@
 ------------------------------------------------------------ */
 
 define(function(require) {
+	require("$UI/system/components/bootstrap/lib/js/bootstrap");
 	var $ = require("jquery");
 	var justep = require("$UI/system/lib/justep");
 	var bind = require("bind");

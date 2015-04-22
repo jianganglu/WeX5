@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <elements>
-	<element name="$UI/system/components/bootstrap/navbar/navbar" tag-type="rich" tag-name="div" icon="navbar.png" text="工具条"  
+	<element name="$UI/system/components/bootstrap/navbar/navbar(bootstrap)" tag-type="rich" tag-name="div" icon="navbar.png" text="工具条"  
 	    binding-component="$UI/system/components/bootstrap/navbar/navbar" display-property="xid" 
 		component-type="layout-container" validator="ViewValidator" design-view="web-designer" >
 		<properties>

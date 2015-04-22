@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <elements>
-	<element name="$UI/system/components/bootstrap/progress/progress" tag-name="div" icon="element.gif" text="进度条"  
+	<element name="$UI/system/components/bootstrap/progress/progress(bootstrap)" tag-name="div" icon="element.gif" text="进度条"  
 	    binding-component="$UI/system/components/bootstrap/progress/progress"
 		component-type="layout-container"  design-view="web-designer" >
 		<properties>
@@ -41,7 +41,7 @@
 		</templates>
 	</element>
 	
-	<element name="$UI/system/components/bootstrap/progress/progress#progressBar" tag-name="div" icon="element.gif" text="进度条"  
+	<element name="$UI/system/components/bootstrap/progress/progress(bootstrap)#progressBar" tag-name="div" icon="element.gif" text="进度条"  
 	     discriminate-condition="hasClass('progress-bar')"
 		  design-view="web-designer" >
 		<properties>

@@ -7,6 +7,7 @@
 		<properties>
 			<property name="xid" text="编号"  required="true"/>	
 			<property name="title" text="标题" />	
+			<property name="collapsible" text="允许搜索折叠" editor-ref="booleanList" readonly="true" default-value="false" data-type="boolean"/>	
 			
 			<property name="class"  text="class" >
 				<editor-parameter><![CDATA[

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <elements>
-	<element name="$UI/system/components/bootstrap/listGroup/listGroup" tag-name="div" icon="element.gif" text="列表组"  
+	<element name="$UI/system/components/bootstrap/listGroup/listGroup(bootstrap)" tag-name="div" icon="element.gif" text="列表组"  
 	    discriminate-condition="hasClass('list-group')" resizable="false"
 		component-type="layout-container"  design-view="web-designer" >
 		<properties>
@@ -38,7 +38,7 @@
 		</templates>
 	</element>
 	
-	<element name="$UI/system/components/bootstrap/listGroup/listGroup#gruopItem" tag-name="a" icon="element.gif" text="列表条目"  
+	<element name="$UI/system/components/bootstrap/listGroup/listGroup(bootstrap)#gruopItem" tag-name="a" icon="element.gif" text="列表条目"  
 	    discriminate-condition="hasClass('list-group-item')" resizable="false" parent-range="$UI/system/components/bootstrap/listGroup/listGroup"
 		component-type="layout-container"  design-view="web-designer" >
 		<properties>

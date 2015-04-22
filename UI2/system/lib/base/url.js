@@ -1,6 +1,6 @@
 /*! 
-* X5 v3 (htttp://www.justep.com) 
-* Copyright 2014 Justep, Inc.
+* WeX5 v3 (htttp://www.justep.com) 
+* Copyright 2015 Justep, Inc.
 * Licensed under Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0) 
 */ 
 define(function(require) {
@@ -10,7 +10,7 @@ define(function(require) {
 	var SKIN = "$skin";
 	var LANGUAGE = "language";
 	var VERSION = "$version";
-	var DEVICE = "$device";
+	var DEVICE = "device";
 	var ACTIVITY2WURL = require.toUrl("$UI/system/service/common/activity2WURL.j");
 	var Message = require("./message");
 	var _Error = require("./error");
@@ -94,7 +94,7 @@ define(function(require) {
 				if (this.skin)
 					items.push(SKIN, this.skin);
 				if (this.device)
-					items.push(DEFICE, this.device);
+					items.push(DEVICE, this.device);
 			}
 			
 			for ( var p in this.params) {
@@ -214,12 +214,12 @@ define(function(require) {
 					this.pathname = ((names.length > 2 ? '/' : '') + names.slice(2, names.length).join('/'));
 				}
 			}else{
-				if (window.__ResourceEngine && window.__ResourceEngine.contextPath && (path.indexOf(window.__ResourceEngine.contextPath)===0)){
-					this.contextname = window.__ResourceEngine.contextPath;
+				if (window.__justep && window.__justep.__ResourceEngine && window.__justep.__ResourceEngine.contextPath && (path.indexOf(window.__justep.__ResourceEngine.contextPath)===0)){
+					this.contextname = window.__justep.__ResourceEngine.contextPath;
 					if (this.contextname.indexOf("/") === 0){
 						this.contextname = this.contextname.substring(1);
 					}
-					this.pathname = path.substring(window.__ResourceEngine.contextPath.length);
+					this.pathname = path.substring(window.__justep.__ResourceEngine.contextPath.length);
 				}else{
 					var names = path.split("/");
 					this.contextname = names[1];
@@ -230,7 +230,11 @@ define(function(require) {
 	};
 
 	URL.prototype.enabledVls = function(){
-		return window.location.href.indexOf("$v") !== -1;
+		var url = window.location.href;
+		if (window.__justep && window.__justep.__ResourceEngine && window.__justep.__ResourceEngine.url){
+			url = window.__justep.__ResourceEngine.url;
+		}
+		return url.indexOf("$v") !== -1;
 	};
 	
 	// $vxx$lxxx$sxxx
@@ -333,21 +337,32 @@ define(function(require) {
 				if (typeof value == 'object') {
 					search.push(URL.getSearch(value, p));
 				} else
-					search.push(p + '=' + value);
+					search.push(p + '=' + encodeURIComponent(value));
 			}
 		}
 		return search.join('&');
 	};
 	
 	URL.activity2WURL = function(aURL){
+		if (!aURL) return aURL;
 		var result = null;
-		if (aURL && (aURL.indexOf(".a") !== -1)){
-			var index = aURL.indexOf(".a") + 2;
+		var index = aURL.indexOf("?");
+		var query = "";
+		if (index !== -1){
+			query = aURL.substr(index);
+			aURL = aURL.substr(0, index);
+		}
+		if (aURL.indexOf(".a") !== -1){
+			index = aURL.indexOf(".a") + 2;
 			var path = aURL.substring(0, index);
-			var query = aURL.substring(index);
 			path = new URL(path).pathname;
-			if (window.__isPackage && window.__ActivityEngine && window.__ActivityEngine.getWindowURL && window.__ActivityEngine.getWindowURL(path)){
-				result = window.__ActivityEngine.getWindowURL(path);
+			if (window.__justep && window.__justep.__isPackage && window.__justep.__ActivityEngine && window.__justep.__ActivityEngine.getWindowURL && window.__justep.__ActivityEngine.getWindowURL(path)){
+				//TODO 特殊点: 如果path是UI2开头, 删除UI2
+				if (path.indexOf("/UI2/")===0){
+					path = path.substring("/UI2".length);
+				}
+				
+				result = window.__justep.__ActivityEngine.getWindowURL(path);
 				result = require.toUrl("$model" + result + (query || ""));
 			}else{
 				var url = new URL(ACTIVITY2WURL);
@@ -356,7 +371,7 @@ define(function(require) {
 	                type: "GET",
 	                url: url.toString(),
 	                async: false,
-	                cache: false
+	                cache: true //缓存不严格, 更新有问题
 	            });
 				if (response.responseText === "no"){
 					var msg = new Message(Message.JUSTEP230102, aURL);
@@ -385,7 +400,7 @@ define(function(require) {
 
 			
 		}else{
-			result = aURL;
+			result = aURL + (query || "");
 		}
 		
 		return result;
@@ -409,6 +424,21 @@ define(function(require) {
 		
 		
 		
+	};
+	
+	URL.isUI2 = function(url) {
+		var str = URL.activity2WURL(require.toUrl(url));
+		if (str.indexOf("/")===0){
+			str = URL._removeVLS(str);
+			var prefix = "/UI2/";
+			if (window.__justep && window.__justep.__ResourceEngine.contextPath
+					&& (window.__justep.__ResourceEngine.contextPath !== "/")){
+				prefix = window.__justep.__ResourceEngine.contextPath + prefix;
+			}
+			
+			return str.indexOf(prefix) === 0;
+		}
+		return false;
 	};
 	
 	return URL;

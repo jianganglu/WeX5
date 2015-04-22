@@ -4,7 +4,7 @@ define(function(require) {
 	var WindowContainer = require("$UI/system/components/justep/windowContainer/windowContainer");
 	var templateService = require("$UI/system/templates/common/js/templateService");
 	var Component = require("$UI/system/lib/base/component");
-	// var loadTreeJs = require("$UI/system/templates/index/loadTreeJs");
+	// var loadTreeJs = require("$UI/system/components/designerCommon/tree/tree");
 	// loadTreeJs($);
 	var Model = function() {
 		this.callParent();
@@ -67,7 +67,7 @@ define(function(require) {
 			}
 		}
 		options.title = "分组报表";
-		options.excelName = "/"+this.templateEngine.targetFileName+"Report.xlsx";
+		options.excelName = "/"+this.templateEngine.targetFileName+"Report.xls";
 		options.excelType = "groupReport";
 		this.createExcel(options);
 		this.templateEngine.addContext(this.templateFile, "fileName", this.templateEngine.targetFileName+"Report");
@@ -76,7 +76,7 @@ define(function(require) {
 	Model.prototype.createExcel = function(options) {
 		var targetPath = this.templateEngine.targetPath;
 		var realPath = targetPath.substring(0, targetPath.indexOf('UI2')) + "UI2/system/templates/report/grid/template";
-		var url = require.toUrl("$UI/system/templates/report/server/createGridExcel.j");
+		var url = require.toUrl("$UI/system/templates/report/server/createGridExcel2.j");
 		var data = {
 			dataId : options.dataId,
 			selectcolumns : options.selectcolumns,

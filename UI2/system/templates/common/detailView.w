@@ -41,14 +41,14 @@
 	</div>
 	
 	<div component="$UI/system/components/designerCommon/grid/grid" xid="grid" data="detailData"
-		style="visibility:hidden;width:95%;" editable="true">
+		style="visibility:hidden;width:95%;" class="grid-height" editable="true">
 		<column ref="name"/>
 		<column ref="data-type"/>
 		<column ref="labelName"/>
 		<column ref="colEditor" type="dropdownlist" onCreateEditor="gridColEditor"/>
-		<column ref="refID" type="dropdownlist" onCreateEditor="gridColIsRefID"/>
-		<column ref="selectDataID" type="dropdownlist" onCreateEditor="gridColIsSelectDataID"/>
-		<column ref="selectLabelName" type="dropdownlist" onCreateEditor="gridColIsSelectLabelName"/>
+<!-- 		<column ref="refID" type="dropdownlist" onCreateEditor="gridColIsRefID"/> -->
+<!-- 		<column ref="selectDataID" type="dropdownlist" onCreateEditor="gridColIsSelectDataID"/> -->
+<!-- 		<column ref="selectLabelName" type="dropdownlist" onCreateEditor="gridColIsSelectLabelName"/> -->
 		
 	</div>
 </div>

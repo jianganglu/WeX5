@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <elements>
-	<element name="$UI/system/components/bootstrap/dropdown/dropdown" tag-name="div" icon="menu.gif" text="下拉菜单"  
+	<element name="$UI/system/components/bootstrap/dropdown/dropdown(bootstrap)" tag-name="div" icon="menu.gif" text="下拉菜单"  
 	    binding-component="$UI/system/components/bootstrap/dropdown/dropdown"  
 		component-type="layout-container"  design-view="web-designer" >
 		<properties>
@@ -21,6 +21,7 @@
 				}
 				]]></editor-parameter>
 			</property>
+			<property name="autoHideMenu" text="点击菜单项后自动隐藏菜单" editor-ref="booleanList" default-value="true"/>  
 <!-- 			<property name="style" text="样式" editor-ref="styleDialog" use-default="true"/> -->
 			<include path="$UI/system/components/designerCommon/commonConfig.xml#//common-properties/group[@name='bind']"/>
 		</properties>

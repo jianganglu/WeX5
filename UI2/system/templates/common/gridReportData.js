@@ -18,7 +18,7 @@ define(function(require) {
 		options.dataId = this.templateEngine.getConfig().current.mainData.dataId;
 		options.gridField = report_data.join(",");
 		options.title = "网络报表";
-		options.excelName = "/" + this.templateEngine.targetFileName + "Report.xlsx";
+		options.excelName = "/" + this.templateEngine.targetFileName + "Report.xls";
 		options.excelType = "gridReport";
 		this.createExcel(options);
 		this.templateEngine.addContext(this.templateFile, "fileName", this.templateEngine.targetFileName+"Report");
@@ -36,7 +36,7 @@ define(function(require) {
 	Model.prototype.createExcel = function(options) {
 		var targetPath = this.templateEngine.targetPath;
 		var realPath = targetPath.substring(0, targetPath.indexOf('UI2')) + "UI2/system/templates/report/grid/template";
-		var url = require.toUrl("$UI/system/templates/report/server/createGridExcel.j");
+		var url = require.toUrl("$UI/system/templates/report/server/createGridExcel2.j");
 		var data = {
 			dataId : options.dataId,
 			gridField : options.gridField,
@@ -67,7 +67,7 @@ define(function(require) {
 		var dataId = config.current.mainData.dataId;
 		var defaultValues = [];
 		var v = [];
-		if (s == undefined) {
+		if (!s) {
 			return;
 		}
 		v = s.split(",");
@@ -149,6 +149,8 @@ define(function(require) {
 
 	Model.prototype.reportDataIndexChanged = function(event) {
 		var reportData = event.source;
+		if(!this.templateEngine)
+			return ;
 		var config = this.templateEngine.getConfig();
 		var report_data = [];
 		reportData.each(function(param) {

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <div xmlns="http://www.w3.org/1999/xhtml" component="$UI/system/components/justep/window/window">  
+  <div component="$UI/system/components/justep/model/model" xid="model" style="position:absolute;;left:486.0px;top:190.0px" onLoad="modelLoad"/>
   <div component="$UI/system/components/justep/panel/panel" class="x-panel x-full"
     xid="panel1"> 
     <div class="x-panel-top" xid="top1"> 
@@ -18,7 +19,7 @@
       </div> 
     </div>  
     <div id="aler"/>  
-    <div class="x-panel-content" xid="content2"> 
+    <div class="x-panel-content" xid="content2" style="padding:8.75px"> 
       <h3 style="height:48px;vertical-align: middle;padding: 8px;display: inline-block;">toggle style</h3>  
       <a component="$UI/system/components/justep/button/button" class="btn btn-link"
         label="源码" xid="button56" onClick="showStyleSource" bind-visible="isVisible"> 
@@ -38,16 +39,17 @@
           xid="toggle4" disabled="true" OFF="禁用"/> 
       </div>  
       <h3 style="height:48px;vertical-align: middle;padding: 8px;display: inline-block;">toggle event</h3>  
-        
       <a component="$UI/system/components/justep/button/button" class="btn btn-link"
         label="js" xid="button58" onClick="showJsSource"> 
         <i xid="i59"/>  
         <span xid="span58">js</span> 
       </a>  
-      <a component="$UI/system/components/justep/button/button" class="btn btn-link" label="源码" xid="button57" onClick="showEventSource" bind-visible="isVisible"> 
-        <i xid="i58" />  
+      <a component="$UI/system/components/justep/button/button" class="btn btn-link"
+        label="源码" xid="button57" onClick="showEventSource" bind-visible="isVisible"> 
+        <i xid="i58"/>  
         <span xid="span57">源码</span> 
-      </a><div xid="toggleEvent"> 
+      </a>
+      <div xid="toggleEvent"> 
         <span component="$UI/system/components/justep/button/toggle" class="x-toggle"
           xid="toggleVal" name="togg" ON="on" OFF="off" value="on" onChange="toggleChange"/>  
         <a component="$UI/system/components/justep/button/button" class="btn btn-default"
@@ -77,5 +79,5 @@
     </div> 
   </div>  
   <span component="$UI/system/components/justep/windowDialog/windowDialog" xid="windowDialog"
-    src="$UI/system/components/justep/common/demo/dialog.w"/> 
+    src="$UI/system/components/justep/common/demo/dialog.w" status="normal"/> 
 </div>

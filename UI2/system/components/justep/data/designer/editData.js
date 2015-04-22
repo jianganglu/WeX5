@@ -1,6 +1,6 @@
 /*! 
-* X5 v3 (htttp://www.justep.com) 
-* Copyright 2014 Justep, Inc.
+* WeX5 v3 (htttp://www.justep.com) 
+* Copyright 2015 Justep, Inc.
 * Licensed under Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0) 
 */ 
 define(function(require) {
@@ -24,11 +24,16 @@ define(function(require) {
 		var ret = [], data = this.comp('data');
 		data.each(function(param) {
 			var row = {};
-			for ( var col in data.defCols)
-				row[col] = data.getValue(col, param.row);
+			for ( var col in data.defCols){
+				var colDef = data.defCols[col],
+				type = colDef?colDef.type:'String';
+				if(type==='DateTime'||type==='Date'||type==='Time') row[col] = param.row.ref(col).get();
+				else row[col] = param.row.val(col);
+			}
 			ret.push(row);
 		});
 		return {
+			xid: this.defaultValueXID,
 			data : ret
 		};
 	};
@@ -78,6 +83,7 @@ define(function(require) {
 			});
 			// 初始化data的数据
 			var defaultValue = $data.children('data').text();
+			this.defaultValueXID = $data.children('data').attr('xid');
 			new Data(this, {
 				xid : 'data',
 				defCols : defCols,

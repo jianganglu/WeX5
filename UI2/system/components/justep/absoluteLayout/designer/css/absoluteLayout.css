@@ -1,0 +1,6 @@
+.x-absolute-layout {
+	overflow: auto;
+	position: relative;
+	padding: 0;
+	margin: 0;
+}

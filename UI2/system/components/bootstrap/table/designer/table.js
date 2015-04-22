@@ -1,6 +1,6 @@
 /*! 
-* E5 v3 (htttp://www.justep.com) 
-* Copyright 2014 Justep, Inc.
+* BeX5 v3 (htttp://www.justep.com) 
+* Copyright 2015 Justep, Inc.
 */ 
 define(function(require) {
 	require("$UI/system/components/justep/common/res");
@@ -33,7 +33,7 @@ define(function(require) {
 		
 		appendCol : function(){
 			var configs = [];
-			configs.push({componentName:"$UI/system/components/bootstrap/table/table#col",paintComponent:true,parentElementId:$(">thead>tr",this.domNode).attr("d_id")});
+			configs.push({componentName:"$UI/system/components/bootstrap/table/table(bootstrap)#col",paintComponent:true,parentElementId:$(">thead>tr",this.domNode).attr("d_id")});
 			configs.push({componentName:"td",paintComponent:true,parentElementId:$(">tbody>tr",this.domNode).attr("d_id")});
 			xuiDoc.batchCreateComponent(configs);
 		},
@@ -58,7 +58,7 @@ define(function(require) {
 			var $table =  $(this.domNode).closest("table");
 			var configs = [];
 			configs.push({
-				componentName:"$UI/system/components/bootstrap/table/table#col",
+				componentName:"$UI/system/components/bootstrap/table/table(bootstrap)#col",
 				before:before,
 				paintComponent:true,
 				parentElementId:$(this.domNode).parent().attr("d_id")});
@@ -113,6 +113,6 @@ define(function(require) {
 	};
 
 	
-	return {'$UI/system/components/bootstrap/table/table': Table,'$UI/system/components/bootstrap/table/table#col':Column};
+	return {'$UI/system/components/bootstrap/table/table(bootstrap)': Table,'$UI/system/components/bootstrap/table/table(bootstrap)#col':Column};
 
 });

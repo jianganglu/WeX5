@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <div xmlns="http://www.w3.org/1999/xhtml" component="$UI/system/components/justep/window/window">  
-  <div component="$UI/system/components/justep/model/model" xid="model" style="top:21px;height:auto;left:561px;"> 
+  <div component="$UI/system/components/justep/model/model" xid="model" style="top:21px;height:auto;left:561px;" onLoad="modelLoad"> 
     <div component="$UI/system/components/justep/data/data" xid="mainData"
       idColumn="fName" autoLoad="true"> 
       <column name="fName" type="String" label="名称"/>  
@@ -115,5 +115,5 @@
     </div>  
     </div>  
   <span component="$UI/system/components/justep/windowDialog/windowDialog" xid="windowDialog"
-    src="$UI/system/components/justep/common/demo/dialog.w"/> 
+    src="$UI/system/components/justep/common/demo/dialog.w" status="normal"/> 
 </div>

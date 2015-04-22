@@ -1,6 +1,6 @@
 /*! 
-* X5 v3 (htttp://www.justep.com) 
-* Copyright 2014 Justep, Inc.
+* WeX5 v3 (htttp://www.justep.com) 
+* Copyright 2015 Justep, Inc.
 * Licensed under Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0) 
 */ 
 define(function(require){
@@ -182,6 +182,22 @@ define(function(require){
 		}
     });
 	
+	justep.Component.addOperations(PopOver, {
+		'show' : {
+			label : '显示',
+			icon : null,
+			method : function(args) {
+				return this.owner.show();
+			}
+		},
+	'hide' : {
+		label : '隐藏',
+		icon : null,
+		method : function(args) {
+			return this.owner.hide();
+		}
+	}
+	});
 	Component.register(url, PopOver);
 	return PopOver;
 });

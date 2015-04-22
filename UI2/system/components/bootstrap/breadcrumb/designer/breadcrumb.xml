@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <elements>
-	<element name="$UI/system/components/bootstrap/breadcrumb/breadcrumb" tag-name="ul" icon="breadcrumb.png"  
+	<element name="$UI/system/components/bootstrap/breadcrumb/breadcrumb(bootstrap)" tag-name="ul" icon="breadcrumb.png"  
 	    binding-component="$UI/system/components/bootstrap/breadcrumb/breadcrumb" 
 		component-type="layout-container" validator="ViewValidator" design-view="web-designer" >
 		<properties>

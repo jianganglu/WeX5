@@ -1,6 +1,6 @@
 /*! 
-* X5 v3 (htttp://www.justep.com) 
-* Copyright 2014 Justep, Inc.
+* WeX5 v3 (htttp://www.justep.com) 
+* Copyright 2015 Justep, Inc.
 * Licensed under Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0) 
 */ 
 define(function(require) {
@@ -100,6 +100,7 @@ define(function(require) {
 	_Date.DEFAULT_FORMAT = "yyyy/MM/dd hh:mm:ss";
 	_Date.STANDART_FORMAT_SHOT = "yyyy-MM-dd";
 	_Date.STANDART_FORMAT = "yyyy-MM-ddThh:mm:ss.fffZ";
+	_Date.STANDART_TIME_FORMAT = "hh:mm:ss.fff";
 
 	_Date.toString = function(dateTime, formatStr) {
 		formatStr = formatStr ? formatStr : this.DEFAULT_FORMAT;

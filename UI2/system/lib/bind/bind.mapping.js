@@ -395,11 +395,11 @@
 					if (ko.isWriteableObservable(mappedRootObject)) {
 						if (hasUpdateCallback()) {
 							var valueToWrite = updateCallback(mappedRootObject);
-							mappedRootObject(valueToWrite);
+							mappedRootObject.set(valueToWrite);
 							return valueToWrite;
 						} else {
 							var valueToWrite = ko.utils.unwrapObservable(rootObject);
-							mappedRootObject(valueToWrite);
+							mappedRootObject.set(valueToWrite);
 							return valueToWrite;
 						}
 					} else {
@@ -412,7 +412,7 @@
 						}
 
 						if (hasUpdateCallback()) {
-							mappedRootObject(updateCallback(mappedRootObject));
+							mappedRootObject.set(updateCallback(mappedRootObject));
 						}
 						
 						if (hasCreateOrUpdateCallback) return mappedRootObject;
@@ -481,8 +481,8 @@
 					
 					if (ko.isWriteableObservable(mappedRootObject[indexer])) {
 						value = ko.utils.unwrapObservable(value);
-						if (mappedRootObject[indexer]() !== value) {
-							mappedRootObject[indexer](value);
+						if (mappedRootObject[indexer].get() !== value) {
+							mappedRootObject[indexer].set(value);
 						}
 					} else {
 						value = mappedRootObject[indexer] === undefined ? value : ko.utils.unwrapObservable(value);

@@ -1,6 +1,6 @@
 /*! 
-* X5 v3 (htttp://www.justep.com) 
-* Copyright 2014 Justep, Inc.
+* WeX5 v3 (htttp://www.justep.com) 
+* Copyright 2015 Justep, Inc.
 * Licensed under Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0) 
 */ 
 define(function(require){
@@ -102,7 +102,9 @@ define(function(require){
          * @param {Integer} value
          */
         setHeight: function(name, value){
-        	//
+        	value = value + 'px';
+        	$('>.x-panel-' + name, this.$domNode).css('height', value);
+        	$('>.x-panel-content', this.$domNode).css(name, value);
         },
         /**
          * 获取上下区域的高度
@@ -205,23 +207,6 @@ define(function(require){
         	$('.x-panel-' + name, this.$el).remove();
         }
     });
-    
-	function height(value){
-		value = value + '';
-		if(!value) return '';
-		return (value.indexOf("%") == -1 && value.indexOf("px") == -1)? parseInt(value) : value;
-	}
-	
-	function heightStr(value){
-		if(!value) return '';
-		value = (value.indexOf("%") == -1 && value.indexOf("px") == -1)? value+'px' : value;
-		return value;
-	}
-	
-	function styleHeight(value){
-		return 'height:' + heightStr(value) + ';';
-	}
-    
     
     Component.register(url, Panel);
 

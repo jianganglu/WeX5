@@ -99,10 +99,18 @@
 			<property name="idColumn" text="标示ID的列" required="true" editor-ref="dataRef" editor-parameter='{"isRelation":"true","data":"xid","hasLabel":"false"}'/>        
 			<property name="autoLoad" text="自动加载数据，和auto-new属性互斥" default-value="false"  editor-ref="booleanList" data-type="boolean"/>
 			<property name="autoNew" text="自动新增数据，和auto-load属性互斥" default-value="false"  editor-ref="booleanList" data-type="boolean"/>
+			<property name="limit" text="条数"  data-type="integer" default-value="20"/>
 			<property name="confirmDelete" text="删除提示" default-value="true" editor-ref="booleanList"/>  
 			<property name="confirmDeleteText" text="删除提示文本"  />        
 			<property name="confirmRefresh" text="刷新提示，数据修改后刷新数据进行提示" default-value="true" editor-ref="booleanList"/>
 			<property name="confirmRefreshText" text="刷新提示文本" />
+			<property name="isTree" text="是否树型数据" default-value="false" editor-ref="booleanList" data-type="boolean"/>
+			<group name="treeOption" text="树选项" enabled-condition="@isTree='true'" checkup-condition="@isTree='true'">
+				<property name="parentRelation" required="true" path="treeOption/@parentRelation" type="complex" text="父关系" editor-ref="dataRef" editor-parameter='{"isRelation":"true","data":"xid","hasLabel":"false"}'/>
+				<property name="nodeKindRelation"  required="false" path="treeOption/@nodeKindRelation" type="complex" text="节点类型关系" editor-ref="dataRef" editor-parameter='{"isRelation":"true","data":"xid","hasLabel":"false"}'/>
+				<property name="delayLoad" path="treeOption/@delayLoad" text="延迟数据加载" type="complex" default-value="true"  editor-ref="booleanList" data-type="boolean"/>
+				<property name="rootFilter"  required="false" path="treeOption/@rootFilter" text="根条件" type="complex" editor-ref="" allow-empty="true"/>      
+			</group>
 			<group name="master" text="主从选项">
 				<property name="data" path="master/@data" text="主数据" is-id-ref="true" type="complex" editor-ref="contextComponent" editor-parameter="data"/>
 				<property name="column" path="master/@relation" text="关联关系" type="complex" editor-ref="dataRef" editor-parameter='{"isRelation":"true","data":"xid","hasLabel":"false"}'/>

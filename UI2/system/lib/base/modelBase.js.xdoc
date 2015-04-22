@@ -200,6 +200,35 @@
 */
 
 /**
+	@name ModelBase#addNode
+	@function
+	@description 添加dom节点
+	@param {Element} parentElement 组件的父节点
+	@param {Element} element 节点
+	@param {Element} targetElement 插入位置 
+	@returns {void} 
+*/
+
+/**
+	@name ModelBase#addNodes
+	@function
+	@description 添加dom节点
+	@param {Element} parentElement 组件的父节点
+	@param {List<Element>} elements 节点列表
+	@param {Element} targetElement 插入位置 
+	@returns {void} 
+*/
+
+/**
+	@name ModelBase#removeNode
+	@function
+	@description 删除dom节点
+	@param {Element} element 节点
+	@returns {void} 
+*/
+
+
+/**
 	@name ModelBase#removeComponent
 	@function
 	@description 删除组件

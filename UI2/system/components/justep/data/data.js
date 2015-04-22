@@ -1,6 +1,6 @@
 /*! 
-* X5 v3 (htttp://www.justep.com) 
-* Copyright 2014 Justep, Inc.
+* WeX5 v3 (htttp://www.justep.com) 
+* Copyright 2015 Justep, Inc.
 * Licensed under Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0) 
 */ 
 define(function(require) {
@@ -29,19 +29,58 @@ define(function(require) {
 			else
 				this.data.setValue(name, value, this);
 		},
+		oval : function(name){
+			return this.data.getOriginalValue(name, this);
+		},
 		label : function(name) {
 			return this.data.label(name);
 		},
 		parent : function() {
 			return this.row.userdata ? this.row.userdata.parent : undefined;
 		},
+		index: function(){
+			return this.data.getRowIndex(this);
+		},
 		hasChildren : function(){
 			return this.rows && this.rows.get().length>0;
 		},
+		getChildren : function(){
+			return this.children();
+		},
+		children : function(){
+			return this.rows?this.rows.get():undefined;
+		},
 		getID: function(){
 			return this.data.getRowID(this);
+		},
+		assign: function(row,cols){
+			if(row instanceof Row){
+				var col;
+				if($.isArray(cols)){
+					for(var i=0; i<cols.length; i++){
+						col = cols[i];
+						this.val(col,row.val(col));
+					}
+				}else{
+					for(col in this.data.defCols){
+						this.val(col,row.val(col));
+					}
+				}
+			}
 		}
 	});
+
+	var date2Val = function(v){
+		return v instanceof Date?justep.Date.toString(v, justep.Date.STANDART_FORMAT_SHOT):v; 
+	};
+	
+	var time2Val = function(v){
+		return v instanceof Date?justep.Date.toString(v, justep.Date.STANDART_TIME_FORMAT):v; 
+	};
+	
+	var dateTime2Val = function(v){
+		return v instanceof Date?justep.Date.toString(v, justep.Date.STANDART_FORMAT):v; 
+	};
 
 	var Data = justep.ModelComponent
 			.extend({
@@ -142,7 +181,7 @@ define(function(require) {
 						if (obsv && obsv.readonly && obsv.readonly.used)
 							return obsv.readonly.computed.get();
 						else
-							this.readonly.get();
+							return this.readonly.get();
 					} else
 						return this.readonly.get();
 				},
@@ -221,7 +260,7 @@ define(function(require) {
 				},
 				label : function(name) {
 					var def = this.defCols[name];
-					return def ? def.label : '';
+					return def ? ((def.label!==undefined && def.label!==null)?def.label:name) : '';
 				},
 				_setLoaded : function(v, parent) {
 					if (!parent) {
@@ -248,10 +287,12 @@ define(function(require) {
 					return this.getTotal(parent)>rows.length;
 				},
 				getTotal : function(parent) {
-					if (!parent)
-						return this.total.get();
-					else
-						return parent.row.userdata && parent.row.userdata._total ? parent.row.userdata._total.get() : 0;
+					if (this.limit !== -1){
+						if (!parent)
+							return this.total.get();
+						else
+							return parent.row.userdata && parent.row.userdata._total ? parent.row.userdata._total.get() : 0;
+					}else return this.getCount(parent); 
 				},
 				setTotal : function(v, parent) {
 					if (!parent) {
@@ -284,7 +325,7 @@ define(function(require) {
 				ref : function(name, row) {
 					if (this._inited) {
 						if (typeof (row) !== 'object')
-							row = this.currentRow.get();
+							row = this.getCurrentRow();
 						return row ? row.ref(name) : '';
 					} else
 						return '';
@@ -349,6 +390,16 @@ define(function(require) {
 							// 主从过滤
 							this.datas = this.filterByMaster();
 							this.setTotal(0);
+							//增加从数据变化的事件
+							this.datas.subscribe(function(datas) {
+								var eventData = {};
+								eventData.source = this;
+								this.fireEvent(Data.EVENT_SLAVEDATAS_CHANGED, eventData);
+								eventData.changedSource = this;
+								eventData.type = 'slaveDataChanged';
+								eventData.selfChanged = true;
+								this.doDataChanged(eventData);
+							}, this);
 							// 生成主data index监听
 							this.master.masterData.currentRow.subscribe(function(row) {
 								if (undefined === row)
@@ -356,8 +407,9 @@ define(function(require) {
 								var rid = this.master.masterData.getRowID(row);
 								if (!this.byMaster[rid])
 									this.byMaster[rid] = {};
-								this.byMaster[rid].current = this.currentRow.get();
+								this.byMaster[rid].current = this.getCurrentRow(true);
 								this.byMaster[rid].offset = this.getOffset();
+								this.byMaster[rid].total = this.getTotal();
 							}, this, "beforeChange");
 						}
 					}
@@ -533,7 +585,7 @@ define(function(require) {
 								} else {
 									rlist.push({
 										rule : ruleName,
-										params : params
+										params : params.params?params.params:params
 									});
 								}
 							}
@@ -581,18 +633,38 @@ define(function(require) {
 					}
 					return result;
 				},
+				sort: function(callback){
+					//todo...实现排序
+				},
+				exchangeRow : function(row1,row2){
+					var index1 = this.allDatas.indexOf(row1);
+					if(index1<0) return;
+					var index2 = this.allDatas.indexOf(row2);
+					if(index2<0) return;
+					this.allDatas.splice(index1,1,row2);
+					this.allDatas.splice(index2,1,row1);
+					var eventData = {
+							source : this,
+							changedSource : this,
+							row1:row1,
+							row2:row2,
+							type : 'exchangeRow',
+							selfChanged : true
+						};
+					this.doDataChanged(eventData);
+				},
 				getResultRelations : function() {
 					var result = null;
 					for ( var o in this.defCols) {
 						if (!this.isUICalculateCol(o))
-							result = null !== result ? (result + ',' + o) : o;
+							result = null !== result ? (result + this.delim + o) : o;
 					}
 					return result;
 				},
 				getColumnIDs : function() {
 					var result = null;
 					for ( var o in this.defCols) {
-						result = null !== result ? (result + ',' + o) : o;
+						result = null !== result ? (result + this.delim + o) : o;
 					}
 					return result;
 				},
@@ -602,7 +674,7 @@ define(function(require) {
 				getAggRelations : function() {
 					var result = "";
 					for ( var o in this.defAggCols) {
-						result += ("" !== result) ? (',' + o) : o;
+						result += ("" !== result) ? (this.delim + o) : o;
 					}
 					return result;
 				},
@@ -646,7 +718,7 @@ define(function(require) {
 				_clear : function(parent) {
 					// 清空data代码
 					//当前行是parent的子才进行重置当前行
-					if(!parent || this.isChild(this.getCurrentRow(), parent))
+					if(!parent || this.isChild(this.getCurrentRow(true), parent))
 						this.currentRow.set();
 
 					var arrayRows, row = null;
@@ -756,6 +828,9 @@ define(function(require) {
 				getUserData : function(name, row) {
 					return row ? row.row.userdata[name] : this.userdata[name];
 				},
+				getAggregateValue : function(name,parent){
+					return this.getUserData(name,parent);
+				},
 				setUserData : function(name, v, row) {
 					var userdata = row ? row.row.userdata : this.userdata;
 					userdata[name] = v;
@@ -815,7 +890,8 @@ define(function(require) {
 					else {
 						var ret = Bind.computed(function() {
 							var mData = this.master.masterData;
-							var mr = mData.currentRow.get(), mrid = mData.getRowID(mr);
+							var mr = mData.getCurrentRow(), mrid = mData.getRowID(mr), 
+							allItems = this.allDatas.get();
 							if (undefined === mr)
 								return [];
 							var byMaster = this.byMaster[mrid];
@@ -824,25 +900,26 @@ define(function(require) {
 							if (!byMaster || !byMaster.loaded) {
 								var eventData = {
 									source : this,
-									loaded : Data.STATE.NEW === mData.getRowState(mData.currentRow.get())
+									loaded : Data.STATE.NEW === mData.getRowState(mData.getCurrentRow())
 								};
 								this.fireEvent(Data.EVENT_LOAD_SLAVEDATA, eventData);
 								// 这里目前没有处理autoNew
-								if (!eventData.loaded && this.autoLoad && Data.STATE.NEW !== mData.getRowState(mData.currentRow.get())) {
+								if (!eventData.loaded && this.autoLoad && Data.STATE.NEW !== mData.getRowState(mData.getCurrentRow())) {
 									eventData.loaded = this._refreshData({
 										append : true,
 										offset : 0
 									});
 								}
-								if (byMaster)
+								if (byMaster){
 									byMaster.loaded = eventData.loaded;
-								else
+								}else{
 									this.byMaster[mrid] = {
-										loaded : eventData.loaded
+											loaded : eventData.loaded,
 									};
+								}
 							}
 
-							var allItems = this.allDatas.get(), matchingItems = [];
+							var matchingItems = [];
 							for ( var i = 0; i < allItems.length; i++) {
 								var current = allItems[i];
 								if (Bind.unwrap(current.ref(this.master.relation).get()) === mrid)
@@ -851,7 +928,8 @@ define(function(require) {
 
 							if (byMaster && byMaster.loaded) {
 								this.currentRow.set(byMaster.current);
-								this.setOffset(byMaster.offset);
+								byMaster.offset!==undefined?this.setOffset(byMaster.offset):'';
+								byMaster.total!==undefined?this.setTotal(byMaster.total):'';
 							} else if (matchingItems.length > 0)
 								this.currentRow.set(matchingItems[0]);
 
@@ -1008,19 +1086,34 @@ define(function(require) {
 						}, this);
 						return r;
 					} else
-						return this.currentRow.get();
+						return this.getCurrentRow(true);
 				},
 				getValue : function(col, row) {
 					if (!row)
-						row = this.currentRow.get();
+						row = this.getCurrentRow();
 					var cc = row?row.ref(col):undefined;
-					var colDef = this.defCols[col];
+					var colDef = this.defCols?this.defCols[col]:null;
 					return this.convert(Bind.isObservable(cc)? cc.get() : cc, colDef?colDef.type:'String');
+				},
+				getOriginalValue : function(col, row) {
+					if (!row)
+						row = this.getCurrentRow();
+					var cc = row?row[col]:undefined;
+					var colDef = this.defCols?this.defCols[col]:null;
+					return this.convert(cc.originalValue, colDef?colDef.type:'String');
 				},
 				setValue : function(col, value, row) {
 					if (!row)
-						row = this.currentRow.get();
-					row.ref(col).set(value);
+						row = this.getCurrentRow(true);
+					var cc = row?row.ref(col):undefined;
+					var colDef = this.defCols[col],
+						type = colDef?colDef.type:'String';
+					if(Bind.isObservable(cc)){
+						if(type==='DateTime') value = dateTime2Val(value);
+						else if(type==='Date') value = date2Val(value);
+						else if(type==='Time') value = time2Val(value);
+						cc.set(value);
+					}
 				},
 				getValueByID : function(col, id) {
 					return this.getValue(col, this.getRowByID(id, true));
@@ -1032,21 +1125,29 @@ define(function(require) {
 					return (row && row.row.userdata && row.row.userdata.recordState) ? row.row.userdata.recordState : Data.STATE.NONE;
 				},
 				setRowState : function(row, state) {
-					if (row && row.row.userdata)
+					if (row && row.row.userdata){
 						row.row.userdata.recordState = state;
+						//刺激规则运算
+						if(state===Data.STATE.NEW || state===Data.STATE.EDIT && Bind.isObservable(row.userdata.isModified))
+							row.userdata.isModified.set(true);
+					}
 				},
 				getRowID : function(r) {
-					if(r===undefined) r = this.getCurrentRow();
+					if(r===undefined) r = this.getCurrentRow(true);
 					return r ? r.ref(this.idColumn).get() : undefined;
+				},
+				getRowIndex: function(r){
+					var datas = this.datas.get();
+					return $.isArray(datas)?datas.indexOf(r):-1;
 				},
 				to : function(row) {
 					if (typeof (row) == 'string')// 当时string时认为是id
 						row = this.getRowByID(row);
-					if ((row instanceof Data.Row || row===undefined || row===null) && row!==this.getCurrentRow()) {
+					if ((row instanceof Data.Row || row===undefined || row===null) && row!==this.getCurrentRow(true)) {
 						var eventData = {
 							source : this,
 							row : row,
-							originalRow : this.currentRow.get(),
+							originalRow : this.getCurrentRow(true),
 							cancel : false
 						};
 						this.fireEvent(Data.EVENT_INDEX_CHANGING, eventData);
@@ -1056,19 +1157,19 @@ define(function(require) {
 						this.fireEvent(Data.EVENT_INDEX_CHANGED, eventData);
 					}
 				},
-				getCount : function() {
+				getCount : function(parent) {
 					if (!this.defTreeOption.isTree)
 						return this.datas.get().length;
 					else {
 						var len = 0;
 						this.each(function() {
 							len++;
-						}, this);
+						}, this, parent);
 						return len;
 					}
 				},
 				next : function() {
-					var crow = this.currentRow.get(), isNext = false;
+					var crow = this.getCurrentRow(true), isNext = false;
 					this.each(function(evt) {
 						if (isNext) {
 							this.to(evt.row);
@@ -1080,7 +1181,7 @@ define(function(require) {
 					}, this);
 				},
 				pre : function() {
-					var crow = this.currentRow.get(), preRow = null;
+					var crow = this.getCurrentRow(true), preRow = null;
 					this.each(function(evt) {
 						if (evt.row == crow) {
 							if (null !== preRow)
@@ -1111,11 +1212,11 @@ define(function(require) {
 					else
 						return null;
 				},
-				getCurrentRow : function() {
-					return this.currentRow.get();
+				getCurrentRow : function(peek) {
+					return this.currentRow[peek?'peek':'get']();
 				},
 				getCurrentRowID : function(){
-					return this.getRowID(this.getCurrentRow());
+					return this.getRowID(this.getCurrentRow(true));
 				},
 				_lastRow : function(rows) {
 					var len = rows.length, ret = rows[len - 1];
@@ -1159,6 +1260,7 @@ define(function(require) {
 					var eventData = {
 						'cancel' : false,
 						'option': options,
+						'options': options,
 						'source' : this
 					};
 					this.fireEvent(Data.EVENT_NEWDATA_BEFORE, eventData);
@@ -1171,6 +1273,7 @@ define(function(require) {
 						eventData = {
 							'data' : data,
 							'option': options,
+							'options': options,
 							'source' : this
 						};
 						this.fireEvent(Data.EVENT_NEWDATA, eventData);
@@ -1185,6 +1288,8 @@ define(function(require) {
 					rows = this.loadData(data, true, parent, index);
 					eventData = {
 						'rows' : rows,
+						'option': options,
+						'options': options,
 						'source' : this
 					};
 					this.fireEvent(Data.EVENT_NEWDATA_AFTER, eventData);
@@ -1197,6 +1302,8 @@ define(function(require) {
 					if (onSuccess && $.isFunction(onSuccess))
 						onSuccess({
 							'source' : this,
+							'option': options,
+							'options': options,
 							'rows' : rows
 						});
 
@@ -1263,7 +1370,7 @@ define(function(require) {
 						return true;
 
 					if (!ignoreInvalid && !this.isValid()) {
-						throw new Error(this.getInvalidInfo());
+						throw justep.Error.create(this.getInvalidInfo());
 					}
 
 					if (false !== useTrans) {
@@ -1276,7 +1383,8 @@ define(function(require) {
 					try {
 						var eventData = {
 							'cancel' : false,
-							'source' : this
+							'source' : this,
+							'options' : options
 						};
 						this.fireEvent(Data.EVENT_SAVEDATA_BEFORE, eventData);
 						if (eventData.cancel) {
@@ -1288,7 +1396,8 @@ define(function(require) {
 						if (this.hasListener(Data.EVENT_SAVEDATA)) {
 							eventData = {
 								'cancel' : false,
-								'source' : this
+								'source' : this,
+								'options' : options
 							};
 							this.fireEvent(Data.EVENT_SAVEDATA, eventData);
 							result = !eventData.cancel;
@@ -1340,12 +1449,12 @@ define(function(require) {
 				/**
 				 * 保存成功后whereVersion的模式进行version自动加一
 				 */
-				applyUpdates : function(){
+				applyUpdates : function(data,options){
 					// 更新版本字段和状态不触发事件和状态变化
 					this.disableRecordChange();
 					try {// 特殊删除，解决关联计算触发问题
 						var delList = this.deleteDatas.get();
-						delList.splice(0, delList.length);
+						if(delList && $.isArray(delList))delList.splice(0, delList.length);
 						this.eachAll(function(data) {
 							var row = data.row.row;
 
@@ -1366,6 +1475,15 @@ define(function(require) {
 
 							row.userdata.recordState = Data.STATE.NONE;
 						}, this);
+						
+						//派发保存成功后事件
+						var eventData = {
+							'source' : this,
+							'data' : data
+						};
+						if (options && options.onSuccess && $.isFunction(options.onSuccess))
+							options.onSuccess(eventData);
+						this.fireEvent(Data.EVENT_SAVE_COMMIT, eventData);
 					} finally {
 						this.enabledRecordChange();
 					}
@@ -1391,7 +1509,7 @@ define(function(require) {
 					// 目前没有支持树局部加载数据
 					if (this.limit == -1 && !this.isLoaded())
 						return this.refreshData(options);
-					if(this.isLoaded()) return;
+					//if(this.isLoaded()) return;
 					var total = this.getTotal(options.parent), offset = this.getOffset(options.parent);
 					if (total <= offset)
 						return;
@@ -1424,7 +1542,7 @@ define(function(require) {
 						options.offset = this.definition.offset;
 					else
 						options.offset = 0;
-					options.append = false;
+					options.append = options.append!==true?false:true;
 					// if(this.defTreeOption.isTree)
 					// options.parent = null;
 					return this._refreshData(options);
@@ -1432,7 +1550,7 @@ define(function(require) {
 				_refreshData : function(options) {
 					var result = false;
 
-					var oldRowID = this.getRowID(this.currentRow.get());
+					var oldRowID = this.getRowID(this.getCurrentRow(true));
 
 					var eventData = {
 						cancel : false,
@@ -1444,14 +1562,14 @@ define(function(require) {
 						return false;
 
 					var canRefresh = (options && options.append) ||
-							(this.isChanged() && this.confirmRefresh ? confirm(this.confirmRefreshText) : true);
+							((this.isChanged() && this.confirmRefresh) ? confirm(this.confirmRefreshText) : true);
 
 					if (canRefresh) {
 						if (options && 'number' == typeof (options.offset))
 							this.setOffset(options.offset, options.parent);
 						if (options && 'number' == typeof (options.limit))
 							this.limit = options.limit;
-
+						var _offset = this.getOffset(options ? options.parent : null);
 						if (this.hasListener(Data.EVENT_REFRESHDATA)) {
 							eventData = {
 								cancel : false,
@@ -1475,7 +1593,18 @@ define(function(require) {
 									this.to(r);
 							}
 							if (this.limit != -1)
-								this.setOffset(this.getOffset(options ? options.parent : null) + this.limit, options ? options.parent : null);
+								this.setOffset(_offset + this.limit, options ? options.parent : null);
+							eventData = {
+									limit : this.limit,
+									offset : this.getOffset(options ? options.parent : null),
+									options : options,
+									source : this,
+									success : result,
+									changedSource : this,
+									type : 'refresh',
+									selfChanged : true,
+								};
+							this.doDataChanged(eventData);
 						}
 					}
 
@@ -1487,10 +1616,6 @@ define(function(require) {
 						success : result
 					};
 					this.fireEvent(Data.EVENT_REFRESHDATA_AFTER, eventData);
-					eventData.changedSource = this;
-					eventData.type = 'refresh';
-					eventData.selfChanged = true;
-					this.doDataChanged(eventData);
 
 					return result;
 				},
@@ -1506,10 +1631,13 @@ define(function(require) {
 					}
 					return true;
 				},
+				deleteAllData: function(){
+					return this.deleteData(this.datas.get());
+				},
 				deleteData : function(rows, options) {
 					var result = false;
 
-					rows = rows ? rows : [ this.currentRow.get() ];
+					rows = rows ? rows : [ this.getCurrentRow(true) ];
 					if(rows instanceof Data.Row) rows = [rows]; 
 
 					var eventData = {
@@ -1579,7 +1707,7 @@ define(function(require) {
 					return true;
 				},
 				_bindValue : function(r, col, rowid) {
-					if (typeof (r.row[col]) !== 'object')
+					if (!$.isPlainObject(r.row[col]))//这里需要注意，如果修改col为对象需要修改
 						r.row[col] = {
 							changed : 0,
 							value : r.row[col],
@@ -1629,6 +1757,7 @@ define(function(require) {
 					r.row[col].value.define = {
 						data : this,
 						row : r,
+						col : col,
 						defCol : def
 					};
 				},
@@ -1638,7 +1767,7 @@ define(function(require) {
 						row[k] = row[k];// 添加数据列，保证存在列对应的域
 					}
 					if (this.master && !row[this.master.relation]) {
-						row[this.master.relation] = this.master.masterData.getRowID(this.master.masterData.currentRow.get());
+						row[this.master.relation] = this.master.masterData.getRowID(this.master.masterData.getCurrentRow(true));
 					}
 					var rowid = row[this.idColumn];
 					if (typeof (rowid) === 'object')
@@ -1671,11 +1800,11 @@ define(function(require) {
 					return r;
 				},
 				remove : function(row) {
-					row = row ? row : this.currentRow.get();
+					row = row ? row : this.getCurrentRow(true);
 					var parent = row.row.userdata.parent, datas = !parent ? this.allDatas : parent.rows, index = datas.indexOf(row), len = datas
 							.get().length;
 					if (index >= 0 && index < len) {
-						var isCurrent = row === this.currentRow.get(), _datas = !parent ? this.datas : parent.rows, _index = Bind.utils.arrayIndexOf(
+						var isCurrent = row === this.getCurrentRow(true), _datas = !parent ? this.datas : parent.rows, _index = Bind.utils.arrayIndexOf(
 								_datas.get(), row);
 						datas.splice(index, 1);
 						if (isCurrent) {
@@ -1716,12 +1845,14 @@ define(function(require) {
 						var id = this.master ? datas[i].ref(this.master.relation).get() : null;
 						if ((!isFilter && masterRow === undefined) || (isFilter && filterCallback({
 							'source' : this,
+							'data' : this,
 							'row' : datas[i]
 						})) || (masterRow !== undefined && this._masterFilter(id, masterRow))) {
 							len++;
 							if(col){
 								var colDef = this.defCols[col];
 								var v = this.convert(datas[i].ref(col).get(), colDef.type);
+								if(v===undefined || v===null || v instanceof Data.ErrorValue) continue; 
 								ret += v;
 								max = max === null ? v : (max < v ? v : max);
 								min = min === null ? v : (min > v ? v : min);
@@ -1883,6 +2014,7 @@ define(function(require) {
 	Data.EVENT_INDEX_CHANGED = "onIndexChanged";
 	Data.EVENT_INDEX_CHANGING = "onIndexChanging";
 	Data.EVENT_LOAD_SLAVEDATA = "onLoadSlave";
+	Data.EVENT_SLAVEDATAS_CHANGED = "onSlaveDatasChanged";
 	// 新增业务数据的事件＝＝＝＝＝＝＝＝＝
 	Data.EVENT_NEWDATA_ERROR = "onNewError";
 	Data.EVENT_NEWDATA_CREATEPARAM = "onNewCreateParam";
@@ -1911,6 +2043,14 @@ define(function(require) {
 	Data.LOAD_TREE_ROOT = "___tree___root___";
 	Data.NODE_KIND_LEAF = "nkLeaf";
 
+	var date2String = function(){
+		return justep.Date.toString(this, 'yyyy-MM-dd'); 
+	};
+	
+	var dateTime2String = function(){
+		return justep.Date.toString(this, 'yyyy-MM-dd hh:mm:ss'); 
+	};
+
 	Data.convert = function(v, t) {
 		var errorValue = Data.createErrorValue(v);
 		if (-1 < $.inArray(t, [ 'Integer', 'Long' ]) && typeof (v) === 'string')
@@ -1921,25 +2061,36 @@ define(function(require) {
 			v = justep.Date.fromString(v, "yyyy-MM-dd");
 			if (!v)
 				v = errorValue;
+			else 
+				v.toString = date2String;
 		} else if (t == 'DateTime' && typeof (v) === 'string' && v) {
 			v = justep.Date.fromString(v, "yyyy-MM-ddThh:mm:ss.fff");
 			if (!v)
 				v = errorValue;
+			else
+				v.toString = dateTime2String;
 		}
 		return v;
 	};
 
+	Data.ErrorValue = justep.Object.extend({
+		constructor : function(value) {
+			this.value = value;
+		},
+		toString : function() {
+			return NaN;
+		}
+	});
+	
 	Data.createErrorValue = function(value) {
-		return {
-			value : value,
-			toString : function() {
-				return NaN;
-			}
-		};
+		var ret = new Data.ErrorValue(value);
+		return ret;
 	};
 
+	//规则
 	Data.Rules = Rules;
 
+	//操作
 	justep.Component.addOperations(Data, {
 		'save' : {
 			label : justep.Message.getMessage(justep.Message.JUSTEP231003),
@@ -1961,10 +2112,13 @@ define(function(require) {
 			icon : 'icon-minus',
 			init : function() {
 				var op = this, data = this.owner, canDel = function() {
-					op.setEnable(!data.getReadonly() && data.getCount() > 0 && !!data.getCurrentRow());
+					setTimeout(function(){
+						op.setEnable(!data.getReadonly() && data.getCount() > 0 && !!data.getCurrentRow(true));
+					},1);
 				};
 				this.owner.on(Data.EVENT_DATA_CHANGE, canDel);
 				this.owner.on(Data.EVENT_INDEX_CHANGED, canDel);
+				this.owner.on(Data.EVENT_SLAVEDATAS_CHANGED, canDel);
 			},
 			argsDef : [ {
 				name : 'rows',
@@ -1979,7 +2133,9 @@ define(function(require) {
 			icon : 'icon-plus',
 			init : function() {
 				var op = this, data = this.owner, canNew = function() {
-					op.setEnable(!data.getReadonly());
+					setTimeout(function(){
+						op.setEnable(!data.getReadonly());
+					},1);
 				};
 				this.owner.on(Data.EVENT_DATA_CHANGE, canNew);
 				this.owner.on(Data.EVENT_INDEX_CHANGED, canNew);
@@ -2001,7 +2157,9 @@ define(function(require) {
 			icon : 'icon-plus',
 			init : function() {
 				var op = this, data = this.owner, canNew = function() {
-					op.setEnable(data.isTree()&&!data.getReadonly()&&!!data.getCurrentRow());
+					setTimeout(function(){
+						op.setEnable(data.isTree()&&!data.getReadonly()&&!!data.getCurrentRow(true));
+					},1);
 				};
 				this.owner.on(Data.EVENT_DATA_CHANGE, canNew);
 				this.owner.on(Data.EVENT_INDEX_CHANGED, canNew);
@@ -2011,7 +2169,7 @@ define(function(require) {
 				displayName : justep.Message.getMessage(justep.Message.JUSTEP231084)
 			} ],
 			method : function(args) {
-				args.parent = this.owner.getCurrentRow();
+				args.parent = this.owner.getCurrentRow(true);
 				return this.owner.newData(args);
 			}
 		},
@@ -2020,7 +2178,9 @@ define(function(require) {
 			icon : 'icon-plus',
 			init : function() {
 				var op = this, data = this.owner, canNew = function() {
-					op.setEnable(data.isTree()&&!data.getReadonly()&&!!data.getCurrentRow());
+					setTimeout(function(){
+						op.setEnable(data.isTree()&&!data.getReadonly()&&!!data.getCurrentRow(true));
+					},1);
 				};
 				this.owner.on(Data.EVENT_DATA_CHANGE, canNew);
 				this.owner.on(Data.EVENT_INDEX_CHANGED, canNew);
@@ -2030,7 +2190,7 @@ define(function(require) {
 				displayName : justep.Message.getMessage(justep.Message.JUSTEP231084)
 			} ],
 			method : function(args) {
-				var crow = this.owner.getCurrentRow();
+				var crow = this.owner.getCurrentRow(true);
 				if(crow)
 					args.parent = crow.parent();
 				return this.owner.newData(args);
@@ -2043,16 +2203,33 @@ define(function(require) {
 				return this.owner.refreshData();
 			}
 		},
+		'firstRow' : {
+			label : justep.Message.getMessage(justep.Message.JUSTEP231086),
+			icon : 'icon-chevron-left',
+			init : function() {
+				var op = this, data = this.owner, can = function() {
+					var len = data.getCount();
+					op.setEnable(len > 1 && data.getFirstRow()!==data.getCurrentRow(true));
+				};
+				this.owner.on(Data.EVENT_DATA_CHANGE, can);
+				this.owner.on(Data.EVENT_INDEX_CHANGED, can);
+				this.owner.on(Data.EVENT_SLAVEDATAS_CHANGED, can);
+			},
+			method : function() {
+				return this.owner.first();
+			}
+		},
 		'prevRow' : {
 			label : justep.Message.getMessage(justep.Message.JUSTEP231010),
 			icon : 'icon-chevron-left',
 			init : function() {
 				var op = this, data = this.owner, can = function() {
 					var len = data.getCount();
-					op.setEnable(len > 0);
+					op.setEnable(len > 1 && data.getFirstRow()!==data.getCurrentRow(true));
 				};
 				this.owner.on(Data.EVENT_DATA_CHANGE, can);
 				this.owner.on(Data.EVENT_INDEX_CHANGED, can);
+				this.owner.on(Data.EVENT_SLAVEDATAS_CHANGED, can);
 			},
 			method : function() {
 				return this.owner.pre();
@@ -2064,28 +2241,14 @@ define(function(require) {
 			init : function() {
 				var op = this, data = this.owner, can = function() {
 					var len = data.getCount();
-					op.setEnable(len > 0);
+					op.setEnable(len > 1 && data.getLastRow()!==data.getCurrentRow(true));
 				};
 				this.owner.on(Data.EVENT_DATA_CHANGE, can);
 				this.owner.on(Data.EVENT_INDEX_CHANGED, can);
+				this.owner.on(Data.EVENT_SLAVEDATAS_CHANGED, can);
 			},
 			method : function() {
 				return this.owner.next();
-			}
-		},
-		'firstRow' : {
-			label : justep.Message.getMessage(justep.Message.JUSTEP231086),
-			icon : 'icon-chevron-left',
-			init : function() {
-				var op = this, data = this.owner, can = function() {
-					var len = data.getCount();
-					op.setEnable(len > 0);
-				};
-				this.owner.on(Data.EVENT_DATA_CHANGE, can);
-				this.owner.on(Data.EVENT_INDEX_CHANGED, can);
-			},
-			method : function() {
-				return this.owner.first();
 			}
 		},
 		'lastRow' : {
@@ -2094,25 +2257,73 @@ define(function(require) {
 			init : function() {
 				var op = this, data = this.owner, can = function() {
 					var len = data.getCount();
-					op.setEnable(len > 0);
+					op.setEnable(len > 1 && data.getLastRow()!==data.getCurrentRow(true));
 				};
 				this.owner.on(Data.EVENT_DATA_CHANGE, can);
 				this.owner.on(Data.EVENT_INDEX_CHANGED, can);
+				this.owner.on(Data.EVENT_SLAVEDATAS_CHANGED, can);
 			},
 			method : function() {
 				return this.owner.last();
 			}
 		},
+		'loadPage' : {
+			label : justep.Message.getMessage(justep.Message.JUSTEP231097),
+			icon : '',
+			argsDef : [ {
+				name : 'pageIndex',
+				displayName : justep.Message.getMessage(justep.Message.JUSTEP231061)
+			} ],
+			method : function(args) {
+				var data = this.owner;
+				var pageIndex = isNaN(args.pagrIndex)||'number'!=typeof(args.pagrIndex)?1:args.pagrIndex;
+				return data.loadPageData(pageIndex);
+			}
+		},
+		'firstPage' : {
+			label : justep.Message.getMessage(justep.Message.JUSTEP231064),
+			icon : 'icon-chevron-left',
+			method : function(args) {
+				return this.owner.loadPageData(1);
+			}
+		},
+		'prevPage' : {
+			label : justep.Message.getMessage(justep.Message.JUSTEP231015),
+			icon : 'icon-chevron-left',
+			method : function(args) {
+				var data = this.owner;
+				var pageIndex = data.getOffset()/data.limit - 1;
+				return data.loadPageData(pageIndex);
+			}
+		},
+		'nextPage' : {
+			label : justep.Message.getMessage(justep.Message.JUSTEP231014),
+			icon : 'icon-chevron-right',
+			method : function(args) {
+				var data = this.owner;
+				var pageIndex = data.getOffset()/data.limit + 1;
+				return data.loadPageData(pageIndex);
+			}
+		},
+		'lastPage' : {
+			label : justep.Message.getMessage(justep.Message.JUSTEP231065),
+			icon : 'icon-chevron-right',
+			method : function(args) {
+				var data = this.owner,mod=data.getTotal()%data.limit;
+				var pageIndex = data.getTotal()/data.limit + (mod===0?0:1);
+				return data.loadPageData(pageIndex);
+			}
+		},
 		'loadNextPage' : {
 			label : justep.Message.getMessage(justep.Message.JUSTEP231012),
-			icon : '',
+			icon : 'icon-chevron-right',
 			method : function() {
 				return this.owner.loadNextPageData();
 			}
 		},
 		'loadAllPage' : {
 			label : justep.Message.getMessage(justep.Message.JUSTEP231013),
-			icon : '',
+			icon : 'icon-chevron-right',
 			method : function() {
 				return this.owner.loadAllPageData();
 			}

@@ -1,6 +1,6 @@
 /*! 
-* X5 v3 (htttp://www.justep.com) 
-* Copyright 2014 Justep, Inc.
+* WeX5 v3 (htttp://www.justep.com) 
+* Copyright 2015 Justep, Inc.
 * Licensed under Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0) 
 */ 
 define(function(require) {
@@ -48,6 +48,13 @@ define(function(require) {
 					parentNode:parentNode,
 			};
 			var textarea = new TextArea(conf);
+		}
+	};
+
+	Model.prototype.modelLoad = function(event){
+		var isPC = justep.Browser.isPC;
+		if (!isPC) {
+			this.comp("windowDialog").set({'status':'maximize'});
 		}
 	};
 

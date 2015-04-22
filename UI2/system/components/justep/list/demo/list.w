@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <div xmlns="http://www.w3.org/1999/xhtml" xid="window" class="window" component="$UI/system/components/justep/window/window">  
-  <div component="$UI/system/components/justep/model/model" xid="model" style="height:auto;left:472px;top:72px;"> 
+  <div component="$UI/system/components/justep/model/model" xid="model" style="height:auto;left:472px;top:72px;" onLoad="modelLoad"> 
     <div component="$UI/system/components/justep/data/bizData" xid="orgData"
       concept="SA_OPPerson" limit="12" autoLoad="false"> 
       <reader xid="default4" action="/SA/OPM/logic/action/queryOPPersonAction"/> 
@@ -93,7 +93,7 @@
       </div> 
     </div>  
     <span component="$UI/system/components/justep/windowDialog/windowDialog"
-      xid="windowDialog" src="$UI/system/components/justep/common/demo/dialog.w" style="left:375px;top:287px;"/>  
+      xid="windowDialog" src="$UI/system/components/justep/common/demo/dialog.w" style="left:375px;top:287px;" status="normal"/>  
     <div class="x-panel-bottom" xid="bottom1"> 
       <div component="$UI/system/components/justep/button/buttonGroup" class="btn-group btn-group-justified"
         tabbed="true" xid="buttonGroup1" style="height:48px;"> 

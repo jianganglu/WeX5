@@ -4,7 +4,7 @@ define(function(require) {
 	var WindowContainer = require("$UI/system/components/justep/windowContainer/windowContainer");
 	var templateService = require("$UI/system/templates/common/js/templateService");
 	var Component = require("$UI/system/lib/base/component");
-	var loadTreeJs = require("$UI/system/templates/index/loadTreeJs");
+	var loadTreeJs = require("$UI/system/components/designerCommon/tree/tree");
 	loadTreeJs($);
 	var Model = function() {
 		this.callParent();

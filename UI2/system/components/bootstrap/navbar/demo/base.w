@@ -19,7 +19,7 @@
 		  <ul component="$UI/system/components/bootstrap/navs/navs" class="nav navbar-nav"
 		    xid="navs1"> 
 		    <li role="presentation" class="active" xid="li1"> 
-		      <a href="javascript:void(0)" xid="a2"><![CDATA[Item123]]></a>
+		      <a xid="a2"><![CDATA[Item123]]></a>
 		    </li> 
 		  <li xid="li2">
    <a xid="a3">Item</a></li>

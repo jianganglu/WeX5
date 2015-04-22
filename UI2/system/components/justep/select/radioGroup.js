@@ -1,6 +1,6 @@
 /*! 
-* X5 v3 (htttp://www.justep.com) 
-* Copyright 2014 Justep, Inc.
+* WeX5 v3 (htttp://www.justep.com) 
+* Copyright 2015 Justep, Inc.
 * Licensed under Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0) 
 */ 
 define(function(require) {
@@ -23,7 +23,6 @@ define(function(require) {
 			this.itemClass = "";
 			this._oldItemClass = "";
 			this.callParent(options);
-			this.disabled = false;
 		},
 		dispose : function() {
 			this.$domNode.off('click', $.proxy(this._doClick, this));
@@ -93,13 +92,18 @@ define(function(require) {
 			if('value'==name) return this.val();
 			else return this.callParent(name);	
 		},
-		propertyChangedHandler : function(key, oldVal, value) {
-			if('disabled'===key){
+		disabledRender: function(){
+			if(this.$domNode){
+				var disabled = this.isDisabled();
 				this.$domNode.children("span").each(function(){
 					var comp = justep.Component.getComponent(this);
-					if(comp) comp.set({disabled:value});
+					if(comp) comp.set({disabled:disabled});
 				});
-			}else if('itemClass'===key || 'itemStyle'===key){
+			}
+			this.callParent();
+		},
+		propertyChangedHandler : function(key, oldVal, value) {
+			if('itemClass'===key || 'itemStyle'===key){
 				this._doUpdateCss();
 				if('itemClass'===key){
 					this._oldItemClass = oldVal;
@@ -109,7 +113,7 @@ define(function(require) {
 		},
 		_doClick : function(evt) {
 			if (evt.target.nodeName.toLowerCase() == 'input') {
-				this.fireEvent('onChanged', {
+				this.fireEvent('onChange', {
 					source : this,
 					value : this.val()
 				});

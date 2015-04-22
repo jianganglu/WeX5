@@ -12,7 +12,7 @@
       <h4 class="modal-title" xid="h42">Modal title</h4></div> 
      <div class="modal-body" xid="div9"><ul component="$UI/system/components/bootstrap/navs/navs" class="nav nav-tabs" xid="navs1">
    <li role="presentation" class="active" xid="li1">
-    <a href="javascript:void(0)" xid="a1">Item</a></li> </ul></div>
+    <a xid="a1">Item</a></li> </ul></div>
      <div class="modal-footer" xid="div10">
       <button type="button" class="btn btn-default" data-dismiss="modal" xid="button5">Close</button>
       <button type="button" class="btn btn-primary" xid="button6">Save changes</button></div> </div> </div> </div>

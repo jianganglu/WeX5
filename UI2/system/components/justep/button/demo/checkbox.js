@@ -1,6 +1,6 @@
 /*! 
-* X5 v3 (htttp://www.justep.com) 
-* Copyright 2014 Justep, Inc.
+* WeX5 v3 (htttp://www.justep.com) 
+* Copyright 2015 Justep, Inc.
 * Licensed under Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0) 
 */ 
 define(function(require) {
@@ -55,6 +55,13 @@ define(function(require) {
 		this.comp("windowDialog").open({
 			data : "system/service/common/getWindowContent.j?window=/UI2/system/components/justep/button/demo/checkbox.w&xid=showCheckboxGroup"
 		});
+	};
+
+	Model.prototype.model1Load = function(event){
+		var isPC = justep.Browser.isPC;
+		if (!isPC) {
+			this.comp("windowDialog").set({'status':'maximize'});
+		}
 	};
 
 	return Model;

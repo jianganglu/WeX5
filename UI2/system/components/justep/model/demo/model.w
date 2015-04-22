@@ -20,8 +20,8 @@
         <div class="x-titlebar-right reverse" xid="div3"/> 
       </div> 
     </div>  
-    <div class="x-panel-content" xid="content1"> 
-      <div>
+    <div class="x-panel-content" style="padding:8.75px" xid="content1"> 
+      <h3 style="height:48px;vertical-align: middle;padding: 8px;display: inline-block;">model</h3>
           <a component="$UI/system/components/justep/button/button" class="btn btn-link"
             label="源码" onClick="showModelSource" bind-visible="isVisible"> 
             <i/>  
@@ -32,8 +32,8 @@
             <i/>  
             <span>js</span> 
           </a> 
+        
           <p>以下分别是各事件的加载顺序,</p>
-      </div>  
         <div component="$UI/system/components/justep/output/output" class="x-output text-center"
           xid="modelConstruct"/>  
         <div component="$UI/system/components/justep/output/output" class="x-output text-center"
@@ -43,5 +43,5 @@
     </div> 
   </div>  
   <span component="$UI/system/components/justep/windowDialog/windowDialog" xid="windowDialog"
-    src="$UI/system/components/justep/common/demo/dialog.w"/> 
+    src="$UI/system/components/justep/common/demo/dialog.w" status="normal"/> 
 </div>

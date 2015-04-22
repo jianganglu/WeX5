@@ -183,3 +183,12 @@
  @description 切换到前一个content
  @returns {void}
 */
+
+/**
+ @name Contents#getContent
+ @operation
+ @see Contents#getContent
+ @param {String} xid
+ @description 通过xid获取content
+ @returns {Content}
+*/

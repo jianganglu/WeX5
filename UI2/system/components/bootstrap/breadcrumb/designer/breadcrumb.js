@@ -11,5 +11,5 @@ define(function(require){
 	    }
 	});
 	
-	return {'$UI/system/components/bootstrap/breadcrumb/breadcrumb':Breadcrumb};
+	return {'$UI/system/components/bootstrap/breadcrumb/breadcrumb(bootstrap)':Breadcrumb};
 });

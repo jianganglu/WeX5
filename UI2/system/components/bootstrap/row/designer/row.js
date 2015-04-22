@@ -14,14 +14,14 @@ define(function(require){
 		addRowAtBefore:function(){
 			var parent_d_id = $(this.domNode).parent().attr('d_id'),
 				d_id = $(this.domNode).attr('d_id');
-			xuiService.getXuiDoc().createComponent("$UI/system/components/bootstrap/row/row", parent_d_id,{paintComponent:true, before: d_id});
+			xuiService.getXuiDoc().createComponent("$UI/system/components/bootstrap/row/row(bootstrap)", parent_d_id,{paintComponent:true, before: d_id});
 		},
 		addRowAtAfter:function(){
 			var parent_d_id = $(this.domNode).parent().attr('d_id');
-			xuiService.getXuiDoc().createComponent("$UI/system/components/bootstrap/row/row", parent_d_id,{paintComponent:true});
+			xuiService.getXuiDoc().createComponent("$UI/system/components/bootstrap/row/row(bootstrap)", parent_d_id,{paintComponent:true});
 		},
 		addCol:function(){
-			xuiService.getXuiDoc().createComponent("$UI/system/components/bootstrap/row/row#col",this,{paintComponent:true});
+			xuiService.getXuiDoc().createComponent("$UI/system/components/bootstrap/row/row(bootstrap)#col",this,{paintComponent:true});
 		},
 		dispose:function(){
 			this.domNode.componentObj = null;
@@ -40,12 +40,12 @@ define(function(require){
 		},
 		addRow:function(){
 			var parent_d_id = $(this.domNode).attr('d_id');
-			xuiService.getXuiDoc().createComponent("$UI/system/components/bootstrap/row/row", parent_d_id,{paintComponent:true});
+			xuiService.getXuiDoc().createComponent("$UI/system/components/bootstrap/row/row(bootstrap)", parent_d_id,{paintComponent:true});
 		}
     };
 	return {
-		"$UI/system/components/bootstrap/row/row":Row,
-		"$UI/system/components/bootstrap/row/row#col":Col
+		"$UI/system/components/bootstrap/row/row(bootstrap)":Row,
+		"$UI/system/components/bootstrap/row/row(bootstrap)#col":Col
 	};
 });
 

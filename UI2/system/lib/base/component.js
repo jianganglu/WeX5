@@ -1,6 +1,6 @@
 /*! 
-* X5 v3 (htttp://www.justep.com) 
-* Copyright 2014 Justep, Inc.
+* WeX5 v3 (htttp://www.justep.com) 
+* Copyright 2015 Justep, Inc.
 * Licensed under Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0) 
 */ 
 define(function(require) {
@@ -47,7 +47,8 @@ define(function(require) {
 			if (this.__model) {
 				var self = this;
 				this.__model.on("onunLoad", function() {
-					self.dispose();
+					//对话框重新刷新模式会出问题
+					//self.dispose();
 				});
 			}
 		},
@@ -185,7 +186,7 @@ define(function(require) {
 			else if (t == 'object' && (fn['operation'] || $.isArray(fn))) {
 				// 操作处理
 				Observable.prototype.off.call(this, ename, this.__eventOperation__[ename].func, viewModel);
-				delete this.eventOperation[ename];
+				delete this.__eventOperation__[ename];
 			}
 		}
 	});
@@ -214,6 +215,18 @@ define(function(require) {
 		if (component && component.domNode) {
 			bind.removeNode(component.domNode);
 		}
+	};
+	
+	Component.addNode = function(parentElement, element, targetElement){
+		bind.addNode(parentElement, element, targetElement);
+	};
+	
+	Component.addNodes = function(parentElement, elements, targetElement){
+		bind.addNodes(parentElement, elements, targetElement);
+	};
+	
+	Component.removeNode = function(node){
+		bind.removeNode(node);
 	};
 
 	Component.getComponent = function(element) {

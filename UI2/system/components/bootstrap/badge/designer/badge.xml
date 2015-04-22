@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <elements>
-	<element name="$UI/system/components/bootstrap/badge/badge" tag-name="span" icon="element.gif" text="boostrap微章"  
+	<element name="$UI/system/components/bootstrap/badge/badge(bootstrap)" tag-name="span" icon="element.gif" text="boostrap微章"  
 	    discriminate-condition="hasClass('badge')" resizable="false"
 		component-type="formControl"  design-view="web-designer" >
 		<properties>

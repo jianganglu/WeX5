@@ -18,18 +18,62 @@ define(function(require) {
 	var templateService = {
 
 		callJava : _callJava,
+		/**
+		 * 获取文件 params:
+		 *  { 'function' : 'getFiles', 
+		 *  'params' : {
+		 *  path :"/BIZ",
+		 *  baseDir : "/BIZ", 
+		 * 	fileTypes : [ '.process.m' ], 
+		 * 	blackList : ['system' ]
+		 *  } };
+		 */
+		getFiles : function(params) {
+			var self = this;
+			var result = $.ajax({
+				async : false,
+				data : JSON.stringify(params),
+				dataType : "json",
+				contentType : "json",
+				type : 'POST',
+				url : require.toUrl("$UI/system/templates/common/templateHelper.j"),
+				success : function(result) {
+				},
+				error : function(xhr, status, err) {
+				}
+			}).responseJSON;
+			if (result && result.flag) {
+				return result.files
+			} else {
+				return [];
+			}
+		},
 
 		/**
 		 * 关闭模板向导对话框.
 		 * 
 		 * @returns
 		 */
-		closeDialog : function() {
-			return this.callJava(templateServiceName, "closeDialog", {
-				async : true
-			});
+		closeDialog : function(params) {
+			params = params || {};
+			params.pageId = params.pageId || webSocket.getRequestParameter("pageId");
+			params.async = true;
+			return this.callJava(templateServiceName, "closeDialog", params);
 		},
 
+		/**
+		 * xml转化为excel.
+		 * 
+		 * @param url,pathname
+		 */
+		xmlToExcel : function(pathName) {
+			var url = require.toUrl("$UI/system/templates/server/XmlToExcel.j");
+			var data = {
+				pathname : pathName
+			};
+			$.post(url, data, function() {
+			});
+		},
 		/**
 		 * 打开本地通用选择对话框.
 		 * 
@@ -68,7 +112,7 @@ define(function(require) {
 		getTemplateConfigCatalog : function() {
 			return this.callJava(templateServiceName, "getTemplateConfigCatalog");
 		},
-		
+
 		/**
 		 * 获取chartType数据.
 		 * 
@@ -77,20 +121,21 @@ define(function(require) {
 		getChartTypeCatalog : function() {
 			return this.callJava(templateServiceName, "getChartTypeSource");
 		},
-		
-		getAppBuilderServerUrl : function(){
+
+		getAppBuilderServerUrl : function() {
 			return this.callJava(templateServiceName, "getAppBuilderServerUrl");
 		},
-		
-		setAppBuilderServerUrl : function(url){
+
+		setAppBuilderServerUrl : function(url) {
 			return this.callJava(templateServiceName, "setAppBuilderServerUrl", {
-				url : url});
+				url : url
+			});
 		},
-		
-		getNativePath : function(){
+
+		getNativePath : function() {
 			return this.callJava(templateServiceName, "getNativePath");
 		},
-		
+
 		/**
 		 * 获取listView.xml数据.
 		 * 
@@ -99,7 +144,7 @@ define(function(require) {
 		getChartListCatalog : function() {
 			return this.callJava(templateServiceName, "getChartListSource");
 		},
-		
+
 		getTemplateConfig : function(templatePath) {
 			return this.readFile(templatePath + "/" + "template.config.xml");
 		},
@@ -181,7 +226,7 @@ define(function(require) {
 				targetPath : targetPath
 			});
 		},
-		
+
 		/**
 		 * 打开w文件
 		 * 
@@ -196,10 +241,10 @@ define(function(require) {
 		/**
 		 * 获取所有的应用名称.
 		 */
-		getAllAppNames : function(){
+		getAllAppNames : function() {
 			var returnData = this.callJava(templateServiceName, "getAllAppNames", {
 				async : false
-			}); 
+			});
 			return returnData;
 		}
 	};

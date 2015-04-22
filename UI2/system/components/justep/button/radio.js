@@ -1,6 +1,6 @@
 /*! 
-* X5 v3 (htttp://www.justep.com) 
-* Copyright 2014 Justep, Inc.
+* WeX5 v3 (htttp://www.justep.com) 
+* Copyright 2015 Justep, Inc.
 * Licensed under Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0) 
 */ 
 define(function(require) {
@@ -22,7 +22,6 @@ define(function(require) {
 
 		constructor : function(options) {
 			this.callParent(options);
-			this.disabled = false;
 			this.label = null;
 			this.name = null;
 			this.checkedValue = undefined;
@@ -44,7 +43,7 @@ define(function(require) {
 			if (arguments.length === 0)
 				return this.value;
 			this.value = arguments[0];
-			this._getInput().val(this.value).prop('checked', this.checkedValue === undefined ? this.value : this.checkedValue == this.value);//lzg 这里没有使用===原因是有可能数据是int等类型
+			this._getInput().prop('checked', this.checkedValue === undefined ? this.value : this.checkedValue == this.value).val(this.value);//lzg 这里没有使用===原因是有可能数据是int等类型
 		},
 		_buildInput : function(config) {
 			return "<input"
@@ -121,6 +120,9 @@ define(function(require) {
 			if('checked'===attr) return this._getInput().prop('checked');
 			return this.callParent(attr);
 		},
+		disabledRender: function(){
+			if(this.$domNode) this._getInput().attr('disabled', this.isDisabled());
+		},
 		propertyChangedHandler : function(key, oldVal, value) {
 			switch (key) {
 			case "label":
@@ -134,11 +136,6 @@ define(function(require) {
 			case "checked":
 				if (oldVal != value && this.$domNode)
 					this._getInput().prop('checked', value);
-				break;
-			case "name":
-			case "disabled":
-				if (oldVal != value && this.$domNode)
-					this._getInput().attr(key, value);
 				break;
 			default:
 				this.callParent(key, oldVal, value);

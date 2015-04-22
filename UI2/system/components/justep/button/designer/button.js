@@ -1,6 +1,6 @@
 /*! 
-* X5 v3 (htttp://www.justep.com) 
-* Copyright 2014 Justep, Inc.
+* WeX5 v3 (htttp://www.justep.com) 
+* Copyright 2015 Justep, Inc.
 * Licensed under Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0) 
 */ 
 define(function(require) {
@@ -37,6 +37,14 @@ define(function(require) {
 			if (data && data.eventName)
 				this.on(data.eventName, data.value);
 		},
+		_getImgUrl : function(icon) {// "icon-refresh"/"img:xxx.png|xxx.png"
+			if (typeof (icon) === 'string' && 0 === icon.indexOf('img:')) {
+				var ipos = icon.indexOf('|');
+				if (ipos < 0)
+					ipos = icon.length;
+				return icon.slice(4, ipos);
+			} 
+		},
 		propertyChangedHandler : function(key, oldVal, value) {
 			switch (key) {
 			case "label":
@@ -69,11 +77,19 @@ define(function(require) {
 								$icon = this._getIconNode();
 								$icon.removeAttr('class');
 								xuiDoc.updateProperties($icon, [ 'class' ]);
-								if ($img.size() <= 0)
+								var newImg = false;
+								if ($img.size() <= 0){
+									newImg = true;
 									this._getLabelNode().before('<img d_selectable="false" d_canRemove="false"/>');
+								}
 								$img = this._getImgNode();
+								//这个逻辑是为了同步设计时模型，同步后在刷新设计器显示，特殊处理
+								var url = this._getImgUrl(value);
+								$img.attr('src', url?url:'');
+								if(newImg) xuiDoc.updateNodes($img);
+								else xuiDoc.updateProperties($img, ['src']);
+								//这是为了在设计器正常显示
 								$img.attr('src', this.imgIcon[this.disabled ? 1 : 0]);
-								xuiDoc.updateNodes($img);
 							}
 						}
 					}

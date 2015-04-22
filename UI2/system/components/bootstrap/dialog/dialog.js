@@ -1,6 +1,6 @@
 /*! 
-* X5 v3 (htttp://www.justep.com) 
-* Copyright 2014 Justep, Inc.
+* WeX5 v3 (htttp://www.justep.com) 
+* Copyright 2015 Justep, Inc.
 * Licensed under Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0) 
 */ 
 define(function(require) {
@@ -12,6 +12,7 @@ define(function(require) {
 		url = require.normalizeName("./dialog");
 	var ComponentConfig = require("./dialog.config");
 
+	require("$UI/system/components/bootstrap/lib/js/bootstrap");
 	require("../lib/js/bootstrap");
 	require('css!./css/dialog').load();
 	

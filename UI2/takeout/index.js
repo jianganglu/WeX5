@@ -1,7 +1,8 @@
 define(function(require) {
 	var $ = require("jquery");
 	var justep = require("$UI/system/lib/justep");
-	var baasClient = require("./baasClient");
+	var Baas = require("$UI/demo/baas/baas");
+		
 	require("$UI/system/lib/cordova/cordova");
 	require("cordova!org.apache.cordova.device");
 	require("res!./img");
@@ -11,7 +12,6 @@ define(function(require) {
 	};
 
 	Model.prototype.modelLoad = function(event) {
-		this.loadFoodData();
 		var self = this;
 		
 		$(self.getElementByXid("photoDiv")).hide();
@@ -20,7 +20,7 @@ define(function(require) {
 		var weixinCode = this.getContext().getRequestParameter("code");
 
 		// 判断运行环境是否在X5移动客户端中，如果在移动客户端中，则当deviceready后取手机设备uuid作为用户唯一标识
-		if (navigator.userAgent.indexOf('x5app') != -1) {
+		if (justep.Browser.isX5App) {
 			document.addEventListener("deviceready", function() {
 				self.loadUserData({
 					"id" : window.device.uuid,
@@ -29,7 +29,7 @@ define(function(require) {
 			}, false);
 		} else if (weixinCode !== "") {
 			// 微信用户
-			$.getJSON("/x5baas/weixin/userinfo?code=" + weixinCode, function(weixinUser) {
+			$.getJSON("/baas/weixin/userinfo?code=" + weixinCode, function(weixinUser) {
 				$(self.getElementByXid("photoDiv")).show();
 				$(self.getElementByXid("photoImage")).attr("src", weixinUser.headimgurl);
 				self.loadUserData({
@@ -40,49 +40,25 @@ define(function(require) {
 			});
 		} else {
 			this.loadUserData({
-				"id" : "_temp_user_",
+				"id" : "user",
 				"name" : "新用户"
 			});
 		}
 	};
 
-	Model.prototype.loadFoodData = function() {
-		baasClient.loadData([ {
-			"queryName" : "queryFoodAll",
-			"params" : {},
-			"data" : this.comp("foodData")
-		} ], null, function(){});
-	};
-
 	Model.prototype.loadUserData = function(userInfo) {
-		var self = this;
-		var userData = this.comp("userData");
-		var orderData = this.comp("orderData");
+		this._userID = userInfo.id;
 		
-		// 加载成功，但是没有数据，生成新用户
-		var success = function(json) {
-			if (userData.getCount() === 0) {
-				self.createNewUser(userInfo);
-			}
-		};
-		// 加载失败，没有连接到数据库服务器，为了演示体验也生成新用户
-		var error = function() {
-			self.createNewUser(userInfo);
-		};
-		// 同时加载用户和用户的订单
-		baasClient.loadData([ {
-			"queryName" : "queryUserByID",
-			"params" : {
-				"id" : userInfo.id
-			},
-			"data" : userData
-		}, {
-			"queryName" : "queryOrderByUserID",
-			"params" : {
-				"userID" : userInfo.id
-			},
-			"data" : orderData
-		} ], success, error);
+		var userData = this.comp("userData");
+		userData.refreshData();
+		// 如果客户信息为空，新增客户信息
+		if (userData.getCount() === 0) {
+			this.createNewUser(userInfo);
+		}
+		
+		// 加载客户信息后，加载客户已有的订单
+		this.comp("orderData").refreshData();
+		this.comp("orderList").refresh();
 	};
 
 	Model.prototype.createNewUser = function(userInfo) {
@@ -127,20 +103,23 @@ define(function(require) {
 		var orderData = this.comp("orderData");
 		var cartData = this.comp("cartData");
 		var userData = this.comp("userData");
+		
+		// 数据校验
 		if ($.trim(userData.val("fName")) === "" || $.trim(userData.val("fPhoneNumber")) === "" || $.trim(userData.val("fAddress")) === "") {
-			this.comp("messageDialog").show({
-				"title" : "警告",
-				"message" : "请填写完整的用户信息"
+			justep.Util.hint("请填写完整的用户信息", {
+				"type" : "danger"
 			});
 			return;
 		}
 
+		// 合并订单内容 
 		var content = "";
 		cartData.each(function(options) {
 			var row = options.row;
 			content = content + row.val("fName") + "(" + row.val("fCount") + ") ";
 		});
 
+		// 生成订单数据
 		var orderRows = orderData.newData({
 			index : 0,
 			defaultValues : [ {
@@ -155,27 +134,32 @@ define(function(require) {
 			} ]
 		});
 
-		// 保存成功清除购物车，并跳转到订单页
-		var success = function() {
+		// 保存数据
+		var params = {
+			"userData" : userData.toJson(true),
+			"orderData" : orderData.toJson(true)
+		};
+		var success = function(resultData) {
+			orderData.applyUpdates();
+			userData.applyUpdates();
+			// 保存成功清除购物车，并跳转到订单页
 			cartData.clear();
+			justep.Util.hint("下单成功，谢谢您的订餐！");
 			self.comp("contents").to("orderContent");
-			self.comp("messageDialog").show({
-				"title" : "提醒",
-				"message" : "下单成功，谢谢您的订餐！"
-			});
 		};
-		// 保存失败后清除失败的订单数据
-		var error = function(request, textStatus, errorThrown) {
+		var error = function(msg) {
+			// 保存失败后清除订单数据
 			orderData.deleteData(orderRows);
-			baasClient.errorProcesser(request, textStatus, errorThrown);
+			Baas.showError(msg);
 		};
-		baasClient.saveData([ {
-			"entityName" : "Order",
-			"data" : orderData
-		}, {
-			"entityName" : "User",
-			"data" : userData
-		} ], success, error);
+		Baas.sendRequest({
+			"url" : "/takeout",
+			"action" : "save",
+			"params" : params,
+			"success" : success,
+			"error" : error
+		});
+		
 	};
 
 	Model.prototype.cleanCartBtnClick = function(event) {
@@ -183,15 +167,19 @@ define(function(require) {
 	};
 
 	Model.prototype.saveUserBtnClick = function(event) {
-		var self = this;
-		baasClient.saveData([ {
-			"entityName" : "User",
-			"data" : this.comp("userData")
-		} ], function() {
-			self.comp("messageDialog").show({
-				"title" : "提醒",
-				"message" : "用户信息修改成功！"
-			});
+		var userData = this.comp("userData");
+		var params = {
+			"userData" : userData.toJson(true)
+		};
+		var success = function(resultData) {
+			userData.applyUpdates();
+			justep.Util.hint("用户信息保存成功");
+		};
+		Baas.sendRequest({
+			"url" : "/takeout",
+			"action" : "save",
+			"params" : params,
+			"success" : success
 		});
 	};
 
@@ -199,5 +187,64 @@ define(function(require) {
 	Model.prototype.transURL = function(url) {
 		return require.toUrl(url);
 	};
+	
+	Model.prototype.foodDataCustomRefresh = function(event){
+		var data = event.source;
+		var params = {
+//			"columns" : data.getColumnIDs(),
+// 			应从前端传入完整列定义（Baas.getDataColumns(data)）， 以解决oracle等数据库不区分date、time、datetime，导致的数据格式转换问题；
+//			服务端兼容了以前只传入列名字符串（data.getColumnIDs()）的写法，但是已不再推荐。				
+			"columns" : Baas.getDataColumns(data)
+		};
+		var success = function(resultData) {
+			var append = event.options && event.options.append;
+			data.loadData(resultData, append);
+		};
+		Baas.sendRequest({
+			"url" : "/takeout",
+			"action" : "queryFood",
+			"params" : params,
+			"success" : success
+		});
+	};
+	
+	Model.prototype.userDataCustomRefresh = function(event){
+		var data = event.source;
+		var params = {
+			"columns" : Baas.getDataColumns(data),
+			"id" : this._userID
+		};
+		var success = function(resultData) {
+			var append = event.options && event.options.append;
+			data.loadData(resultData, append);
+		};
+		Baas.sendRequest({
+			"url" : "/takeout",
+			"action" : "queryUser",
+			"params" : params,
+			"success" : success
+		});
+	};
+	
+	Model.prototype.orderDataCustomRefresh = function(event){
+		var data = event.source;
+		var params = {
+			"columns" : Baas.getDataColumns(data),
+			"limit" : event.limit,
+			"offset" : event.offset,
+			"userID" : this._userID
+		};
+		var success = function(resultData) {
+			var append = event.options && event.options.append;
+			data.loadData(resultData, append);
+		};
+		Baas.sendRequest({
+			"url" : "/takeout",
+			"action" : "queryOrder",
+			"params" : params,
+			"success" : success
+		});
+	};
+	
 	return Model;
 });

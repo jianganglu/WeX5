@@ -1,13 +1,12 @@
 /*! 
-* X5 v3 (htttp://www.justep.com) 
-* Copyright 2014 Justep, Inc.
+* WeX5 v3 (htttp://www.justep.com) 
+* Copyright 2015 Justep, Inc.
 * Licensed under Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0) 
 */ 
 define(function(require){
 	require('$UI/system/lib/jquery/transition');
 	
-	var History = require("$UI/system/lib/history/history"),
-		Component = require("$UI/system/lib/base/component"),
+	var Component = require("$UI/system/lib/base/component"),
 		justep = require('$UI/system/lib/justep'),
 		Str = require("$UI/system/lib/base/string"),
 		ViewComponent = require("$UI/system/lib/base/viewComponent"),

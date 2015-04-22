@@ -11,8 +11,9 @@
       <column label="生成文件" name="crefile" type="String"/> 
     </div> 
   </div>
+  <h1 class="text-center" style="margin-top:20px">流程环节</h1>
   <div component="$UI/system/components/designerCommon/grid/grid" xid="grid" data="processData"
-    style="width:95%;" editable="false"> 
+    style="visibility:hidden;width:95%;margin-top:37px" class="grid-height" editable="false"> 
     <column ref="name"/>  
     <column ref="identification"/>  
     <column ref="crefile"/> 

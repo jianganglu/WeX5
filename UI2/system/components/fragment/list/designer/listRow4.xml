@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<elements>
+
+	<element name="$UI/system/components/fragment/list/listRow4"
+		tag-type="rich" tag-name="div" text="模板" icon="group.gif"
+		binding-component="$UI/system/components/fragment/list/listRow4">
+		<properties>
+			<property name="xid" text="编号" required="false" editor-discriptor-ref=""/>  
+			<property name="style" text="样式" editor-ref="styleDialog" />
+		</properties>
+		<templates>
+			<template name="default">
+		   <![CDATA[
+		      <div  component="$UI/system/components/fragment/list/listRow4">				
+          		<div component="$UI/system/components/justep/list/list" class="x-list" style="margin: 5px;"> 
+            		<ul class="x-list-template" > 
+              			<li  class="list-row-bottom"> 
+                			<div component="$UI/system/components/justep/row/row" class="x-row"> 
+                  				<div > 
+                    				<span  style="margin-left:5px;color:#FF8040;">字段1：</span> 
+                  				</div>  
+                  				<div class="x-col" > 
+                    				<div component="$UI/system/components/justep/output/output" class="x-output" /> 
+                  					</div> 
+                				</div>  
+                				<div component="$UI/system/components/justep/row/row" class="x-row" > 
+                  					<div > 
+                    					<span  style="margin-left:5px;color:#FF8040;">字段2：</span> 
+                  					</div>  
+                  					<div class="x-col" > 
+                    					<div component="$UI/system/components/justep/output/output" class="x-output" /> 
+                  					</div> 
+                				</div>  
+                				<div component="$UI/system/components/justep/row/row" class="x-row"> 
+                  					<div > 
+                    					<span  style="margin-left:5px;color:#FF8040;">字段3：</span> 
+                  					</div>  
+                  					<div class="x-col" > 
+                    					<div component="$UI/system/components/justep/output/output" class="x-output" /> 
+                  					</div> 
+                				</div>  
+                				<div component="$UI/system/components/justep/row/row" class="x-row" > 
+                  					<div  style="margin-left:5px;color:#FF8040;"> 
+                    					<span >字段4：</span> 
+                  					</div>  
+                  					<div class="x-col" > 
+                    				<div component="$UI/system/components/justep/output/output" class="x-output" 
+                      					style="color:#FF0000;font-weight:bold;"/> 
+                  				</div> 
+                			</div> 
+              			</li> 
+            		</ul> 
+          		</div> 
+              </div>
+		   ]]></template>
+		</templates>
+	</element>
+
+</elements>

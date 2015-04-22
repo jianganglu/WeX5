@@ -1,6 +1,6 @@
 /*! 
-* E5 v3 (htttp://www.justep.com) 
-* Copyright 2014 Justep, Inc.
+* BeX5 v3 (htttp://www.justep.com) 
+* Copyright 2015 Justep, Inc.
 */ 
 define(function(require) {
 	require("$UI/system/components/justep/common/res");
@@ -8,6 +8,7 @@ define(function(require) {
 	var url = require.normalizeName("./dropdown");
 	var $ = require("jquery");
 	require('css!./css/dropdown').load();
+	require("$UI/system/components/bootstrap/lib/js/bootstrap");
 
 	var Dropdown = justep.BindComponent.extend({
 		init: function(value, bindingContext){
@@ -35,6 +36,12 @@ define(function(require) {
 				$domNode.toggleClass("open");
 				event.stopPropagation();
 			});
+			
+			$domNode.on("click",">.dropdown-menu",function(event){
+
+				event.stopPropagation(); 
+			});
+			
 			$(document).on('click.bs.dropdown', function(){ 
 				self.clearMenus();
 			});

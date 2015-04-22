@@ -11,6 +11,12 @@
 	}
 	.x-panel-content {
 		top: @bar-ios-height;
+		.x-panel-top {
+			height: @bar-height;
+		}
+		.x-panel-content {
+			top: @bar-height;
+		}
 	}
 }
 .x-panel {
@@ -23,7 +29,6 @@
 		left: 0;
 		width: 100%;
 		height: @bar-height;
-		overflow: hidden;
 	}
 		
 	.x-panel-bottom {
@@ -33,7 +38,6 @@
 		bottom: 0;
 		width: 100%;
 		height: @bar-bottom-height;
-		overflow: hidden;
 	}
 	
 	.x-panel-content {

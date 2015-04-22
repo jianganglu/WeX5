@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <div xmlns="http://www.w3.org/1999/xhtml" xid="window" class="window" component="$UI/system/components/justep/window/window">  
-  <div component="$UI/system/components/justep/model/model" xid="model"> 
+  <div component="$UI/system/components/justep/model/model" xid="model" onLoad="modelLoad"> 
     <div component="$UI/system/components/justep/data/data" xid="data1" idColumn="text"> 
       <column label="text" name="text" type="String" xid="default1"/> 
     </div> 
@@ -22,7 +22,7 @@
         <div class="x-titlebar-right reverse" xid="div3"/> 
       </div> 
     </div>  
-    <div class="x-panel-content" xid="content1"> 
+    <div class="x-panel-content" xid="content1" style="padding:8.75px"> 
       <h3  style="height:48px;vertical-align: middle;padding: 8px;display: inline-block;">textarea</h3>
         <a component="$UI/system/components/justep/button/button" class="btn btn-link" label="js" onClick="showJsSource"> 
           <i />  
@@ -55,6 +55,6 @@
     </div> 
   </div>  
   <span component="$UI/system/components/justep/windowDialog/windowDialog" xid="windowDialog"
-    src="$UI/system/components/justep/common/demo/dialog.w"/>  
+    src="$UI/system/components/justep/common/demo/dialog.w" status="normal"/>  
   <div id="aler"/> 
 </div>

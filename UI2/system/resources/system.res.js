@@ -97,9 +97,9 @@ define(function(require){
 	v.JUSTEP230089='{"code":"JUSTEP230089", "message":"修改执行者"}';
 	v.JUSTEP230090='{"code":"JUSTEP230090", "message":"显示轨迹图说明"}';
 	
-	v.JUSTEP230091='{"code":"JUSTEP230091", "message":"错误消息："}';
-	v.JUSTEP230092='{"code":"JUSTEP230092", "message":"错误编码："}';
-	v.JUSTEP230093='{"code":"JUSTEP230093", "message":"错误原因："}';
+	v.JUSTEP230091='{"code":"JUSTEP230091", "message":"提示信息："}';
+	v.JUSTEP230092='{"code":"JUSTEP230092", "message":"编码："}';
+	v.JUSTEP230093='{"code":"JUSTEP230093", "message":"原因："}';
 	v.JUSTEP230094='{"code":"JUSTEP230094", "message":"显示详细"}';
 	v.JUSTEP230095='{"code":"JUSTEP230095", "message":"隐藏详细"}';
 	v.JUSTEP230096='{"code":"JUSTEP230096", "message":"关闭"}';
@@ -110,7 +110,12 @@ define(function(require){
 	v.JUSTEP230101='{"code":"JUSTEP230101", "message":"提示"}';
 	v.JUSTEP230102='{"code":"JUSTEP230102", "message":"路径{0}找不到匹配的window文件"}';
 	v.JUSTEP230103='{"code":"JUSTEP230103", "message":"加载{0}出错"}';
-	
+
+	v.JUSTEP230104='{"code":"JUSTEP230104", "message":"流程"}';
+	v.JUSTEP230105='{"code":"JUSTEP230105", "message":"业务数据标识"}';
+	v.JUSTEP230106='{"code":"JUSTEP230106", "message":"任务标识"}';
+	v.JUSTEP230107='{"code":"JUSTEP230107", "message":"选择组织"}';
+
 	/**
 	 * JUSTEP231000 lzg (从1000开始到1999)
 	 * 
@@ -164,12 +169,12 @@ define(function(require){
 	v.JUSTEP231046='{"code":"JUSTEP231046", "message":"开始日期不能大于结束日期"}';
 	v.JUSTEP231047='{"code":"JUSTEP231047", "message":"justep.Dialog的{0}({1})不合法！"}';
 	v.JUSTEP231048='{"code":"JUSTEP231048", "message":"导出参数设置"}';
-	v.JUSTEP231049='{"code":"JUSTEP231049", "message":"excel导出只支持justep.XBizData！"}';
+	v.JUSTEP231049='{"code":"JUSTEP231049", "message":"excel导出只支持BizData！"}';
 	v.JUSTEP231050='{"code":"JUSTEP231050", "message":"导出excel失败！"}';
 	v.JUSTEP231051='{"code":"JUSTEP231051", "message":"请选择导入的excel文件"}';
-	v.JUSTEP231052='{"code":"JUSTEP231052", "message":"缺少mapping-src或者data的定义信息"}';
+	v.JUSTEP231052='{"code":"JUSTEP231052", "message":"缺少mappings或者data的定义信息"}';
 	v.JUSTEP231053='{"code":"JUSTEP231053", "message":"关联data不存在！"}';
-	v.JUSTEP231054='{"code":"JUSTEP231054", "message":"excel导入只支持justep.XBizData！"}';
+	v.JUSTEP231054='{"code":"JUSTEP231054", "message":"excel导入只支持BizData！"}';
 	v.JUSTEP231055='{"code":"JUSTEP231055", "message":"excel导入上载文件操作失败！没有返回有效数据"}';
 	v.JUSTEP231056='{"code":"JUSTEP231056", "message":"没有返回有效数据"}';
 	v.JUSTEP231057='{"code":"JUSTEP231057", "message":"导入excel失败！"}';
@@ -179,8 +184,8 @@ define(function(require){
 	v.JUSTEP231061='{"code":"JUSTEP231061", "message":"页"}';
 	v.JUSTEP231062='{"code":"JUSTEP231062", "message":"请输入“1～{0}”之间的整数！"}';
 	v.JUSTEP231063='{"code":"JUSTEP231063", "message":"当前数据已经修改，加载数据将导致修改数据丢失，确定加载？"}';
-	v.JUSTEP231064='{"code":"JUSTEP231064", "message":"首页"}';
-	v.JUSTEP231065='{"code":"JUSTEP231065", "message":"尾页"}';
+	v.JUSTEP231064='{"code":"JUSTEP231064", "message":"第一页"}';
+	v.JUSTEP231065='{"code":"JUSTEP231065", "message":"最后页"}';
 	v.JUSTEP231066='{"code":"JUSTEP231066", "message":"页签[{0}]不可见"}';
 	v.JUSTEP231067='{"code":"JUSTEP231067", "message":"{0}返回必须给出数据"}';
 	v.JUSTEP231068='{"code":"JUSTEP231068", "message":"返回值获取失败，当前rowid为:{0}，返回列为:{1}"}';
@@ -211,9 +216,14 @@ define(function(require){
 	v.JUSTEP231093='{"code":"JUSTEP231093", "message":"BLOB更新数据出错，不支持的尺寸{0}"}';
 	v.JUSTEP231094='{"code":"JUSTEP231094", "message":"选择的文件类型不支持，支持的类型:{0}"}';
 	v.JUSTEP231095='{"code":"JUSTEP231095", "message":"Grid({0})对应的Data不是树形数据"}';
-	v.JUSTEP231084='{"code":"JUSTEP231096", "message":"新增索引"}';
+	v.JUSTEP231096='{"code":"JUSTEP231096", "message":"新增索引"}';
+	v.JUSTEP231097='{"code":"JUSTEP231097", "message":"加载页"}';
+	v.JUSTEP231098='{"code":"JUSTEP231098", "message":"打开传入参数"}';
+	v.JUSTEP231099='{"code":"JUSTEP231099", "message":"导出Excel"}';
+	v.JUSTEP231100='{"code":"JUSTEP231100", "message":"导入Excel"}';
+	v.JUSTEP231101='{"code":"JUSTEP231101", "message":"导入参数设置"}';
 	
-	//input时间选择1500---1599
+	//input时间选择1500---1549
 	v.JUSTEP231500='{"code":"JUSTEP231500", "message":"确定"}';
 	v.JUSTEP231501='{"code":"JUSTEP231501", "message":"取消"}';
 	v.JUSTEP231502='{"code":"JUSTEP231502", "message":"月"}';
@@ -230,6 +240,20 @@ define(function(require){
 	v.JUSTEP231513='{"code":"JUSTEP231513", "message":"四"}';
 	v.JUSTEP231514='{"code":"JUSTEP231514", "message":"五"}';
 	v.JUSTEP231515='{"code":"JUSTEP231515", "message":"六"}';
+	
+	//dataTables组件1550---1599
+	v.JUSTEP231550='{"code":"JUSTEP231550", "message":"第一页"}';
+	v.JUSTEP231551='{"code":"JUSTEP231551", "message":"最后页"}';
+	v.JUSTEP231552='{"code":"JUSTEP231552", "message":"下一页"}';
+	v.JUSTEP231553='{"code":"JUSTEP231553", "message":"前一页"}';
+	v.JUSTEP231554='{"code":"JUSTEP231554", "message":"没有数据"}';
+	v.JUSTEP231555='{"code":"JUSTEP231555", "message":"当前显示_START_-_END_条，共_TOTAL_条"}';
+	v.JUSTEP231556='{"code":"JUSTEP231556", "message":"没有数据"}';
+	v.JUSTEP231557='{"code":"JUSTEP231557", "message":"显示 _MENU_ 条"}';
+	v.JUSTEP231558='{"code":"JUSTEP231558", "message":"请等待数据加载中..."}';
+	v.JUSTEP231559='{"code":"JUSTEP231559", "message":"处理中..."}';
+	v.JUSTEP231560='{"code":"JUSTEP231560", "message":"查询： _INPUT_"}';
+	v.JUSTEP231561='{"code":"JUSTEP231561", "message":"没有数据"}';
 	
 	//规则1600---1899
 	v.JUSTEP231600='{"code":"JUSTEP231600", "message":"{0}不满足表达式：{1}"}';
@@ -335,6 +359,8 @@ define(function(require){
 	v.JUSTEP232186='{"code":"JUSTEP232186", "message":"获取图表定义失败"}';
 	v.JUSTEP232187='{"code":"JUSTEP232187", "message":"获取报表定义失败"}';
 	v.JUSTEP232188='{"code":"JUSTEP232188", "message":"不支持new操作创建Chart组件"}';
+	v.JUSTEP232189='{"code":"JUSTEP232189", "message":"目前不支持的连接方式:{0}"}';
+	v.JUSTEP232190='{"code":"JUSTEP232190", "message":"组件上没有定义打开连接的对话框"}';
 	
 	
 	v.JUSTEP232500='{"code":"JUSTEP232500", "message":"从模版新建"}';
@@ -381,6 +407,7 @@ define(function(require){
 	v.JUSTEP281004='{"code":"JUSTEP281004", "message":"biz action 请求错误，不存在请求参数"}';
 	v.JUSTEP281005='{"code":"JUSTEP281005", "message":"请求错误编码："}';
 	v.JUSTEP281006='{"code":"JUSTEP281006", "message":"无"}';
+	v.JUSTEP281007='{"code":"JUSTEP281007", "message":"登录参数中缺少url"}';
 
 	/**
 	 * JUSTEP234000 WJ (从4000开始到4999)
@@ -389,7 +416,7 @@ define(function(require){
 	
 	v.JUSTEP234010='{"code": "JUSTEP234010", "message": "查询"}';
 	v.JUSTEP234011='{"code": "JUSTEP234011", "message": "bizFilter组件的filterData不能为空且必须是bizData"}';
-	v.JUSTEP234012='{"code": "JUSTEP234012", "message": "模板查询"}';
+	v.JUSTEP234012='{"code": "JUSTEP234012", "message": "查询模板"}';
 });
 
 

@@ -1,7 +1,7 @@
 /*! 
- * E5 v3 (htttp://www.justep.com) 
- * Copyright 2014 Justep, Inc.
- */
+* BeX5 v3 (htttp://www.justep.com) 
+* Copyright 2015 Justep, Inc.
+*/ 
 define(function(require) {
 	require("$UI/system/components/justep/common/res");
 	var Progress = require("../progress");
@@ -27,6 +27,6 @@ define(function(require) {
 		}
 	});
 	return {
-		'$UI/system/components/bootstrap/progress/progress' : Progress
+		'$UI/system/components/bootstrap/progress/progress(bootstrap)' : Progress
 	};
 });

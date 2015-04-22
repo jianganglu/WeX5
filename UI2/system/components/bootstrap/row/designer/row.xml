@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <elements>
-	<element name="$UI/system/components/bootstrap/row/row" tag-name="div" icon="row.png" text="行" display-property="xid" 
+	<element name="$UI/system/components/bootstrap/row/row(bootstrap)" tag-name="div" icon="row.png" text="行" display-property="xid" 
 			 binding-component="$UI/system/components/bootstrap/row/row"
-			 child-range="$UI/system/components/bootstrap/row/row#col"
+			 child-range="$UI/system/components/bootstrap/row/row(bootstrap)#col"
 			 component-type="layout-container"  design-view="web-designer" >
 		<properties>
 			<property name="xid" text="编号" required="true" />        
@@ -12,7 +12,7 @@
 					"0base": {
 						label: "基础样式",
 						value: "row",
-					}	 
+					}
 				}
 				]]></editor-parameter>
 			</property>
@@ -47,7 +47,7 @@
 		
 	</element>
 	
-    <element name="$UI/system/components/bootstrap/row/row#col" tag-name="div" icon="col.png" text="列" display-property="class"  
+    <element name="$UI/system/components/bootstrap/row/row(bootstrap)#col" tag-name="div" icon="col.png" text="列" display-property="class"  
 		discriminate-condition="executeXpath(parent::node()/@component='$UI/system/components/bootstrap/row/row')" 
 		parent-range="row" resizable="false"
 		component-type="layout-container" >
@@ -79,7 +79,12 @@
 						label: "大(≥1200px)屏幕",
 						value: "col-lg-1|col-lg-2|col-lg-3|col-lg-4|col-lg-5|col-lg-6|col-lg-7|col-lg-8|col-lg-9|col-lg-10|col-lg-11|col-lg-12",
 						require: false
-					} 
+					},
+					"5spliter": {
+						label: "分割线",
+						value: "col-spliter-left|col-spliter-right",
+						require: false
+					}
 				}
 				]]></editor-parameter>
 			</property>

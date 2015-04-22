@@ -7,7 +7,7 @@
     <i xid="i1"/>  
     <span xid="span6">show success</span>
   </a>
-  <div class="alert alert-success" component="$UI/system/components/bootstrap/alert/alert"
+  <div class="alert alert-success hidden" component="$UI/system/components/bootstrap/alert/alert"
     xid="alert2" autoHide="3000"> 
     <span>some text here</span>  
     <button type="button" class="close" xid="button2"> 
@@ -15,7 +15,7 @@
       <span class="sr-only" xid="span4">Close</span> 
     </button> 
   </div>
-  <div class="alert alert-warning" component="$UI/system/components/bootstrap/alert/alert"
+  <div class="alert alert-warning hidden" component="$UI/system/components/bootstrap/alert/alert"
     xid="alert1"> 
     <button type="button" class="close" xid="button1"> 
       <span aria-hidden="true" xid="span1">×</span>  

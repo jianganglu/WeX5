@@ -1,6 +1,6 @@
 /*! 
-* X5 v3 (htttp://www.justep.com) 
-* Copyright 2014 Justep, Inc.
+* WeX5 v3 (htttp://www.justep.com) 
+* Copyright 2015 Justep, Inc.
 * Licensed under Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0) 
 */ 
 define(function(require) {
@@ -18,6 +18,8 @@ define(function(require) {
 		// 构造函数
 		constructor : function(options) {
 			this.title = '';
+			this.collapsible = false;
+			this._isCollapsed = false;
 			this.callParent(options);
 		},
 		dispose : function() {
@@ -26,6 +28,20 @@ define(function(require) {
 		doInit : function(value, bindingContext) {
 			this.callParent(value, bindingContext);
 			if(!this.title)this._getTitleNode().hide();
+			var self = this;
+			this._getTitleNode().on('click',function(){
+				if(self.collapsible){
+					self._isCollapsed?self.expand():self.collapse();
+				}
+			});
+		},
+		collapse : function(){
+			this.$domNode.addClass('x-collapsed').children(':not(.x-control-group-title)').slideUp("fast");
+			this._isCollapsed = true;
+		},
+		expand: function(){
+			this.$domNode.removeClass('x-collapsed').children(':not(.x-control-group-title)').slideDown("fast");
+			this._isCollapsed = false;
 		},
 		propertyChangedHandler : function(key, oldVal, value) {
 			switch (key) {

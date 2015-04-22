@@ -1,10 +1,9 @@
 /*! 
-* X5 v3 (htttp://www.justep.com) 
-* Copyright 2014 Justep, Inc.
+* WeX5 v3 (htttp://www.justep.com) 
+* Copyright 2015 Justep, Inc.
 * Licensed under Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0) 
 */ 
 define(function(require){
-	
 	var Component = require("$UI/system/lib/base/component");
 	var Observable = require("$UI/system/lib/base/observable");
 	var Object = require("$UI/system/lib/base/object");
@@ -14,7 +13,7 @@ define(function(require){
 	var $ = require("jquery");
 	var url = require.normalizeName("./content");
 	var ComponentConfig = require("./content.config");
-	var WindowContainer = require("$UI/system/components/justep/windowContainer/windowContainer");
+	
 	
 	
     var Content = ViewComponent.extend({
@@ -98,27 +97,16 @@ define(function(require){
 		active: function(){
 			this.owner.to(this.xid);
 		},
-		destroy: function(){
-			this.$domNode.remove();
+		dispose: function(){
 			this.owner = null;
 		},
-		dispose: function(){
-			this.owner.remove(this.index);
-		},
-		load: function(url, fn){
-			var me = this;
-			var compose = this.compose = new WindowContainer({parentNode: this.$domNode.get(0), src: url,
-				onLoad: function(){
-					fn && fn();
-					me.on("onActive", function(){
-						if(compose.getInnerModel())
-							compose.getInnerModel().fireEvent('onActive');
-					})
-				},
-				onLoadError: function(err){
-					fn && fn(err);
-				}
-			});
+		doRoute: function(name,param,routeState){
+			if(!this.owner.routable){
+				return;
+			}
+			if(routeState == 'enter'){
+				this.active();
+			}
 		}
 	});
     

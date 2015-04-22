@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <elements>
-	<element name="$UI/system/components/bootstrap/scrollSpy/scrollSpy" tag-type="rich" tag-name="div" icon="scrollSpy.png" text="工具条"  
+	<element name="$UI/system/components/bootstrap/scrollSpy/scrollSpy(bootstrap)" tag-type="rich" tag-name="div" icon="scrollSpy.png" text="工具条"  
 	    binding-component="$UI/system/components/bootstrap/scrollSpy/scrollSpy" display-property="xid" 
 		component-type="layout-container" validator="ViewValidator" design-view="web-designer" >
 		<properties>

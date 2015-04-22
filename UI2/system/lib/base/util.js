@@ -1,19 +1,43 @@
 /*! 
-* X5 v3 (htttp://www.justep.com) 
-* Copyright 2014 Justep, Inc.
+* WeX5 v3 (htttp://www.justep.com) 
+* Copyright 2015 Justep, Inc.
 * Licensed under Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0) 
 */ 
 define(function(require) {
 	var toString = Object.prototype.toString;
+	var Str = require("$UI/system/lib/base/string");
 	var __Date = require("./date");
+	var $ = require("jquery");
 
-	var disableTouchMove = function(e) {
+	var disableEvent = function(e) {
 		// e.stopPropagation(); //阻止了事件冒泡，但不会阻击默认行为
 		e.preventDefault(); // 不阻击事件冒泡，但阻击默认行为
 		// return false; //阻止了事件冒泡，也阻止了默认行为
 	};
 
 	var util = {
+		/*	
+		loadScript: function(url, callback){
+			if (url){
+				var items = $("script[src='" + url + "']");
+				if (items.length===0){
+					var head= document.getElementsByTagName('head')[0];  
+					var script= document.createElement('script');  
+					script.type= 'text/javascript';
+					if (callback){
+						script.onload = script.onreadystatechange = function() {  
+						    if (!this.readyState || this.readyState === "loaded" ||    this.readyState === "complete" ) { 
+						        callback();  
+						        // Handle memory leak in IE 
+						        script.onload = script.onreadystatechange = null;  
+						    } };  
+					}
+					script.src= url;  
+					head.appendChild(script);  
+				}
+			}
+		},
+		*/
 		isBoolean : function(value) {
 			return typeof value === 'boolean';
 		},
@@ -142,11 +166,86 @@ define(function(require) {
 			else
 				return value + '';
 		},
-		disableTouchMove : function(e) {
-			$(e).on('touchmove', disableTouchMove);
+		disableTouchMove : function(node) {
+			$(node).on('touchmove', disableEvent);
 		},
-		enableTouchMove : function(e) {
-			$(e).off('touchmove', disableTouchMove);
+		enableTouchMove : function(node) {
+			$(node).off('touchmove', disableEvent);
+		},
+		disableEvent : function(node,evtName) {
+			$(node).on(evtName, disableEvent);
+		},
+		enableEvent : function(node,evtName) {
+			$(node).off(evtName, disableEvent);
+		},
+		hint: function(text, options){
+			if(!text) return;
+			if(typeof text == 'string'){
+				options = options || {};
+				options.text = text;
+			}else if(typeof text == 'object'){
+				options = text;
+			}
+			
+			options.type = options.type || 'info';
+			options.delay = options.delay || 3000;
+			options.parent = options.parent || 'body';
+			
+			var template = '<div class="alert alert-{0} x-hint">' +
+					'<button type="button" class="close">' + 
+						'<span aria-hidden="true">&times;</span>' +
+						'<span class="sr-only">Close</span>' +
+					'</button>' +
+					'{1}' +
+				"</div>";
+			var html = Str.format(template, options.type, options.text);
+			var $el = $(html).appendTo(options.parent).show('slow');
+			var iid;
+			if(options.delay){
+				iid = setTimeout(function(){
+					closeFn();
+				}, options.delay);
+			}
+			$('.close', $el).click(closeFn);
+			function closeFn(){
+				$el.remove();
+				clearTimeout(iid);
+			}
+		},
+		confirm: function(text, onOk, onCancel){
+			if(!text) return;
+			
+			var template = '<div class="modal">' +
+			  '<div class="modal-dialog">' +
+			    '<div class="modal-content">' +
+			      '<div class="modal-header">' +
+			        '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
+			        '<h4 class="modal-title">{0}</h4>' +
+			      '</div>' +
+			      '<div class="modal-body">' +
+			        '<p>{1}</p>' +
+			      '</div>' +
+			      '<div class="modal-footer">' +
+			        '<button type="button" class="btn btn-primary ok">确定</button>' +
+			        '<button type="button" class="btn btn-link cancel">取消</button>' +
+			      '</div>' +
+			    '</div>' +
+			  '</div>' +
+			'</div>';		
+			
+			var html = Str.format(template, '提醒', text);
+			var $el = $(html).appendTo('body').show();
+			var iid;
+			$('.close', $el).click(closeFn);
+			$('.cancel', $el).click(closeFn);
+			$('.ok', $el).click(function(){
+				$el.remove();
+				onOk && onOk();
+			});
+			function closeFn(){
+				$el.remove();
+				onCancel && onCancel();
+			}
 		}
 	};
 	

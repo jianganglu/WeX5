@@ -1,6 +1,6 @@
 /*! 
-* X5 v3 (htttp://www.justep.com) 
-* Copyright 2014 Justep, Inc.
+* WeX5 v3 (htttp://www.justep.com) 
+* Copyright 2015 Justep, Inc.
 * Licensed under Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0) 
 */ 
 /**
@@ -21,15 +21,38 @@ define(function(require) {
 	var bind = require("bind");
 	var INNER_MODEL = "__inner-model__";
 	var Message = require("./message");
+	var RouteState = require('$UI/system/lib/route/routeState');
 	require("$UI/system/resources/system.res");
 
 	var Model = Object.extend({
 		mixins : Observable,
+		
+		_getParamsFromURL: function(url){
+			var result = {};
+			var index = url.indexOf("?");
+			if(index != -1){
+				var params = url.substr(index + 1).split("&");
+				for(var i=0; i<params.length; i++){
+					var param = params[i].split("=");
+					if(param.length=2){
+						result[param[0]] = param[1];
+					}
+				}
+			}
+			return result;
+		},
+		
+		
+		_createContext: function(){
+			var params = this._getParamsFromURL(this.__contextUrl);
+			return new Context({params:params}, this);
+		},
+		
 		constructor : function() {
 			this._status = Model.MODEL_STATUS_CONSTRUCT;
 			if (this.__contextUrl) {// __contextUrl支持url和json对象
 				if (typeof (this.__contextUrl) === 'string') {
-					this.__context = _processContext(this);
+					this.__context = this._createContext();
 				} else {
 					if (!this.__contextUrl.flag){
 						var result = {
@@ -53,21 +76,28 @@ define(function(require) {
 			this.__components = {}; // 用来存储data组件
 
 			var self = this;
-
-			$(window).on('message', $.proxy(function(event) {
+			this._onMessageFn = function(event) {
 				var data = event.originalEvent.data;
+				try{/*这里是为了兼容IE9*/
+					data = JSON.parse(data);
+				}catch(e){}	
 				if (data.type && data.type == "model") {
 					self.fireEvent(data.event.name);
 				}
-			}, this));
+			}; 
+			
+			$(window).on('message', this._onMessageFn);
 
-			$(window).unload(function() {
-				self.fireEvent(Model.UNLOAD_EVENT, {
-					source : self
-				});
-			});
-
+			this._unloadFn = function(){
+				self.destroy();
+			};
+			$(window).on("unload", this._unloadFn);
 			Observable.prototype.constructor.call(this);
+			
+			this.$routeState = new RouteState(this);
+			this.$routeState.on('onRouteStatePublish',function(event){
+				this.fireEvent('onRouteStatePublish',event);
+			},this);
 		},
 
 		_callModelFn : function() {
@@ -107,6 +137,7 @@ define(function(require) {
 		// compositionComplete
 		attached : function(child, parent, context) {
 			this._rootNode = child;
+			this.__parent = parent;
 			bind.utils.domData.set(parent, INNER_MODEL, this); // 在compose组件中会使用INNER_MODEL来获取
 			if (parent) {
 				var parentContext = bind.contextFor(parent);
@@ -167,11 +198,21 @@ define(function(require) {
 			return this._status;
 		},
 		detached : function(child, parent, context) {
-			this.fireEvent(Model.UNLOAD_EVENT, {
-				source : this
-			});
-			bind.utils.domData.set(parent, INNER_MODEL);
+			this.destroy();
+		},
+		destroy: function(){
+			this.fireEvent(Model.UNLOAD_EVENT, {source : this});
+			if (this.__parent){
+				bind.utils.domData.set(this.__parent, INNER_MODEL);	
+			}
+			this.__parent = null;
 			this._parentModel = null;
+			$(window).off("message", this._onMessageFn);
+			$(window).off("unload", this._unloadFn);
+			this._onMessageFn = null;
+			this._unloadFn = null;
+			
+			this.$routeState.off('onRouteStatePublish');
 		},
 
 		resolvedComponent : function(xidOrNode) {
@@ -451,7 +492,7 @@ define(function(require) {
 				message : message
 			});
 		},
-
+		
 		addComponent : function(parentElement, component, targetElement) {
 			bind.addComponent(parentElement, component, targetElement);
 		},
@@ -460,30 +501,20 @@ define(function(require) {
 			if (component && component.domNode) {
 				bind.removeNode(component.domNode);
 			}
+		},
+		
+		addNode: function(parentElement, element, targetElement){
+			bind.addNode(parentElement, element, targetElement);
+		},
+		
+		addNodes: function(parentElement, elements, targetElement){
+			bind.addNodes(parentElement, elements, targetElement);
+		},
+		
+		removeNode: function(node){
+			bind.removeNode(node);
 		}
 	});
-
-
-	var _getParamsFromURL = function(url){
-		var result = {};
-		var index = url.indexOf("?");
-		if(index != -1){
-			var params = url.substr(index + 1).split("&");
-			for(var i=0; i<params.length; i++){
-				var param = params[i].split("=");
-				if(param.length=2){
-					result[param[0]] = param[1];
-				}
-			}
-		}
-		return result;
-	};
-	
-	var _processContext = function(model){
-		var params = _getParamsFromURL(model.__contextUrl);
-		return new Context({params:params}, model);
-	};
-	
 	Model.ACTIVE_EVENT = "onActive";
 	Model.INACTIVE_EVENT = "onInactive";
 	Model.MESSAGE_EVENT = "onMessage";

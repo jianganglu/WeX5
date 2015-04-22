@@ -1,6 +1,6 @@
 /*! 
-* X5 v3 (htttp://www.justep.com) 
-* Copyright 2014 Justep, Inc.
+* WeX5 v3 (htttp://www.justep.com) 
+* Copyright 2015 Justep, Inc.
 * Licensed under Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0) 
 */ 
 define(function(require) {
@@ -12,7 +12,6 @@ define(function(require) {
 	var ComponentConfig = require("./alert.config");
 
 	require("$UI/system/components/justep/common/res");
-	require('css!./css/alert').load();
 	
 	var Alert = ViewComponent.extend({
 		getUrl : function() {
@@ -33,7 +32,7 @@ define(function(require) {
 		},
 		
 		show: function(){
-			this.$el.show();
+			this.$el.removeClass('hidden');
 			if(this.autoHide){
 				var me = this;
 				this.autoHideId = setTimeout(function(){
@@ -43,7 +42,7 @@ define(function(require) {
 		},
 		
 		hide: function(){
-			this.$el.hide();
+			this.$el.addClass('hidden');
 			clearTimeout(this.autoHideId);
 		},
 		

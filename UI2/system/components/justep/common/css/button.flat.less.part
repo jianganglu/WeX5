@@ -31,6 +31,28 @@
 /*black orange green blue red yellow purple gray*/
 
 .btn{
+	/*
+	display:-webkit-inline-box;
+	-webkit-flex-flow: row;
+	-webkit-box-align: center;
+	-webkit-box-pack: center;  
+
+	display:-webkit-inline-flex;
+	-webkit-flex-direction: row;
+	-webkit-justify-content: center;
+	-webkit-align-items: center;
+
+	display: -ms-inline-flexbox;
+	-ms-flex-direction:row;
+	-ms-flex-pack:center;
+	-ms-flex-align:baseline;
+
+	display:inline-flex;
+	flex-direction:row;
+	justify-content: center;
+	align-items: center;
+	*/
+	
 	&.x-black {
 	  .button-variant(#fff; #474949; darken(#474949, 5%));
 	}
@@ -62,6 +84,12 @@
 	&.x-gray {
 	  .button-variant(#fff; #e7e7e7; darken(#e7e7e7, 5%));
 	}
+
+/*	
+	i:before{
+		vertical-align:middle;
+	}
+*/	
 }
 
 .btn-icon-top{
@@ -132,7 +160,9 @@
 	justify-content: center;
 	align-items: center;
 }
-.btn-icon-left i,.btn-previous i,.btn-icon-left img,.btn-previous img{padding-right: 0.6em;text-align:center;vertical-align:middle;}
+.btn-icon-left i,.btn-previous i,.btn-icon-left img,.btn-previous img{
+	padding-right: 0.6em;text-align:center;vertical-align:middle;
+}
 .btn-icon-right,.btn-next{
 	display:-webkit-inline-box;
 	-webkit-flex-flow: row-reverse;
@@ -158,6 +188,13 @@
 .btn-icon-right span,.btn-next span,.btn-icon-bottom *{
 	display:block;
 }
-.btn-icon-right i,.btn-next i,.btn-icon-right img,.btn-next img{padding-left: 0.6em;text-align:center;vertical-align:middle;}
+.btn-icon-right i,.btn-next i,.btn-icon-right img,.btn-next img{
+	padding-left: 0.6em;text-align:center;vertical-align:middle;
+}
 
+.x-dialog-button{
+	float:right;
+	margin-top:8px;
+	margin-left:16px;
+}
 

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <elements>
-	<element name="$UI/system/components/bootstrap/tabs/tabs" tag-type="rich" tag-name="div" icon="tabs.png" text="页签"  
+	<element name="$UI/system/components/bootstrap/tabs/tabs(bootstrap)" tag-type="rich" tag-name="div" icon="tabs.png" text="页签"  
 	    binding-component="$UI/system/components/bootstrap/tabs/tabs" display-property="xid" 
 		component-type="layout-container" validator="ViewValidator" design-view="web-designer" >
 		<properties>
@@ -29,8 +29,9 @@
 		</toolbar>
 		
 		<events>
-			<event name="onDeselect" type="event" text="页签隐藏" parameters="event" is-script="true"/>
+<!-- 			<event name="onDeselect" type="event" text="页签隐藏" parameters="event" is-script="true"/> -->
 			<event name="onSelect" type="event" text="页签显示" parameters="event" is-script="true"/>
+			<event name="onBeforeSelect" type="event" text="业签显示前" />
 			<include path="$UI/system/components/designerCommon/commonConfig.xml#//html-evens/*"/>
 		</events>
 		
@@ -71,9 +72,10 @@
 
 		
 		<events>
-			<event name="onDeselect" type="event" text="隐藏" parameters="event" is-script="true"/>
-			<event name="onSelect" type="event" text="显示" parameters="event" is-script="true"/>
-			<include path="$UI/system/components/designerCommon/commonConfig.xml#//html-evens/*"/>
+<!-- 			<event name="onDeselect" type="event" text="隐藏" parameters="event" is-script="true"/> -->
+<!-- 			<event name="onSelect" type="event" text="显示" parameters="event" is-script="true"/> -->
+			
+<!-- 			<include path="$UI/system/components/designerCommon/commonConfig.xml#//html-evens/*"/> -->
 		</events>
 		<templates>
 		   <template name="default"><![CDATA[ 

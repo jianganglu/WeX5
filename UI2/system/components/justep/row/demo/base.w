@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <div xmlns="http://www.w3.org/1999/xhtml" component="$UI/system/components/justep/window/window" xid="root">  
-  <div component="$UI/system/components/justep/model/model" xid="model1" style="height:auto;left:99px;top:26px;"/>  
+  <div component="$UI/system/components/justep/model/model" xid="model" style="height:auto;left:99px;top:26px;" onLoad="modelLoad"/>  
   <span component="$UI/system/components/justep/windowDialog/windowDialog" xid="windowDialog"
-    src="$UI/system/components/justep/common/demo/dialog.w" style="left:409px;top:268px;"/>  
+    src="$UI/system/components/justep/common/demo/dialog.w" style="left:409px;top:268px;" status="normal"/>  
   <div component="$UI/system/components/justep/panel/panel" class="x-panel x-full"
     xid="panel1"> 
     <div class="x-panel-top" xid="top1"> 
@@ -23,13 +23,13 @@
     <div class="x-panel-content" xid="content1"> 
       <div component="$UI/system/components/justep/controlGroup/controlGroup"
         class="x-control-group" title="title" xid="controlGroup1"> 
-        <h3  style="height:48px;vertical-align: middle;padding: 8px;display: inline-block;">row</h3>
+        <h3 >row
           <a component="$UI/system/components/justep/button/button" class="btn btn-link"
             label="源码" xid="button1" onClick="showRowSource" bind-visible="isVisible"> 
             <i xid="i1"/>  
             <span xid="span1">源码</span> 
           </a> 
-          
+          </h3>
         <p>容器组件：基于css3 flex实现，自适应分辨率，如电脑，手机，平板等</p> 
       </div>  
       <div component="$UI/system/components/justep/row/row" class="x-row" xid="demoRow"

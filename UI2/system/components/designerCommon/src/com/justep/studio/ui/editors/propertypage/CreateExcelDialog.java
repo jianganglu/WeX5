@@ -159,8 +159,8 @@ public class CreateExcelDialog extends Composite implements IPropertyDialogPage 
 			//创建文件
 			InputStream stream = null;
 			try {
-				FileHelper.copyfile(StudioConfig.getStudioConfigBasePath() + "/newXLSTemplate.xlsx", file.getLocation().toFile().getParentFile()
-						.getAbsolutePath(), fileName.replace(".xml", ".xlsx"));
+				FileHelper.copyfile(StudioConfig.getStudioConfigBasePath() + "/newXLSTemplate.xls", file.getLocation().toFile().getParentFile()
+						.getAbsolutePath(), fileName.replace(".xml", ".xls"));
 				container.refreshLocal(1, null);
 				
 				FileHelper.copyfile(StudioConfig.getStudioConfigBasePath() + "/newXLSTemplate.xml", file.getLocation().toFile().getParentFile()

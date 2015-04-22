@@ -17,30 +17,70 @@
 		bootstrap/scrollSpy,
 		bootstrap/badge,
 		bootstrap/listGroup,
-		bootstrap/pagination
+		bootstrap/pagination,
+		bootstrap/pager,
+		bootstrap/controlLabel,
+		bootstrap/form
 	</component-dirs>
 	
 	<!-- 组件工具箱配置 -->
 	<toolbox>
-		<catalog name="bootstrap" order="0">
-			<item component-name="$UI/system/components/bootstrap/panel/panel"/>
-			<item component-name="$UI/system/components/bootstrap/accordion/accordion"/>
-			<item component-name="$UI/system/components/bootstrap/table/table"/>
-			<item component-name="$UI/system/components/bootstrap/tabs/tabs"/>
-			<item component-name="$UI/system/components/bootstrap/dropdown/dropdown"/>
-			<item component-name="$UI/system/components/bootstrap/navs/navs"/>
-			<item component-name="$UI/system/components/bootstrap/navbar/navbar"/>
-			<item component-name="$UI/system/components/bootstrap/carousel/carousel"/>
-			<item component-name="$UI/system/components/bootstrap/alert/alert"/>
-			<item component-name="$UI/system/components/bootstrap/row/row"/>
-			<item component-name="$UI/system/components/bootstrap/dialog/dialog"/>
-			<item component-name="$UI/system/components/bootstrap/inputGroup/inputGroup"/>
-			<item component-name="$UI/system/components/bootstrap/label/label"/>
-			<item component-name="$UI/system/components/bootstrap/badge/badge"/>
-			<item component-name="$UI/system/components/bootstrap/scrollSpy/scrollSpy"/>
-			<item component-name="$UI/system/components/bootstrap/listGroup/listGroup"/>
-			<item component-name="$UI/system/components/bootstrap/pagination/pagination"/>
+	
+		<catalog name="布局">
+			<item component-name="$UI/system/components/bootstrap/accordion/accordion(bootstrap)"/>
+			<item component-name="$UI/system/components/bootstrap/tabs/tabs(bootstrap)"/>
+			<item component-name="$UI/system/components/bootstrap/row/row(bootstrap)"/>
+		</catalog>
+			
+		<catalog name="表单">
+ 			<item component-name="$UI/system/components/bootstrap/form/form(bootstrap)" />
+			<item component-name="$UI/system/components/bootstrap/form/form(bootstrap)#formGroup" />
+			<item component-name="$UI/system/components/bootstrap/inputGroup/inputGroup(bootstrap)"/>
+		</catalog>
+		
+
+		<catalog name="扩展">
+			<item component-name="$UI/system/components/bootstrap/table/table(bootstrap)"/>
+			<item component-name="$UI/system/components/bootstrap/dropdown/dropdown(bootstrap)"/>
+			<item component-name="$UI/system/components/bootstrap/navs/navs(bootstrap)"/>
+			<item component-name="$UI/system/components/bootstrap/navbar/navbar(bootstrap)"/>
+			<item component-name="$UI/system/components/bootstrap/badge/badge(bootstrap)"/>
+			<item component-name="$UI/system/components/bootstrap/pagination/pagination(bootstrap)"/>
+			<item component-name="$UI/system/components/bootstrap/pager/pager(bootstrap)"/>
+			<item component-name="$UI/system/components/bootstrap/scrollSpy/scrollSpy(bootstrap)" device="pc"/>
+		</catalog>
+
+		<catalog name="对话框">
+			<item component-name="$UI/system/components/bootstrap/alert/alert(bootstrap)"/>
+			<item component-name="$UI/system/components/bootstrap/dialog/dialog(bootstrap)"/>
+		</catalog>
+
+		<catalog name="bootstrap" order="10">
+			<item component-name="$UI/system/components/bootstrap/panel/panel(bootstrap)"/>
+			<item component-name="$UI/system/components/bootstrap/accordion/accordion(bootstrap)"/>
+			<item component-name="$UI/system/components/bootstrap/table/table(bootstrap)"/>
+			<item component-name="$UI/system/components/bootstrap/tabs/tabs(bootstrap)"/>
+			<item component-name="$UI/system/components/bootstrap/dropdown/dropdown(bootstrap)"/>
+			<item component-name="$UI/system/components/bootstrap/navs/navs(bootstrap)"/>
+			<item component-name="$UI/system/components/bootstrap/navbar/navbar(bootstrap)"/>
+			<item component-name="$UI/system/components/bootstrap/carousel/carousel(bootstrap)"/>
+			<item component-name="$UI/system/components/bootstrap/alert/alert(bootstrap)"/>
+			<item component-name="$UI/system/components/bootstrap/row/row(bootstrap)"/>
+			<item component-name="$UI/system/components/bootstrap/dialog/dialog(bootstrap)"/>
+			<item component-name="$UI/system/components/bootstrap/inputGroup/inputGroup(bootstrap)"/>
+			<item component-name="$UI/system/components/bootstrap/controlLabel/controlLabel(bootstrap)"/>
+			<item component-name="$UI/system/components/bootstrap/label/label(bootstrap)"/>
+			<item component-name="$UI/system/components/bootstrap/badge/badge(bootstrap)"/>
+			<item component-name="$UI/system/components/bootstrap/scrollSpy/scrollSpy(bootstrap)"/>
+			<item component-name="$UI/system/components/bootstrap/listGroup/listGroup(bootstrap)"/>
+			<item component-name="$UI/system/components/bootstrap/pagination/pagination(bootstrap)"/>
+			<item component-name="$UI/system/components/bootstrap/pager/pager(bootstrap)"/>
+ 			<item component-name="$UI/system/components/bootstrap/form/form(bootstrap)" />
+			<item component-name="$UI/system/components/bootstrap/form/form(bootstrap)#formGroup(bootstrap)" />
 		</catalog>
 	</toolbox>
-	 
+	
+	<depend-css>
+         <item>$UI/system/components/bootstrap.min.css</item>
+ 	</depend-css>
 </reg-info>

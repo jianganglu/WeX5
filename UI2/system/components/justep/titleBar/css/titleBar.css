@@ -1,6 +1,9 @@
 .iosstatusbar .x-titlebar {
   padding-top: 20px;
 }
+.iosstatusbar .x-panel .x-panel .x-titlebar {
+  padding-top: 0;
+}
 .x-titlebar {
   background-color: #2fa4e7;
   /*#0088D1;*/

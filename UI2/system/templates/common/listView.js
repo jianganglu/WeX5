@@ -35,7 +35,9 @@ define(function(require) {
 		this.templateEngine = this.getParent().templateEngine;
 		this.templateFile = this.getContext().getRequestParameter("templateFile");
 		this.templateFilePath = this.templateEngine.templatePath + "/" + this.templateFile;
-		this.dataId = "mainData";
+		/*var config = this.templateEngine.getConfig();
+		this.dataId = config.current.mainData.dlgDataId ? config.current.mainData.dlgDataId : "mainData";*/
+		this.comp('titleInput').val("列表");
 		var self=this;
 		var grid = this.getElementByXid('grid');
 		var setVisible = function(){
@@ -57,10 +59,17 @@ define(function(require) {
 			height : height
 		});
 	};
-	       
+	
+	Model.prototype.getDataId = function() {
+		var config = this.templateEngine.getConfig();
+		var mainData = config.current.mainData ? config.current.mainData : {}; 
+		return mainData.dlgDataId ? mainData.dlgDataId : "mainData";
+	}
+	
 	Model.prototype.addClick = function(event) {
 		var data = this.comp('listData');
-		var mainDataConfig = this.templateEngine.getConfig().current.mainData;
+		var config = this.templateEngine.getConfig();
+		var mainDataConfig = config.current ? config.current.mainData :'';
 		templateService.openSwtCommonSelectorDialog({
 			title : "选择列", 
 			templateFilePath : this.templateFilePath, 
@@ -142,9 +151,11 @@ define(function(require) {
 				.jqxGrid('getcellvaluebyid', orowid, "xid");
 		var cIndex = data.getValueByID('index', cid);
 		var oIndex = data.getValueByID('index', oid); 
+		data.exchangeRow(data.getRowByID(cid),data.getRowByID(oid));
 		data.setValueByID('index', oIndex, cid);
 		data.setValueByID('index', cIndex, oid);
-		$grid.jqxGrid('selectrow', cindex);
+		
+		$grid.jqxGrid('selectrow', orowid);
 	}
 
 	Model.prototype.modelUnLoad = function(event) {
@@ -177,38 +188,45 @@ define(function(require) {
 	Model.prototype.validate = function(wizard) {
 		var msg = "";
 		var data = this.comp('listData');
-		var input = this.comp('titleInput');
-		var title = input.val();
+//		var input = this.comp('titleInput');
+//		var title = input.val();
 		if (data.datas.get().length <= 0) {
 			msg += "列表页没有数据，";
-		}if (!title || "" == title.trim()) {
-			msg += "列表页没有输入标题，";
 		}
+//		if (!title || "" == title.trim()) {
+//			msg += "列表页没有输入标题，";
+//		}
 		return msg;
 	};
 	Model.prototype.finish = function(wizard) {
 		var data = this.comp('listData');
 		var list = [];
+		var list_columns = [];
 		var i = 0;
-		var dataId = this.dataId;
+		var dataId = this.getDataId();
 		data.each(function(param) {
 			var row = param.row;
 			var field = data.getValue("name", row);
+			var labelName = data.getValue("labelName",row);
 			even = i % 2;
 			var fieldName = "list_field" + (even + 1);
 			var fieldFormat = fieldName + "Format";
+			var fieldLabel = "label" + fieldName;
 			if (even == 0) {
 				list.push({});;
 			}
 			list[list.length -1][fieldName] = field;
 			list[list.length -1][fieldFormat] = "";
+			list[list.length -1][fieldLabel] = labelName;
 			list[list.length -1]["list_data"] = dataId;
 			i++;
+			list_columns.push(field);
 		});
 		
 		this.templateEngine.addContext(this.templateFile, "list", list);
 		this.templateEngine.addContext(this.templateFile, "list_title", this.comp("titleInput").value);
 		this.templateEngine.addContext(this.templateFile, "list_data", dataId);
+		this.templateEngine.addContext(this.templateFile, "list_columns", list_columns.join(","));
 		
 	};
 

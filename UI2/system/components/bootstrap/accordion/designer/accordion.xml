@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <elements>
-	<element name="$UI/system/components/bootstrap/accordion/accordion" tag-type="rich" tag-name="div" icon="accordion.png" text="手风琴"  
+	<element name="$UI/system/components/bootstrap/accordion/accordion(bootstrap)" tag-type="rich" tag-name="div" icon="accordion.png" text="手风琴"  
 	    binding-component="$UI/system/components/bootstrap/accordion/accordion" display-property="xid" 
 		component-type="layout-container" validator="ViewValidator" child-range="$UI/system/components/bootstrap/panel/panel" design-view="web-designer" >
 		<properties>
@@ -15,6 +15,7 @@
 				}
 				]]></editor-parameter>
 			</property>
+			<property name="tabbed" text="选项卡式模式" defaultValue="true" editor-ref="booleanList" data-type="boolean"/>
 			<property name="style" text="样式" editor-ref="styleDialog" />
 			<include path="$UI/system/components/designerCommon/commonConfig.xml#//common-properties/group[@name='bind']"/>
 		</properties>
@@ -24,13 +25,13 @@
 		   		<div class="panel panel-default" component="$UI/system/components/bootstrap/panel/panel">
 		      		<div class="panel-heading">
 						<h4 class="panel-title">
-					        <a href="javascript:void(0)">
+					        <a >
 					          Title
 					        </a>
 				      	</h4>
    		      		</div>
-		        	<div class="panel-body">
-		        		
+		        	<div class="panel-collapse">
+		        		<div class="panel-body"></div>
 		        	</div>
 		      	</div>
 		    </div>	 
