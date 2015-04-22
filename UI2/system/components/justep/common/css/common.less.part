@@ -1,0 +1,131 @@
+a {
+	cursor: pointer;
+}
+
+ol, ul {
+  list-style: none; 
+}
+
+* {
+	-webkit-user-select: none;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+	-moz-tap-highlight-color: rgba(0, 0, 0, 0);
+	-ms-touch-action: none;
+	-webkit-touch-callout: none;
+	margin: 0;
+	padding: 0;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.x-currentRow {
+	background-color: @table-bg-hover;
+	border-radius:@navbar-border-radius;
+}
+
+.has-error {
+  &.form-control {
+    border-color: @state-danger-text;
+    .box-shadow(inset 0 1px 1px rgba(0,0,0,.075)); // Redeclare so transitions work
+    &:focus {
+      border-color: darken(@state-danger-text, 10%);
+      @shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 6px lighten(@state-danger-text, 20%);
+      .box-shadow(@shadow);
+    }
+  }
+  &.x-cell-control {
+	background-image: url(img/errorLine.gif);
+	background-repeat: repeat-x;
+	background-position: bottom;
+  }
+}
+
+/** flex b------------------------- **/
+.x-flex{
+	.x-flex-display();
+}
+
+.x-flex-column{
+	.x-flex-column();
+}
+
+.x-flex1{
+	.x-flex(1);
+}
+.x-flex2{
+	.x-flex(2);
+}
+.x-flex3{
+	.x-flex(3);
+}
+.x-flex4{
+	.x-flex(4);
+}
+.x-flex5{
+	.x-flex(5);
+}
+/** flex e------------------------- **/
+
+/**window**/
+.window{
+   width:100%;
+   height:100%;
+}
+
+.x-cell-control{
+	.x-cell-control();
+	&.x-control > *{
+		.x-cell-control();
+	}
+	&.input-group{
+		.form-control{
+			.x-cell-control();
+		}
+		.input-group-btn>.btn{
+			width: 100%!important;
+			height: 100%!important;
+			border-top: 0px!important;
+			border-right: 0px!important;
+			border-bottom: 0px!important;
+			padding-top: 0px!important;
+			padding-bottom: 0px!important;
+			margin: 0px!important;
+			border-radius: 0!important;
+		}
+	}
+}
+
+.x-full {
+	position: absolute!important;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	height: auto;
+	width: 100%;
+}
+
+.form-inline {
+  // Kick in the inline
+  @media (min-width: @screen-sm-min) {
+    // Inline-block all the things for "inline"
+    .x-control {
+      display: inline-block;
+    }
+  }
+}
+
+.x-bordered{
+	border-radius: @panel-border-radius;
+  	border: 1px solid @panel-default-border;
+  	overflow: auto;	
+}
+
+.x-hint {
+	position: absolute;
+	top: 50px;
+	left: 50%;
+	width: 300px;
+	margin-left: -150px;
+	z-index: 1000;
+}

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root> 
+  <item display="solid" label="演示案例">
+	<item label="外卖" process="/demo/components/process/ui2/ui2Process"
+	  activity="mainActivity" url="$UI/takeout/index.w" display="solid"/>  
+	<item display="solid" label="BAAS">
+		<item label="简单数据" process="/demo/components/process/ui2/ui2Process"
+		  activity="mainActivity" url="$UI/demo/baas/simpleData/index.w" display="solid"/>  
+		<item label="复合数据" process="/demo/components/process/ui2/ui2Process"
+		  activity="mainActivity" url="$UI/demo/baas/complexData/index.w" display="solid"/>  
+		<item label="树形数据一次加载" process="/demo/components/process/ui2/ui2Process"
+		  activity="mainActivity" url="$UI/demo/baas/treeData/index.w" display="solid"/>  
+		<item label="树形数据逐级加载" process="/demo/components/process/ui2/ui2Process"
+		  activity="mainActivity" url="$UI/demo/baas/treeDelayLoad/index.w" display="solid"/>  
+		<item label="主从数据" process="/demo/components/process/ui2/ui2Process"
+		  activity="mainActivity" url="$UI/demo/baas/masterDetail/index.w" display="solid"/>  
+	</item>	
+  </item> 
+  <item display="solid" label="硬件能力" iconClass="icon-android-lightbulb"> 
+    <item label="摄像头拍照/录像"  device="m"  process="/demo/components/process/ui2/ui2Process" activity="mainActivity"
+      url="$UI/demo/device/camera/mainActivity.w" display="solid"/>  
+    <item label="加速度传感器"  device="m"  process="/demo/components/process/ui2/ui2Process"
+      activity="mainActivity" url="$UI/demo/device/accelerometer/mainActivity.w" display="solid"/>  
+    <item label="音频录制/播放"  device="m"  process="/demo/components/process/ui2/ui2Process" activity="mainActivity"
+      url="$UI/demo/device/audio/mainActivity.w" display="solid"/>  
+    <item label="二维码扫描"  device="m"  process="/demo/components/process/ui2/ui2Process"
+      activity="mainActivity" url="$UI/demo/device/barcode/mainActivity.w" display="solid"/>  
+    <item label="地图/地理定位"  device="m"  process="/demo/components/process/ui2/ui2Process"
+      activity="mainActivity" url="$UI/demo/device/geolocation/mainActivity.w" display="solid"/>  
+  </item> 
+</root>

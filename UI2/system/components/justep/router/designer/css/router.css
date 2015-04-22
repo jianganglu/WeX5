@@ -1,0 +1,8 @@
+.xui-router{
+	border:1px dotted;
+	height:40px;
+	font: bold 13px arial;
+	padding-left:16px;
+	background:url(./router.gif) no-repeat left 2px;
+	background-color: lightgreen;
+}

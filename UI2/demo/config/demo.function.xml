@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root> 
+  <item label="演示案例" iconClass="icon-flag"> 
+    <item label="Todo MVC" device="" process="/demo/components/process/ui2/ui2Process"
+      activity="mainActivity" url="$UI/demo/misc/todoMVC/index.a" display="solid"/> 
+    <item label="数据绑定" device="pc" process="/demo/components/process/ui2/ui2Process"
+      activity="mainActivity" url="$UI/demo/misc/bind/index.a" display="solid"/> 
+  </item> 
+</root>

@@ -1,0 +1,47 @@
+/** flex b------------------------- **/
+.x-flex-display(){
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -moz-box;
+	display: -moz-flex;
+	display: -ms-flexbox;
+	display: flex;
+}
+
+.x-flex-column(){
+	-webkit-box-direction: normal;
+	-moz-box-direction: normal;
+	-webkit-box-orient: vertical;
+	-moz-box-orient: vertical;
+	-webkit-flex-direction: column;
+	-ms-flex-direction: column;
+	flex-direction: column;
+}
+
+.x-flex(@i){
+	-webkit-box-flex: @i;
+	-webkit-flex: @i;
+	flex: @i;
+}
+
+/** flex e------------------------- **/
+
+.x-cell-control(){
+	border: 0px!important;
+	padding-top: 0px!important;
+	padding-bottom: 0px!important;
+	margin:0px!important;
+	width: 100%!important;
+	height: 100%!important;
+	border-radius: 0!important;
+	background-color:transparent!important;
+	font: inherit!important;
+	font-size: inherit!important;
+	color: inherit!important;
+	-webkit-box-shadow: none!important; 
+	box-shadow: none!important;
+	&:focus{
+		-webkit-box-shadow: none!important; 
+		box-shadow: none!important;
+	}
+}

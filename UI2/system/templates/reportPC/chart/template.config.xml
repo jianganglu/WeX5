@@ -1,0 +1,12 @@
+<template text="图表" desc="图表制作,饼图、折线图，柱形图.....">
+	<images>
+		<image src="chart.png" />
+	</images>
+
+	<items file="template/chartReport.w">
+		<item text="数据集" configPage="$UI/system/templates/common/dataReport.w" />
+		<item text="图表配置" configPage="$UI/system/templates/common/selectChartType.w" />
+   		<item text="样式配置" configPage="$UI/system/templates/common/chartConfig.w" />
+		<item file="template/chartReport.js" />
+	</items>
+</template>

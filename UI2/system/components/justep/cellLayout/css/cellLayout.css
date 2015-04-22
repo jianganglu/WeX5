@@ -1,0 +1,18 @@
+.x-cell-layout .first-row {
+	font-size:0;  
+}
+
+.x-cell-layout .first-col {
+	 width:1px; font-size:0; 
+}
+.x-cell-layout .first-cell{
+   height:1px; 
+}
+
+.x-cell-layout td {
+	vertical-align:middle;
+}
+
+.x-cell-layout td *{
+/* 	padding:0;  */
+}

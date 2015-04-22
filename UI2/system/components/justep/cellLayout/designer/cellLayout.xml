@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<elements> 
+  <element name="$UI/system/components/justep/cellLayout/cellLayout" tag-name="div" icon="cellLayout_icon.png" text="cell布局"
+    display-property="id" component-type="layout-container"  binding-component="$UI/system/components/justep/cellLayout/cellLayout"
+    design-view="web-designer" java-class="CellLayout"> 
+    <properties> 
+      <property name="xid" text="编号" required="false"/>
+      <property name="row-height" text="默认行高" display-name="默认行高" required="false" data-type="positive-integer" default-value="19" />
+      <property name="column-width" text="默认列宽" display-name="默认列宽" required="false" data-type="positive-integer" default-value="80"/>
+      <property name="style" text="样式" editor-ref="styleDialog" use-default="true"/> 
+	  <property name="class"  text="class" editor-ref="classSelector">
+		<editor-parameter><![CDATA[
+		{
+
+			"5kind": {
+				label: "基础",
+				value: "x-cell-layout",
+				require: false
+			}
+		}
+		]]></editor-parameter>
+	 </property>
+      <property name="layout-data" text="布局数据" path="layout-content/text()"/> 
+    </properties>
+    <property-editors/>  
+    <events/>  
+    <templates> 
+      <template name="default"><![CDATA[ 
+		       <div class="x-cell-layout" component="$UI/system/components/justep/cellLayout/cellLayout" style="width:100%; height: 100%;"> 
+ 
+      			</div>
+		   ]]></template>
+    </templates>
+    <toolbar>
+       <item text="合并单元格" method="mergeCell"/>  
+       <item text="取消单元格合并" method="cancelCellMerging"/>  
+       	<sperator/> 
+       	<item text="插入行"> 
+       	 	<item text="之前插入" method="insertRow"/>
+       	 	<item text="之后插入" method="insertRowAfter"/>
+       	</item>
+       	<item text="删除行" method="deleteRow"/> 
+		<sperator/>
+		<item text="插入列" method="insertCol"> 
+			<item text="之前插入" method="insertCol"/>
+       	 	<item text="之后插入" method="insertColAfter"/>
+		</item>
+		<item text="删除列" method="deleteCol"/>
+		<sperator/>
+       <item text="行高列宽..." method="setCellProperties"/> 
+       <sperator/> 
+       <item text="从Excel导入..." method="importFromExcel"/> 
+       <sperator/> 
+       <item text="显示/隐藏网格线" method="showHideCellBorder"/> 
+    </toolbar> 
+  </element>
+  
+  
+  	<element name="cellLayoutCell" tag-name="cellLayoutCell" icon="Report.JPG"   component-type="layout-container"  isVirtual="true"  visible="false">
+		<properties>
+		<!-- 
+			<property name="row-height" text="行高"/>
+			<property name="column-width" text="列宽"/>	
+			<property name="bold" text="粗体" editor-ref="booleanList" readonly="true" />	
+			<property name="text-align" text="粗体" editor-ref="textAlignList" readonly="true" />		
+		 -->
+		 <property name="style" text="样式" editor-ref="styleDialog" use-default="false"/> 
+		<property name="class" text="样式" use-default="false"/> 	
+		</properties>
+		<property-editors>
+			<property-editor name="textAlignList" type="list" > 				
+				<static-data value="left,center,right" />
+			</property-editor>
+		</property-editors>		
+	</element>
+  
+</elements>  

@@ -1,0 +1,12 @@
+<template text="树" desc="以树形层次方式对数据进行浏览和编辑">
+	<images>
+		<image src="tree.png" />
+	</images>
+	
+	<items file="template/tree.m.w">
+		<item text="主数据" configPage="$UI/system/templates/common/mainData.w"/>
+		<item text="树" configPage="$UI/system/templates/common/treeView.w"/>
+		<item file="template/tree.m.js"/>
+		<item file="template/tree.m.css"/>
+	</items>
+</template>

@@ -1,0 +1,23 @@
+.x-pagerbar {
+  margin: 20px 0;
+}
+.x-pagerbar .x-pagerlimitselect {
+  padding: 2px 0;
+}
+.x-pagerbar .pagination {
+  margin: 0;
+}
+.x-pagerbar .x-pagerbar-pagination {
+  white-space: nowrap;
+  text-align: right;
+}
+.x-pagerbar .x-pagerbar-info {
+  padding: 7px 0;
+}
+@media screen and (max-width: 767px) {
+  .x-pagerbar .x-pagerbar-info,
+  .x-pagerbar .x-pagerbar-length,
+  .x-pagerbar .x-pagerbar-pagination {
+    text-align: center;
+  }
+}

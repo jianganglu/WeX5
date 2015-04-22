@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<elements>
+	<element name="$UI/system/components/justep/router/router"
+		position="absolute"
+		parent-range="$UI/system/components/justep/window/window"
+		tag-type="rich" tag-name="div" icon="router.PNG" text="路由"
+		binding-component="$UI/system/components/justep/router/router"
+		display-property="xid" component-type="layout-container" validator="ViewValidator"
+		design-view="web-designer">
+		<properties>
+			<property name="xid" text="编号" editor-discriptor-ref="" />
+			<property name="interceptXids" text="拦截其他组件路由" editor-ref="routableCompSelector" />
+		</properties>
+
+		<property-editors>
+			<property-editor name="routableCompSelector" type="list" mutil-selection="true">
+				<dynamic-data class-name="com.justep.studio.ui.editors.property.router.Router" method="getRoutableComp"/>
+			</property-editor>
+		</property-editors>
+
+		<events>
+			<event name="onRoute" type="event" text="路由事件" parameters="event"
+				is-script="true" />
+		</events>
+
+
+		<templates>
+			<template name="default"><![CDATA[ 
+			    <div component="$UI/system/components/justep/router/router" style="display:none">
+				</div>
+		   ]]></template>
+		</templates>
+	</element>
+
+	
+</elements>

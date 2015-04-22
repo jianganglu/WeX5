@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<elements> 
+  <element name="$UI/system/components/bootstrap/form/form(bootstrap)" tag-name="div" icon="form.png" text="表单布局"
+    display-property="xid" component-type="layout-container"  binding-component="$UI/system/components/bootstrap/form/form"
+    design-view="web-designer" > 
+    <properties> 
+      <property name="xid" text="编号" required="false"/>
+	  <property name="class"  text="class" editor-ref="classSelector">
+		<editor-parameter><![CDATA[
+		{
+			"5kind": {
+				label: "基础",
+				value: "form-horizontal|form-vertical|form-inline|form-search",
+				require: true
+			}
+		}
+		]]></editor-parameter>
+	 </property>
+	 <property name="style" text="样式" editor-ref="styleDialog" use-default="true"/> 
+	 		<include path="$UI/system/components/designerCommon/commonConfig.xml#//common-properties/group[@name='bind']"/>
+    </properties>
+    <property-editors/>  
+    <events/>  
+    <templates> 
+      <template name="default"><![CDATA[ 
+		       <div class="form-horizontal container-fluid" component="$UI/system/components/bootstrap/form/form" > 
+ 					
+      			</div>
+		   ]]></template>
+    </templates>
+     <toolbar>
+	    <item text="添加formGroup" method="addFormGroup" />
+	</toolbar>
+  </element>
+  
+  <element name="$UI/system/components/bootstrap/form/form(bootstrap)#formGroup(bootstrap)" icon="row.png" text="表单组"
+    display-property="xid" component-type="layout-container"  discriminate-condition="hasClass('form-group')" resizable="false" 
+    design-view="web-designer" > 
+    <properties> 
+      <property name="xid" text="编号" required="false"/>
+     
+	  <property name="class"  text="class" editor-ref="classSelector">
+		<editor-parameter><![CDATA[
+		{
+			"5kind": {
+				label: "基础",
+				value: "form-group",
+				require: true
+			}
+		}
+		]]></editor-parameter>
+	 </property>
+	  <property name="style" text="样式" editor-ref="styleDialog" use-default="true"/> 
+	  <include path="$UI/system/components/designerCommon/commonConfig.xml#//common-properties/group[@name='bind']"/>
+    </properties>
+    <property-editors/>  
+    <events/>  
+    <templates> 
+      <template name="default"><![CDATA[ 
+		       <div class="form-group"><div class="col-sm-2"></div><div class="col-sm-4"></div><div class="col-sm-2"></div><div class="col-sm-4"></div></div>
+		   ]]>
+      </template>
+    </templates>
+     <toolbar>
+			<item text="添加列" method="addCol" />
+	</toolbar>
+  </element>
+  
+  <element name="$UI/system/components/bootstrap/form/form(bootstrap)#col(bootstrap)" tag-name="*" icon="col.png" text="布局列"
+    display-property="xid" component-type="layout-container"  discriminate-condition="executeXpath(contains(parent::node()/@class, 'form-group'))" resizable="false" canMove="false"  owner="$UI/system/components/bootstrap/form/form(bootstrap)#formGroup(bootstrap)"
+    design-view="web-designer"> 
+    <properties> 
+      <property name="xid" text="编号" required="false"/>
+	  <property name="class"  text="class" editor-ref="classSelector">
+		<editor-parameter><![CDATA[
+		{
+			"5kind": {
+				label: "基础",
+				value: "col-sm-1|col-sm-2|col-sm-3|col-sm-4|col-sm-5|col-sm-6|col-sm-7|col-sm-8|col-sm-9|col-sm-10|col-sm-11|col-sm-12",
+				require: true
+			}
+		}
+		]]></editor-parameter>
+	 </property>
+	  <property name="style" text="样式"  editor-ref="styleDialog" use-default="true"/> 
+	  <include path="$UI/system/components/designerCommon/commonConfig.xml#//common-properties/group[@name='bind']"/>
+    </properties>
+    <property-editors/>  
+    <events/>  
+    <templates> 
+      <template name="default"><![CDATA[ 
+		       <div class="col-sm-1"></div>
+		   ]]></template>
+    </templates>
+     <toolbar>
+		<item text="添加formGroup" method="addFormGroup" />
+		<item text="添加controlLabel" method="addControlLabel" />
+	</toolbar>
+  </element>
+</elements>  

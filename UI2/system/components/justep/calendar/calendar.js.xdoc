@@ -1,0 +1,184 @@
+/**
+	@name Calendar
+	@component $UI/system/components/justep/calendar/calendar
+	@extends ViewComponent
+	@extendurl $UI/system/lib/base/viewComponent
+	@description 一个日程组件
+	@model UI2
+	@example
+	<xmp>
+	</xmp>
+*/
+
+/**
+	@name Calendar#xid
+	@attribute 
+	@type string
+	@description 
+*/
+
+/**
+	@name Calendar#view
+	@attribute 
+	@type string
+	@description 初始显示的视图 
+*/
+
+/**
+	@name Calendar#views
+	@attribute 
+	@type string
+	@description 可以显示的视图,默认是全可以显示, 包括 year, month, week, day 
+*/
+
+/**
+	@name Calendar#day
+	@attribute 
+	@type string
+	@description 初始时间 
+*/
+
+/**
+	@name Calendar#firstDay
+	@attribute 
+	@type integer
+	@description 每周第一天是周几,默认是1
+*/
+
+/**
+	@name Calendar#timeStart
+	@attribute 
+	@type string
+	@description 日期视图时间轴的开始时间, 默认是6:00
+*/
+
+/**
+	@name Calendar#timeEnd
+	@attribute 
+	@type string
+	@description 日期视图时间轴的结束时间, 默认是22:00
+*/
+
+/**
+	@name Calendar#timeSplit
+	@attribute 
+	@type string
+	@description 日期视图时间轴的时间间隔, 默认是 30分钟
+*/
+
+/**
+	@name Calendar#lunarDay
+	@attribute 
+	@type string
+	@description 是否显示农历， 默认是false
+*/
+
+/**
+	@name Calendar#onEventsLoad
+	@event
+	@description <b>[回调型事件]</b>日程事件加载方法
+	@param {object} event 
+	<br/><b>结构如下：</b>
+	<xmp> 
+	{
+		"source" : 组件的js对象
+		"begin": 需要加载事件时间要在begin和end之间发生的
+		"end": 需要加载事件时间要在begin和end之间发生的 
+		timezone: 时区
+	}
+	</xmp>
+*/
+
+/**
+	@name Calendar#onEventsSelected
+	@event
+	@description <b>[回调型事件]</b>当日程事件被选择
+	@param {object} event 
+	<br/><b>结构如下：</b>
+	<xmp> 
+	{
+		"source" : 组件的js对象
+		"begin": 选择的事件时间范围在begin和end之间
+		"end": 选择的事件时间范围在begin和end之间 
+		timezone: 时区
+	}
+	</xmp>
+*/
+			 
+/**
+	@name Calendar#onAfterEventsLoad
+	@event
+	@description <b>[回调型事件]</b>日程项目加载事件完成
+	@param {object} event 
+	<br/><b>结构如下：</b>
+	<xmp> 
+	{
+		"source" : 组件的js对象
+		"events" : 事件列表
+	}
+	</xmp>
+*/
+			
+/**
+	@name Calendar#onAfterViewLoad
+	@event
+	@description <b>[回调型事件]</b>日程视图加载完成事件
+	@param {object} event 
+	<br/><b>结构如下：</b>
+	<xmp> 
+	{
+		"source" : 组件的js对象
+		"view" : 加载的view名称
+	}
+	</xmp>
+*/
+
+/**
+ @name Calendar#setView
+ @function
+ @param {string} value 视图  year, month, week, day
+ @description 设置显示的视图
+*/
+
+/**
+ @name Calendar#navigate
+ @function
+ @param {string} value next下一时间段, prev前一时间段, today是今天
+ @description 定位到指定时间段
+*/
+
+/**
+ @name Calendar#refresh
+ @function
+ @description 刷新当前的视图
+*/
+
+/**
+ @name Calendar#get
+ @function
+ @param {String} name 属性名称，取值范围："view", "views", "day", "firstDay", "timeStart", "timeEnd", "timeSplit", "lunarDay"
+ @returns 返回属性值
+ @description 获取calendar的属性
+*/
+
+/**
+ @name Calendar#set
+ @function
+ @param {json} arg 属性值对
+	<br/><b>结构如下：</b>
+	<xmp> 
+	{
+		"view": {string} 视图
+		"views": {string} 可用视图范围
+		"day": {string} 设置当前日期 yyyy-MM-dd 
+		"firstDay": {integer} 每周第一天是周几 
+		"timeStart": {string} 日期视图时间轴的开始时间, 默认是'6:00' 
+		"timeEnd": {string} 日期视图时间轴的结束时间, 默认是'22:00'
+		"timeSplit": {string} 日期视图时间轴的时间间隔, 默认是 '30' 
+		"lunarDay": {boolean} 是否显示农历， 默认是false
+	}
+	</xmp>
+ @description 设置calendar的属性
+*/
+
+

@@ -1,0 +1,109 @@
+/**
+	@name Tree
+	@component $UI/system/components/justep/tree/tree
+	@extends List
+	@extendurl $UI/system/components/justep/list/list
+	@model UI2
+	@description Tree
+*/
+
+/**
+	@name Tree#xid
+	@attribute 
+	@type string
+	@description 组件标示
+*/
+
+/**
+	@name Tree#class
+	@attribute 
+	@type string
+	@description 组件class
+	@example
+	<xmp>
+		基础样式: x-tree(必须)
+		其他: x-inner-scroll(list内部出滚动条样式，不使用此class根据内容自增长)
+		
+		内部其他class说明：
+		x-tree-template：标示对应节点下的内容是模板，会根据data数据进行生成显示
+		x-tree-link：切换树的节点，点击后进入子节点
+	</xmp>
+*/
+
+/**
+	@name Tree#labelColumn
+	@attribute 
+	@type string
+	@description 导航中显示的列
+*/
+
+/**
+	@name Tree#rootLabel
+	@attribute 
+	@type string
+	@description tree根节点名
+*/
+
+/**
+	@name Tree#getBar
+	@function
+	@returns {Breadcrumb}
+	@description 获取导航的Breadcrumb组件
+*/
+
+/**
+	@name Tree#onBeforeLoadChildren
+	@event
+	@description <b>[回调型事件]</b>加载子数据前，可以设置cancel=true禁止加载
+	@param {object} event 
+	<br/><b>结构如下：</b>
+	<xmp> 
+	{
+		"source" : 组件的js对象，
+		"bindingContext" : 组件绑定的上下文，包含$model、$object等具体请参考bindingContext说明
+		"row" : 当前行对象
+		"data" : data组件对象
+		"cancel" : 忽略加载
+	}
+	</xmp>	
+*/
+
+/**
+	@name Tree#onCustomLoadChildren
+	@event
+	@description <b>[回调型事件]</b>自定义加载子数据
+	@param {object} event 
+	<br/><b>结构如下：</b>
+	<xmp> 
+	{
+		"source" : 组件的js对象，
+		"bindingContext" : 组件绑定的上下文，包含$model、$object等具体请参考bindingContext说明
+		"row" : 当前行对象
+		"data" : data组件对象
+	}
+	</xmp>	
+*/
+
+/**
+	@name Tree#set
+	@function
+	@description 设置属性值
+	@param {json} arg 属性值对
+	<br/><b>结构如下：</b>
+	<xmp> 
+	{
+		"limit" : {integer} 一次显示数据条数，==-1时感知data数据，data有多少数据显示多少数据，默认：-1
+		"filter: {string}	过滤条件表达式，表达式中可以使用$model,$object,$parent,$row(执行过滤的数据行对象)变量
+		"rootLabel" {string} tree根节点名		
+	}
+	</xmp>	
+	@return {void} 
+*/
+
+/**
+	@name Tree#get
+	@function
+	@description 获取属性值
+	@param {String} name 属性名称，取值范围："limit"、"filter"、"rootLabel"
+	@return {Object} 
+*/

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<elements>
+	<element name="$UI/system/components/justep/calendar/calendar" tag-name="calendar" icon="calendar.png" 
+		binding-component="$UI/system/components/justep/calendar/calendar" 
+        design-view="web-designer">
+		
+		<properties>
+			<property name="xid" text="编号"  required="true"/>	
+			<property name="bind-ref" text="引用" editor-ref="dataRef" editor-parameter='{"hasLabel":"false"}'/>
+			<property name="view" text="视图类型" editor-ref="viewTypeList"/>
+			<property name="views" text="可用视图" defaultValue="year,month,week,day"/>
+			<property name="day" text="初始日期" defaultValue='now'/>	
+			<property name="firstDay" text="周的第一天" editor-ref="firstDayList" defaultValue='monday'/>
+			<property name="lunarDay" text="农历" defaultValue="false" editor-ref="booleanList" data-type="boolean"/>
+			<!--
+			<property name="holiday" text="节日" defaultValue="false" editor-ref="booleanList" data-type="boolean"/>
+			-->
+			<property name="timeStart" text="天的开始时间" editor-ref="timeStartList" defaultValue='06:00'/>
+			<property name="timeEnd" text="天的结束时间" editor-ref="timeEndList" defaultValue='22:00'/>
+			<property name="timeSplit" text="天的时间间隔" editor-ref="timeSplitList" defaultValue='30'/>
+
+			<property name="style" text="样式" editor-ref="styleDialog" />
+			<include path="$UI/system/components/designerCommon/commonConfig.xml#//common-properties/group[@name='bind']"/>
+		</properties>
+		
+		<property-editors>
+			<property-editor name="viewTypeList" type="list" >
+				<static-data value="year,month,week,day"/>
+			</property-editor>
+			<property-editor name="firstDayList" type="list" >
+				<static-data value="sunday,monday"/>
+			</property-editor>
+			<property-editor name="timeStartList" type="list" >
+				<static-data value="00{semicolon}00,01{semicolon}00,02{semicolon}00,03{semicolon}00,04{semicolon}00,05{semicolon}00,06{semicolon}00,07{semicolon}00,08{semicolon}00,09{semicolon}00,10{semicolon}00,11{semicolon}00,12{semicolon}00"/>
+			</property-editor>
+			<property-editor name="timeEndList" type="list" >
+				<static-data value="13{semicolon}00,14{semicolon}00,15{semicolon}00,16{semicolon}00,17{semicolon}00,18{semicolon}00,19{semicolon}00,20{semicolon}00,21{semicolon}00,22{semicolon}00,23{semicolon}00"/>
+			</property-editor>
+			<property-editor name="timeSplitList" type="list" >
+				<static-data value="30,60,120"/>
+			</property-editor>
+		</property-editors>		
+		
+		<toolbar>			
+		</toolbar>
+		
+		<events>
+			<event name="onEventsLoad" text="日程事件加载方法"/>
+			<event name="onEventsSelected" text="当日程事件被选择"/>
+			<event name="onAfterEventsLoad" text="日程项目加载事件完成"/>
+			<event name="onAfterViewLoad" text="日程视图加载完成事件"/>
+		    <include path="$UI/system/components/designerCommon/commonConfig.xml#//html-evens/*"/>
+		</events>
+		
+		<templates>
+		   <template name="default"><![CDATA[ 
+				<div component="$UI/system/components/justep/calendar/calendar" view="month" day="now" firstDay="monday" lunarDay="false"/>
+		   ]]></template>
+		</templates>
+	</element>
+
+</elements>

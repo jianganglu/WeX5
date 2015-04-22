@@ -1,0 +1,462 @@
+/**
+	@name DataTables
+	@component $UI/system/components/justep/dataTables/dataTables
+	@extends ViewComponent
+	@extendurl $UI/system/lib/base/viewComponent
+	@description dataTables组件
+	@model UI2
+*/
+
+/**
+	@name DataTables#xid
+	@attribute 
+	@type string
+	@description 组件标示
+*/
+
+/**
+	@name DataTables#class
+	@attribute 
+	@type string
+	@description 组件class
+	@example
+	<xmp>
+		"常用": "table",
+		"紧凑型": "table-condensed",
+		"条纹状": "table-striped",
+		"边框": "table-bordered",
+		"鼠标悬停高亮": "table-hover",
+		"列头对齐方式": "x-dt-title-center,x-dt-title-left,x-dt-title-right,x-dt-title-justify"
+	</xmp>
+*/
+
+/**
+	@name DataTables#data
+	@attribute 
+	@type string
+	@description 关联的data组件xid
+*/
+
+/**
+	@name DataTables#multiSelect
+	@attribute 
+	@type boolean
+	@description 使用checkBox多选，默认值：false
+*/
+
+/**
+	@name DataTables#ordering
+	@attribute 
+	@type boolean
+	@description 使用排序，默认值：true
+*/
+
+/**
+	@name DataTables#showRowNumber
+	@attribute 
+	@type boolean
+	@description 显示行号，默认值：false
+*/
+
+/**
+	@name DataTables#stateSave
+	@attribute 
+	@type boolean
+	@description 保存状态，默认值：false
+*/
+
+/**
+	@name DataTables#stateDuration
+	@attribute 
+	@type boolean
+	@description 保存状态时长
+*/
+
+/**
+	@name DataTables#responsive
+	@attribute 
+	@type boolean
+	@description 响应式，flexibleWidth=false时生效，默认值：false
+*/
+
+/**
+	@name DataTables#flexibleWidth
+	@attribute 
+	@type boolean
+	@description 表格宽自适应父容器，默认值：false
+*/
+
+/**
+	@name DataTables#scrollX
+	@attribute 
+	@type string
+	@description 水平滚动（非空有效），该属性可以是css设置，或者一个数字（作为像素量度来使用）
+*/
+
+/**
+	@name DataTables#scrollY
+	@attribute 
+	@type string
+	@description 垂直滚动（非空有效），该属性可以是css设置，或者一个数字（作为像素量度来使用），充满父容器可以使用100%
+*/
+
+/**
+	@name DataTables#scrollCollapse
+	@attribute 
+	@type boolean
+	@description 表格高自适应,配合scrollY使用，默认值：false
+*/
+
+/**
+	@name DataTables#scrollCollapse
+	@attribute 
+	@type boolean
+	@description 表格高自适应,配合scrollY使用，默认值：false
+*/
+
+/**
+	@name DataTables#rowActiveClass
+	@attribute 
+	@type string
+	@description 行选中的class
+*/
+
+/**
+	@name DataTables#rowAttr
+	@attribute 
+	@type string
+	@description 
+	<xmp> 
+	增加在行上属性的表达式，表达式执行结果返回Object，可以包含style、class属性，也可以增加自定义属性
+	表达式中可以使用$model,$row(当前渲染的数据行对象)变量
+	如：
+	1、简单
+	{style:'height:80px;',class:'...'}
+	2、根据数据设置不同底色
+	$row.val('fString')=='北京'?{style:'background:red;'}:{style:'background:blue;'}
+	<b>注：</b>
+	修改值时不会刺激执行
+	</xmp>
+*/
+
+/**
+	@name DataTables#useFooter
+	@attribute 
+	@type boolean
+	@description 使用footer，默认值：false，打开后可以通过api：setFooterData设置footer显示内容
+*/
+
+/**
+	@name DataTables#onBeforeInit
+	@event
+	@description <b>[回调型事件]</b>创建DataTables组件前事件
+	@param {object} event 
+	<br/><b>结构如下：</b>
+	<xmp> 
+	{
+		"source" : 组件的js对象,
+		"bindingContext" : 组件绑定的上下文，包含$model、$object等具体请参考bindingContext说明
+		"settings" : 创建DataTables的参数
+	}
+	</xmp>	
+*/
+
+/**
+	@name DataTables#onInit
+	@event
+	@description <b>[回调型事件]</b>创建DataTables组件事件
+	@param {object} event 
+	<br/><b>结构如下：</b>
+	<xmp> 
+	{
+		"source" : 组件的js对象,
+		"bindingContext" : 组件绑定的上下文，包含$model、$object等具体请参考bindingContext说明
+	}
+	</xmp>	
+*/
+
+/**
+	@name DataTables#onLoaded
+	@event
+	@description <b>[回调型事件]</b>DataTables组件记载事件
+	@param {object} event 
+	<br/><b>结构如下：</b>
+	<xmp> 
+	{
+		"source" : 组件的js对象,
+		"bindingContext" : 组件绑定的上下文，包含$model、$object等具体请参考bindingContext说明
+	}
+	</xmp>	
+*/
+
+/**
+	@name DataTables#onCellRender
+	@event
+	@description <b>[回调型事件]</b>单元格显示渲染
+	@param {object} event 
+	<br/><b>结构如下：</b>
+	<xmp> 
+	{
+		"source" : 组件的js对象,
+		"bindingContext" : 组件绑定的上下文，包含$model、$object等具体请参考bindingContext说明
+		"rowID" : 行ID
+		"row" : 行
+		"html" : 输出显示的html，通过修改html影响展现
+		"colVal" : 列的值 
+		"colName" : 列名
+	}
+	</xmp>	
+*/
+
+/**
+	@name DataTables#onHeaderRender
+	@event
+	@description <b>[回调型事件]</b>单元格显示渲染
+	@param {object} event 
+	<br/><b>结构如下：</b>
+	<xmp> 
+	{
+		"source" : 组件的js对象,
+		"bindingContext" : 组件绑定的上下文，包含$model、$object等具体请参考bindingContext说明
+		"thead" : thead dom对象
+		"data": 绑定的data对象, 
+		"start": start, 
+		"end" : end, 
+		"display" : display
+	}
+	</xmp>	
+*/
+
+/**
+	@name DataTables#onFooterRender
+	@event
+	@description <b>[回调型事件]</b>单元格显示渲染
+	@param {object} event 
+	<br/><b>结构如下：</b>
+	<xmp> 
+	{
+		"source" : 组件的js对象,
+		"bindingContext" : 组件绑定的上下文，包含$model、$object等具体请参考bindingContext说明
+		"tfoot" : tfoot dom对象
+		"data": 绑定的data对象, 
+		"start": start, 
+		"end" : end, 
+		"display" : display
+	}
+	</xmp>	
+*/
+
+/**
+	@name DataTables#onRowClick
+	@event
+	@description <b>[回调型事件]</b>单击行事件
+	@param {object} event 
+	<br/><b>结构如下：</b>
+	<xmp> 
+	{
+		"source" : 组件的js对象,
+		"bindingContext" : 组件绑定的上下文，包含$model、$object等具体请参考bindingContext说明
+		"domEvent" : 触发的dom event对象
+		"rowID" : 对应的行ID
+		"row" : 对应的行
+	}
+	</xmp>	
+*/
+
+/**
+	@name DataTables#onRowDblClick
+	@event
+	@description <b>[回调型事件]</b>双击行事件
+	@param {object} event 
+	<br/><b>结构如下：</b>
+	<xmp> 
+	{
+		"source" : 组件的js对象,
+		"bindingContext" : 组件绑定的上下文，包含$model、$object等具体请参考bindingContext说明
+		"domEvent" : 触发的dom event对象
+		"rowID" : 对应的行ID
+		"row" : 对应的行
+	}
+	</xmp>	
+*/
+
+/**
+	@name DataTables#onRowSelect
+	@event
+	@description <b>[回调型事件]</b>选中行
+	@param {object} event 
+	<br/><b>结构如下：</b>
+	<xmp> 
+	{
+		"source" : 组件的js对象,
+		"bindingContext" : 组件绑定的上下文，包含$model、$object等具体请参考bindingContext说明
+		"rowID" : 行ID
+		"row" : 行
+	}
+	</xmp>	
+*/
+
+/**
+	@name DataTables#onRowCheck
+	@event
+	@description <b>[回调型事件]</b>多选勾选时，可以使用cancel取消
+	@param {object} event 
+	<br/><b>结构如下：</b>
+	<xmp> 
+	{
+		"source" : 组件的js对象,
+		"bindingContext" : 组件绑定的上下文，包含$model、$object等具体请参考bindingContext说明
+		"rowID" : 对应的行ID
+		"row" : 对应的行
+		"checked": 勾选状态
+		"cancel": 取消当前操作
+	}
+	</xmp>	
+*/
+
+/**
+	@name DataTables#onRowChecked
+	@event
+	@description <b>[回调型事件]</b>多选勾选后
+	@param {object} event 
+	<br/><b>结构如下：</b>
+	<xmp> 
+	{
+		"source" : 组件的js对象,
+		"bindingContext" : 组件绑定的上下文，包含$model、$object等具体请参考bindingContext说明
+		"rowID" : 对应的行ID
+		"row" : 对应的行
+		"checked": 勾选状态
+	}
+	</xmp>	
+*/
+
+/**
+	@name DataTables#onRowCheckedAll
+	@event
+	@description <b>[回调型事件]</b>多选全选
+	@param {object} event 
+	<br/><b>结构如下：</b>
+	<xmp> 
+	{
+		"source" : 组件的js对象,
+		"bindingContext" : 组件绑定的上下文，包含$model、$object等具体请参考bindingContext说明
+		"checked": 勾选状态
+	}
+	</xmp>	
+*/
+
+/**
+ @name DataTables#getData
+ @function
+ @returns {Data}
+ @description 获取DataTables绑定的data对象
+*/
+
+/**
+ @name DataTables#getSelection
+ @function
+ @returns {Data.Row} 选中行
+ @description 返回选中行
+*/
+		
+/**
+ @name DataTables#setSelection
+ @function
+ @param	{Data.Row} row 行
+ @description 设置选中行
+*/
+
+/**
+ @name DataTables#getCheckeds
+ @function
+ @returns {list<Data.Row>} rows 行数组
+ @description 返回多选选中的行
+*/
+
+/**
+ @name DataTables#isChecked
+ @function
+ @param	{Data.Row} row 行
+ @returns {boolean} 是否选中
+ @description 多选是否选中行
+*/
+
+/**
+ @name DataTables#setRowChecked
+ @function
+ @param	{Data.Row} row 行
+ @param	{boolean} checked 选中状态
+ @description 设置行多选状态
+*/
+
+/**
+ @name DataTables#setAllRowChecked
+ @function
+ @param	{boolean} checked 选中状态
+ @description 设置所有行多选状态
+*/
+
+/**
+ @name DataTables#addRow
+ @function
+ @param	{Row} row data的行对象
+ @description 增加行
+*/		
+
+/**
+ @name DataTables#removeRow
+ @function
+ @param	{Row} row data的行对象
+ @description 删除行
+*/		
+
+/**
+ @name DataTables#reload
+ @function
+ @description 重新加载DataTables组件
+*/		
+
+/**
+ @name DataTables#clear
+ @function
+ @description 清除DataTables组件所有行
+*/		
+
+/**
+ @name DataTables#getRow
+ @function
+ @param	{Data.Row} row 行
+ @returns {TR} 返回TR
+ @description 根据行ID获取TR,不存在返回null
+*/		
+
+/**
+ @name DataTables#setRowCss
+ @function
+ @param	{Data.Row} row 行
+ @param	{object} css 样式，同jquery格式，如:{height:100,width:50,...}
+ @description 设置行的css
+*/		
+
+/**
+ @name DataTables#setFooterData
+ @function
+ @param	{object} footerData footer数据，格式为：{列名:数据,...}，如：{sName:'合计：',sInt:500} 
+ @description 设置footer数据
+*/		
+
+/**
+ @name DataTables#hideCol
+ @function
+ @param	{string} col 列名 
+ @description 隐藏列
+*/		
+
+/**
+ @name DataTables#showCol
+ @function
+ @param	{string} col 列名 
+ @description 显示列
+*/		
+

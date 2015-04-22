@@ -1,0 +1,16 @@
+/**
+	@name Dropdown
+	@component $UI/system/components/bootstrap/dropdown/dropdown
+	@extends BindComponent
+	@extendurl $UI/system/lib/base/bindComponent
+	@model UI2
+	@description Dropdown 带下拉菜单的按钮
+*/
+
+/**
+	@name Dropdown#autoHideMenu
+	@attribute 
+	@type boolean
+	@description 点击菜单项后自动隐藏菜单
+*/
+ 

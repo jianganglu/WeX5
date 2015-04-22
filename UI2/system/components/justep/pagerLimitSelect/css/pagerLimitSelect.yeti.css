@@ -1,0 +1,14 @@
+.x-pagerlimitselect {
+  font-weight: normal;
+}
+.x-pagerlimitselect select {
+  width: 75px;
+  display: inline-block;
+  margin: 0 2px;
+}
+.x-pagerlimitselect > span {
+  display: none;
+}
+.x-pagerlimitselect.hasLabel > span {
+  display: initial;
+}

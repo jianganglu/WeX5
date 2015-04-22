@@ -1,0 +1,15 @@
+<template text="流程" desc="流程查询">
+	<images>
+		<image src="empty.png" />
+		<image src="detail.png"/>
+	</images>
+	<items file="template/queryProcess.w">
+		 <item text="主数据" configPage="$UI/system/templates/common/mainData.w"/>
+		 <item text="列表视图" configPage="$UI/system/templates/common/noTitleListView.w"/>
+		 <item text="详细视图" configPage="$UI/system/templates/common/excelformView.w"/>
+		 <item text="流程选择" configPage="$UI/system/templates/common/processSelectView.w"/>
+		 <item file="template/queryProcess.js"/>
+		 <item file="template/queryProcess.css"/>
+		 <item file="template/queryProcess.xml"/>
+	</items>
+</template>

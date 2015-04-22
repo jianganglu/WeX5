@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<elements>
+
+	<element name="$UI/system/components/fragment/list/listRow1Sum"
+		tag-name="div" text="code" design-view="web-designer" icon="group.gif"
+		binding-component="$UI/system/components/fragment/list/listRow1Sum">
+		<properties>
+			<property name="xid" text="编号" required="false" editor-discriptor-ref=""/>
+			<property name="data" text="引用数据" required="true"  editor-ref="dataPropDlg" is-id-ref="true"/>
+			<property name="style" text="样式" editor-ref="styleDialog" />
+		</properties>
+		<templates>
+			<template name="default">
+		   <![CDATA[
+				<div component="$UI/system/components/fragment/list/listRow1Sum">
+				<div component="$UI/system/components/justep/list/list" class="x-list listRow1Sum-margin5"> 
+				    <ul class="x-list-template"> 
+				      <li class="list-row-bottom"> 
+				        <div component="$UI/system/components/justep/row/row" class="x-row x-row-center"> 
+				          <div class="x-col"> 
+				            <div component="$UI/system/components/justep/output/output" class="x-output listRow1Sum-text-bold"/> 
+				          </div>  
+				          <div class="x-col x-col-10"> 
+				            <div component="$UI/system/components/justep/output/output" class="x-output"/> 
+				          </div>  
+				          <div> 
+				            <div component="$UI/system/components/justep/output/output" class="x-output text-center listRow1Sum-margin10"/> 
+				          </div> 
+				        </div> 
+				      </li> 
+				    </ul> 
+				  </div>  
+				  <div component="$UI/system/components/justep/row/row" class="x-row" style="color:#FF0000;"> 
+				    <div class="x-col"/>  
+				    <div> 
+				      <span class="listRow1Sum-text-bold">合计</span> 
+				    </div>  
+				    <div> 
+				      <div component="$UI/system/components/justep/output/output" class="x-output listRow1Sum-text-bold listRow1Sum-margin10"/> 
+				    </div> 
+				  </div>
+				  </div>
+		   ]]>
+		   </template>
+		</templates>
+	</element>
+
+</elements>
